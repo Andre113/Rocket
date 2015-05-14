@@ -13,8 +13,7 @@ class GameScene: SKScene {
 //    MARK: Variáveis
     var arrayBox: [SKSpriteNode] = []
     var arrayPos: [CGPoint] = []
-    var nodes = SKNode()
-//    var arrayNumbers: [SKLabelNode] = []
+    var arrayNumbers: [SKLabelNode] = []
     var pauseBtn  = SKSpriteNode(imageNamed: "Pause1")
     var bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
     
@@ -89,6 +88,9 @@ class GameScene: SKScene {
             newLabel.position = self.arrayPos[index]
             newLabel.position.y = newLabel.position.y - 23
             newLabel.zPosition = 5
+            
+            self.arrayNumbers.append(newLabel)
+            
             addChild(newLabel)
         }
     }
@@ -97,13 +99,44 @@ class GameScene: SKScene {
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         /* Called when a touch begins */
         
-        for touch in (touches as! Set<UITouch>) {
-            let location = touch.locationInNode(self)
-            
-            nodes = self.nodeAtPoint(location)
-            
-            println(nodes.name)
+        let touch = touches.first as! UITouch
+        let location = touch.locationInNode(self)
+        let box = self.nodeAtPoint(location)
+        
+        if (box.name != "" && box.name != nil){
+            self.animateBoxes(box.name!)
+            self.view?.userInteractionEnabled = false
         }
+        println(box.name)
+    }
+    
+//    MARK: Animation
+    
+    func animateBoxes(name: String){
+        
+        var boxToRemove = SKNode()
+        var labelToRemove = SKLabelNode()
+        
+        for box in arrayBox{
+            if (box.name == name){
+                boxToRemove = box
+            }
+        }
+        
+        for label in arrayNumbers{
+            if (label.name == name){
+                labelToRemove = label
+            }
+        }
+        
+        let action1 = SKAction.fadeOutWithDuration(0.5)
+        let action2 = SKAction.removeFromParent()
+      
+        self.view?.userInteractionEnabled = true
+
+        
+        boxToRemove.runAction(SKAction.sequence([action1, action2]))
+        labelToRemove.runAction(SKAction.sequence([action1, action2]))
     }
     
 //    MARK: Update
