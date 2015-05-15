@@ -38,8 +38,8 @@ class Equations: NSObject {
         
         if(auxArray.count >= 4) {
             answer = auxArray[0]
-            b = auxArray[2]
-            a = auxArray[3]
+            b = auxArray[1]
+            a = auxArray[2]
         }
         else if auxArray.count == 3 {
             answer = auxArray[0]
@@ -52,13 +52,23 @@ class Equations: NSObject {
             a = 1
         }
         
-        //answer = randomNumberGenerator()
+//        answer = randomNumberGenerator()
 //        b = zeroToTwentyGenerator()
 //        a = zeroToTwentyGenerator()
         
         //fator de correção do a pra dar um inteiro
-        while( (answer - b) % a != 0 ){
-            a++
+//        while( (answer - b) % a != 0 ){
+//            a++
+//        }
+        if a >= answer {
+            while( (answer - b) % a != 0 ){
+                a--
+            }
+        }
+        else if a < answer {
+            while( (answer - b) % a != 0 ){
+                a++
+            }
         }
 //        while((answer - b) % a != 0){
 //            if(a > answer) {

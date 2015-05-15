@@ -41,7 +41,7 @@ class GameScene: SKScene {
         self.view?.multipleTouchEnabled = false
     }
     
-//    MARK:  Create
+    MARK:  Create
     func createBox(){
         for index in 0...11{
             let box = SKSpriteNode(imageNamed: "box")
@@ -137,7 +137,7 @@ class GameScene: SKScene {
         labelToRemove.runAction(SKAction.sequence([action1, action2]))
     }
     
-//    MARK: Update
+    MARK: Update
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
