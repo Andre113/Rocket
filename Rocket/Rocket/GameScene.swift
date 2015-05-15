@@ -9,10 +9,12 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    
+    let equations = Equations.sharedInstance
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!";
+        myLabel.text = String(equations.zeroToTwentyGenerator())
         myLabel.fontSize = 65;
         myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
         

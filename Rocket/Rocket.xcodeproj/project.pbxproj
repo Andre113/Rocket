@@ -15,6 +15,7 @@
 		24D7F52F1B051844000240B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24D7F52E1B051844000240B5 /* Images.xcassets */; };
 		24D7F5321B051844000240B5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24D7F5301B051844000240B5 /* LaunchScreen.xib */; };
 		24D7F53E1B051844000240B5 /* RocketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D7F53D1B051844000240B5 /* RocketTests.swift */; };
+		E38C03911B051E26004CF63E /* Equations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C03901B051E26004CF63E /* Equations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		24D7F5371B051844000240B5 /* RocketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RocketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		24D7F53C1B051844000240B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		24D7F53D1B051844000240B5 /* RocketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketTests.swift; sourceTree = "<group>"; };
+		E38C03901B051E26004CF63E /* Equations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		24D7F5201B051844000240B5 /* Rocket */ = {
 			isa = PBXGroup;
 			children = (
+				E38C038F1B051DFD004CF63E /* Equations */,
 				24D7F5231B051844000240B5 /* AppDelegate.swift */,
 				24D7F5251B051844000240B5 /* GameScene.sks */,
 				24D7F5271B051844000240B5 /* GameScene.swift */,
@@ -116,6 +119,14 @@
 				24D7F53C1B051844000240B5 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E38C038F1B051DFD004CF63E /* Equations */ = {
+			isa = PBXGroup;
+			children = (
+				E38C03901B051E26004CF63E /* Equations.swift */,
+			);
+			name = Equations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,6 +233,7 @@
 				24D7F5281B051844000240B5 /* GameScene.swift in Sources */,
 				24D7F52A1B051844000240B5 /* GameViewController.swift in Sources */,
 				24D7F5241B051844000240B5 /* AppDelegate.swift in Sources */,
+				E38C03911B051E26004CF63E /* Equations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +431,7 @@
 				24D7F5431B051844000240B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		24D7F5441B051844000240B5 /* Build configuration list for PBXNativeTarget "RocketTests" */ = {
 			isa = XCConfigurationList;
@@ -427,6 +440,7 @@
 				24D7F5461B051844000240B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
