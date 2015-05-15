@@ -16,7 +16,7 @@ class GameScene: SKScene {
     var pauseBtn  = SKSpriteNode(imageNamed: "Pause1")
     var bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
     let equations = Equations.sharedInstance
-    
+//    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         let myLabel = SKLabelNode(fontNamed:"Chalkduster")
@@ -108,38 +108,52 @@ class GameScene: SKScene {
         let box = self.nodeAtPoint(location)
         
         if (box.name != "" && box.name != nil){
-            self.animateBoxes(box.name!)
+            let isRight = (box.name == "4")
             self.view?.userInteractionEnabled = false
+            self.animateBoxes(box.name!, isRight: isRight)
         }
         println(box.name)
     }
     
 //    MARK: Animation
     
-    func animateBoxes(name: String){
-        
-        var boxToRemove = SKNode()
-        var labelToRemove = SKLabelNode()
+    func animateBoxes(name: String, isRight: Bool){
+        var boxToMove = SKNode()
+        var labelToMove = SKLabelNode()
         
         for box in arrayBox{
             if (box.name == name){
-                boxToRemove = box
+                boxToMove = box
             }
         }
         
         for label in arrayNumbers{
             if (label.name == name){
-                labelToRemove = label
+                labelToMove = label
             }
         }
         
-        let action1 = SKAction.fadeOutWithDuration(0.5)
-        let action2 = SKAction.removeFromParent()
-
-        boxToRemove.runAction(SKAction.sequence([action1, action2]))
-        labelToRemove.runAction(SKAction.sequence([action1, action2]), completion:{
-            self.view?.userInteractionEnabled = true
-        })
+        if(isRight){
+            let action1 = SKAction.fadeOutWithDuration(0.5)
+            let action2 = SKAction.removeFromParent()
+            
+            boxToMove.runAction(SKAction.sequence([action1, action2]))
+            labelToMove.runAction(SKAction.sequence([action1, action2]), completion:{
+                self.view?.userInteractionEnabled = true
+            })
+        }
+        else{
+            let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.008)
+            let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.008)
+            let action3 = SKAction.moveByX(4.0, y: 0.0, duration: 0.008)
+            let action4 = SKAction.sequence([action1, action2, action3])
+            let action5 = SKAction.repeatAction(action4, count: 5)
+            
+            boxToMove.runAction(action5)
+            labelToMove.runAction(action5, completion:{
+                self.view?.userInteractionEnabled = true
+            })
+        }
     }
     
 //    MARK: Update
