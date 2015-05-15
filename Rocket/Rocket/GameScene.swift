@@ -143,9 +143,9 @@ class GameScene: SKScene {
             })
         }
         else{
-            let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.008)
-            let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.008)
-            let action3 = SKAction.moveByX(4.0, y: 0.0, duration: 0.008)
+            let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
+            let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
+            let action3 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
             let action4 = SKAction.sequence([action1, action2, action3])
             let action5 = SKAction.repeatAction(action4, count: 5)
             
