@@ -10,10 +10,13 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    var titleLabel = SKLabelNode()
+    var titleLabel1 = SKLabelNode(text:"Marque as caixas" )
+    var titleLabel2 = SKLabelNode()
     var arrayBox: [SKSpriteNode] = []
     var arrayPos: [CGPoint] = []
-    var arrayNumbers: [SKLabelNode] = []
+    var arrayLabels: [SKLabelNode] = []
+    var arrayNumbers: [Int] = []
+    var arrayAnswers: [Int] = []
     var pauseBtn  = SKSpriteNode(imageNamed: "Pause1")
     var bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
     let equations = Equations.sharedInstance
@@ -21,13 +24,18 @@ class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
-        titleLabel.fontName = "Chalkduster"
-        titleLabel.text = "Descubra os díviseis do número \(12344321)"
-        titleLabel.fontSize = 24
-        titleLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 60);
-        titleLabel.zPosition = 2
-        addChild(titleLabel)
+        titleLabel1.fontName = "Chalkduster"
+        titleLabel1.fontSize = 20
+        titleLabel1.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 35);
+        titleLabel1.zPosition = 2
+        addChild(titleLabel1)
         
+        titleLabel2.fontName = "Chalkduster"
+        titleLabel2.fontSize = 20
+        titleLabel2.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 55);
+        titleLabel2.zPosition = 3
+        self.createRule()
+        addChild(titleLabel2)
         
         let myLabel = SKLabelNode(fontNamed:"Chalkduster")
         myLabel.text = String(equations.zeroToTwentyGenerator())
@@ -42,6 +50,8 @@ class GameScene: SKScene {
         bg.size = size
         addChild(bg)
         
+        self.randomArray()
+        
         self.createBox()
         self.createPositions()
         
@@ -52,7 +62,7 @@ class GameScene: SKScene {
             addChild(box)
         }
         
-        self.createNumbers()
+//        self.createNumbers()
         
         self.view?.multipleTouchEnabled = false
     }
@@ -92,21 +102,60 @@ class GameScene: SKScene {
         }
     }
     
-    func createNumbers(){
-        for index in 0...11{
-            var newLabel = SKLabelNode(text: "\(index)")
-            newLabel.fontName = "Chalkduster"
-            newLabel.fontSize = 30
-            newLabel.fontColor = UIColor.whiteColor()
-            newLabel.name = self.arrayBox[index].name
-            newLabel.position = self.arrayPos[index]
-            newLabel.position.y = newLabel.position.y - 23
-            newLabel.zPosition = 5
-            
-            self.arrayNumbers.append(newLabel)
-            
-            addChild(newLabel)
+//    func createNumbers(){
+//        
+//            var newLabel = SKLabelNode(text: "\(index)")
+//            newLabel.fontName = "Chalkduster"
+//            newLabel.fontSize = 30
+//            newLabel.fontColor = UIColor.whiteColor()
+//            newLabel.name = self.arrayBox[index].name
+//            newLabel.position = self.arrayPos[index]
+//            newLabel.position.y = newLabel.position.y - 23
+//            newLabel.zPosition = 5
+//            
+//            self.arrayNumbers.append(newLabel)
+//            
+//            addChild(newLabel)
+//    }
+//    
+    
+    func createRule(){
+        let rule = self.equations.allDividers()
+        let arrayToCompare = rule.arrayToCompare
+        arrayAnswers = rule.newArray
+        let key = rule.newNumber
+        var isValid: Bool
+        self.titleLabel2.text = "que sao divisores de \(key)"
+        arrayNumbers = arrayAnswers
+        
+        for index in 0...7{
+            var numberToInsert: Int
+            do{
+                isValid = true
+                numberToInsert = self.equations.randomNumberGenerator()
+                
+                for number in arrayNumbers{
+                    if numberToInsert == number{
+                        isValid = false
+                    }
+                }
+                
+                if(isValid){
+                    for number in arrayToCompare{
+                        if(number == numberToInsert){
+                            isValid = false
+                        }
+                    }
+                }
+            } while (!isValid)
+            arrayNumbers.append(numberToInsert)
         }
+        println(arrayNumbers)
+    }
+    
+//    MARK: Random
+    func randomArray(){
+        //Randomizar o array de números
     }
     
 //    MARK: Touches
@@ -137,7 +186,7 @@ class GameScene: SKScene {
             }
         }
         
-        for label in arrayNumbers{
+        for label in arrayLabels{
             if (label.name == name){
                 labelToMove = label
             }

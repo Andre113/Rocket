@@ -169,25 +169,43 @@ class Equations: NSObject {
         println(primeNumbersArray)
     }
     
-    func allMultiples() -> [Int]  {
+    func allDividers() -> (arrayToCompare: [Int], newArray: [Int], newNumber: Int)  {
        
         
-        var multiples = [Int]()
-        while multiples.count < 4 {
-            multiples = [Int]()
+        var dividers = [Int]()
+        while dividers.count < 4 {
+            dividers = [Int]()
             var number = randomNumberGenerator()
             while number == 0 {
                 number = randomNumberGenerator()
             }
             for index in 1 ... number {
                 if number % index == 0 {
-                multiples.append(index)
+                dividers.append(index)
                 }
             }
         }
-        return multiples
+        
+        if(dividers.count > 4){
+            return (dividers, self.randomAllIndex(dividers), dividers.last!)
+        }
+        
+        return (dividers, dividers, dividers.last!)
     }
     
+    func randomAllIndex(arrayEntry: [Int]) -> [Int]{
+        var arrayToRandom = NSMutableArray(array: arrayEntry)
+        var auxArray:[Int] = []
+        
+        for index in 0...3{
+            let randomIndex = Int(arc4random_uniform(UInt32(arrayToRandom.count)))
+            let newInt = arrayToRandom.objectAtIndex(randomIndex) as! Int
+            auxArray.append(newInt)
+            arrayToRandom.removeObjectAtIndex(randomIndex)
+        }
+        
+        return auxArray
+    }
             
 }
    
