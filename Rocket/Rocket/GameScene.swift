@@ -10,6 +10,12 @@ import SpriteKit
 
 class GameScene: SKScene {
     
+    var arrayBox: [SKSpriteNode] = []
+    var arrayPos: [CGPoint] = []
+    var arrayNumbers: [SKLabelNode] = []
+    var pauseBtn  = SKSpriteNode(imageNamed: "Pause1")
+    var bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
+    
     let equations = Equations.sharedInstance
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -41,7 +47,7 @@ class GameScene: SKScene {
         self.view?.multipleTouchEnabled = false
     }
     
-    MARK:  Create
+//    MARK:  Create
     func createBox(){
         for index in 0...11{
             let box = SKSpriteNode(imageNamed: "box")
@@ -137,7 +143,7 @@ class GameScene: SKScene {
         labelToRemove.runAction(SKAction.sequence([action1, action2]))
     }
     
-    MARK: Update
+//    MARK: Update
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
