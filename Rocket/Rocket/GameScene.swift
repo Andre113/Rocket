@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene {
     
+    var titleLabel = SKLabelNode()
     var arrayBox: [SKSpriteNode] = []
     var arrayPos: [CGPoint] = []
     var arrayNumbers: [SKLabelNode] = []
@@ -19,6 +20,15 @@ class GameScene: SKScene {
 //    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        
+        titleLabel.fontName = "Chalkduster"
+        titleLabel.text = "Descubra os díviseis do número \(12344321)"
+        titleLabel.fontSize = 24
+        titleLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 60);
+        titleLabel.zPosition = 2
+        addChild(titleLabel)
+        
+        
         let myLabel = SKLabelNode(fontNamed:"Chalkduster")
         myLabel.text = String(equations.zeroToTwentyGenerator())
         myLabel.fontSize = 65;
@@ -141,8 +151,7 @@ class GameScene: SKScene {
             labelToMove.runAction(SKAction.sequence([action1, action2]), completion:{
                 self.view?.userInteractionEnabled = true
             })
-        }
-        else{
+        }else{
             let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
             let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
             let action3 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
