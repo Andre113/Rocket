@@ -24,6 +24,19 @@ class Equations: NSObject {
         return Int(arc4random() % 21)
     }
     
+    func randomMultiples() -> [Int] {
+        
+        var multiplesArray:[Int] = [Int]()
+        var aux = randomNumberGenerator()
+        for index in 1 ... 10 {
+            if aux % index == 0 {
+                multiplesArray.append((aux / index))
+            }
+        }
+        return multiplesArray
+        
+    }
+    
     func equationTypeOne() -> (equation:String, answer:Int) {
         //ax + b =  c
         
@@ -38,22 +51,22 @@ class Equations: NSObject {
         
         if(auxArray.count >= 4) {
             answer = auxArray[0]
-            b = auxArray[1]
+//            b = auxArray[1]
             a = auxArray[2]
         }
         else if auxArray.count == 3 {
             answer = auxArray[0]
-            b = auxArray[1]
+//            b = auxArray[1]
             a = auxArray[2]
         }
         else if auxArray.count == 2 {
             answer = auxArray[0]
-            b = auxArray[1]
+//            b = auxArray[1]
             a = 1
         }
         
 //        answer = randomNumberGenerator()
-//        b = zeroToTwentyGenerator()
+        b = zeroToTwentyGenerator()
 //        a = zeroToTwentyGenerator()
         
         //fator de correção do a pra dar um inteiro
@@ -68,32 +81,64 @@ class Equations: NSObject {
         else if a < answer {
             while( (answer - b) % a != 0 ){
                 a++
+                if a - answer > 100 {
+                    a = 1
+                }
             }
         }
-//        while((answer - b) % a != 0){
-//            if(a > answer) {
-//                a++
-//            }
-//        }
     
         let x:Int = (answer - b)/a
-        
-       let equation:String = "\(a)x + \(b)= \(answer)"
+        let equation:String = "\(a)x + \(b) = \(answer)"
         return (equation, x)
     }
     
-    func randomMultiples() -> [Int] {
-    
-        var multiplesArray:[Int] = [Int]()
-        var aux = randomNumberGenerator()
-        for index in 1 ... 10 {
-            if aux % index == 0 {
-                multiplesArray.append((aux / index))
+    func equationTypeTwo() -> (equation:String, answer: Int) {
+        //ax - b =  c
+        
+        var auxArray = randomMultiples()
+        var answer:Int = 0
+        var b:Int = 0
+        var a:Int = 0
+        
+        while (auxArray.first == 0 || auxArray.count == 1){
+            auxArray = randomMultiples()
+        }
+        
+        if(auxArray.count >= 4) {
+            answer = auxArray[0]
+            //            b = auxArray[1]
+            a = auxArray[2]
+        }
+        else if auxArray.count == 3 {
+            answer = auxArray[0]
+            //            b = auxArray[1]
+            a = auxArray[2]
+        }
+        else if auxArray.count == 2 {
+            answer = auxArray[0]
+            //            b = auxArray[1]
+            a = 1
+        }
+        b = zeroToTwentyGenerator()
+        if a >= answer {
+            while( (answer + b) % a != 0 ){
+                a--
             }
         }
-        return multiplesArray
+        else if a < answer {
+            while( (answer + b) % a != 0 ){
+                a++
+                if a - answer > 100 {
+                    a = 1
+                }
+            }
+        }
         
+        let x:Int = (answer + b)/a
+        let equation:String = "\(a)x - \(b) = \(answer)"
+        return (equation, x)
     }
+    
     
     func primeNumber(length: Int) {
         let numbers = 1...length
@@ -102,8 +147,6 @@ class Equations: NSObject {
             
             //set the flag to true initially
             var prime = true
-            
-            
             for var i = 2; i <= n - 1; i++ {
                 
                 //even division of a number thats not 1 or the number itself, not a prime number
@@ -124,6 +167,25 @@ class Equations: NSObject {
             }
         }
         println(primeNumbersArray)
+    }
+    
+    func allMultiples() -> [Int]  {
+       
+        
+        var multiples = [Int]()
+        while multiples.count < 4 {
+            multiples = [Int]()
+            var number = randomNumberGenerator()
+            while number == 0 {
+                number = randomNumberGenerator()
+            }
+            for index in 1 ... number {
+                if number % index == 0 {
+                multiples.append(index)
+                }
+            }
+        }
+        return multiples
     }
     
             
