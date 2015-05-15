@@ -15,8 +15,8 @@ class GameScene: SKScene {
     var arrayNumbers: [SKLabelNode] = []
     var pauseBtn  = SKSpriteNode(imageNamed: "Pause1")
     var bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
-    
     let equations = Equations.sharedInstance
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         let myLabel = SKLabelNode(fontNamed:"Chalkduster")
@@ -135,12 +135,11 @@ class GameScene: SKScene {
         
         let action1 = SKAction.fadeOutWithDuration(0.5)
         let action2 = SKAction.removeFromParent()
-      
-        self.view?.userInteractionEnabled = true
 
-        
         boxToRemove.runAction(SKAction.sequence([action1, action2]))
-        labelToRemove.runAction(SKAction.sequence([action1, action2]))
+        labelToRemove.runAction(SKAction.sequence([action1, action2]), completion:{
+            self.view?.userInteractionEnabled = true
+        })
     }
     
 //    MARK: Update
