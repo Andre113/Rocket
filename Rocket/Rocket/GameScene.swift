@@ -155,6 +155,18 @@ class GameScene: SKScene {
     
 //    MARK: Random
     func randomArray(){
+        var auxArray = NSMutableArray(array: arrayNumbers)
+        var randomizedArray = [Int]()
+        var randomIndex:Int
+        while auxArray.count > 0 {
+            randomIndex = Int(arc4random_uniform(UInt32(auxArray.count)))
+            randomizedArray.append(auxArray.objectAtIndex(randomIndex) as! Int)
+            auxArray.removeObjectAtIndex(randomIndex)
+        }
+        
+        arrayNumbers = randomizedArray as [Int]
+        println(arrayNumbers)
+        
         //Randomizar o array de números
     }
     
