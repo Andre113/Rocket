@@ -35,7 +35,7 @@ class GameScene: SKScene {
         
         for index in 0...11{
             arrayBox[index].position = arrayPos[index]
-            arrayLabels[index].position = arrayPos[index]
+            arrayLabels[index].position = CGPoint(x: arrayPos[index].x , y: arrayPos[index].y  - 20)
             
             addChild(arrayBox[index])
             addChild(arrayLabels[index])
@@ -230,6 +230,8 @@ class GameScene: SKScene {
             labelToMove.runAction(action5, completion:{
                 self.view?.userInteractionEnabled = true
             })
+            
+            
         }
     }
     
