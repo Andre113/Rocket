@@ -11,6 +11,14 @@ import SpriteKit
 class GameScene: SKScene {
     
 //    MARK: Variables
+    
+    
+    var rocket1 = SKSpriteNode(imageNamed:"rocket5")
+    var rocket2 =  SKSpriteNode(imageNamed:"rocket5")
+    var rocket3 =  SKSpriteNode(imageNamed:"rocket5")
+    var arrayRockets = [SKSpriteNode]()
+    var countHits = Int8() //contador de acertos
+    var countErrs = Int() //contador de erros
     var titleLabel1 = SKLabelNode(text:"Marque as caixas" )
     var titleLabel2 = SKLabelNode()
     var arrayBox: [SKSpriteNode] = []
@@ -24,6 +32,11 @@ class GameScene: SKScene {
 //    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        
+        self.scaleMode = .AspectFill
+        self.view?.userInteractionEnabled = true
+
+        
         self.viewConfig()
         self.createRule()
         self.randomArray()
@@ -35,7 +48,7 @@ class GameScene: SKScene {
         
         for index in 0...11{
             arrayBox[index].position = arrayPos[index]
-            arrayLabels[index].position = CGPoint(x: arrayPos[index].x , y: arrayPos[index].y  - 20)
+            arrayLabels[index].position = CGPoint(x: arrayPos[index].x , y: arrayPos[index].y  - 25)
             
             addChild(arrayBox[index])
             addChild(arrayLabels[index])
@@ -46,6 +59,8 @@ class GameScene: SKScene {
     
 //    MARK:  Create
     func viewConfig(){
+        
+    
         titleLabel1.fontName = "Chalkduster"
         titleLabel1.fontSize = 20
         titleLabel1.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 35);
@@ -70,6 +85,22 @@ class GameScene: SKScene {
         bg.position = CGPointMake(self.size.width/2, self.size.height/2)
         bg.size = size
         addChild(bg)
+        
+        rocket1.position = CGPointMake(size.width * 0.68 ,size.height * 0.05 )
+        addChild(rocket1)
+        
+        rocket2.position = CGPointMake(size.width * 0.71 ,size.height * 0.05 )
+        addChild(rocket2)
+        
+        rocket3.position = CGPointMake(size.width * 0.74 ,size.height * 0.05 )
+        addChild(rocket3)
+        
+        arrayRockets.append(rocket1)
+        arrayRockets.append(rocket2)
+        arrayRockets.append(rocket3)
+
+        
+        
     }
     
     func createBox(){
@@ -215,11 +246,20 @@ class GameScene: SKScene {
             arrayBox.removeAtIndex(saved)
             arrayLabels.removeAtIndex(saved)
             
-            if(arrayBox.isEmpty){
+            countHits++
+            
+            if(countHits > 3){
                 self.winAction()
             }
+           
+            
+//            if(arrayBox.isEmpty){
+//                self.winAction()
+//            }
             
         }else{
+            arrayRockets[countErrs].removeFromParent()
+            countErrs++
             let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
             let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
             let action3 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
@@ -231,6 +271,10 @@ class GameScene: SKScene {
                 self.view?.userInteractionEnabled = true
             })
             
+            if(countErrs > 2){
+               self.loseAction()
+            }
+            
             
         }
     }
@@ -238,6 +282,17 @@ class GameScene: SKScene {
 //    MARK: WIN
     func winAction(){
         //Ação quando o cara ganhar
+    }
+    
+//    MARK: LOSE
+    func loseAction(){
+        
+        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
+
+        let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
+        let resetScene = GameScene(size: self.size)
+        self.view?.presentScene(resetScene, transition: fadeOut)
+        
     }
     
 //    MARK: Update

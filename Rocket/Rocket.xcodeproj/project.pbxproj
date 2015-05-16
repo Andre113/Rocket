@@ -15,6 +15,7 @@
 		24D7F52F1B051844000240B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24D7F52E1B051844000240B5 /* Images.xcassets */; };
 		24D7F5321B051844000240B5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24D7F5301B051844000240B5 /* LaunchScreen.xib */; };
 		24D7F53E1B051844000240B5 /* RocketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D7F53D1B051844000240B5 /* RocketTests.swift */; };
+		521770501B08057000D8A7B5 /* rocket5.png in Resources */ = {isa = PBXBuildFile; fileRef = 5217704F1B08057000D8A7B5 /* rocket5.png */; };
 		E38C03911B051E26004CF63E /* Equations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C03901B051E26004CF63E /* Equations.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		24D7F5371B051844000240B5 /* RocketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RocketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		24D7F53C1B051844000240B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		24D7F53D1B051844000240B5 /* RocketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketTests.swift; sourceTree = "<group>"; };
+		5217704F1B08057000D8A7B5 /* rocket5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rocket5.png; sourceTree = "<group>"; };
 		E38C03901B051E26004CF63E /* Equations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +67,7 @@
 		24D7F5151B051844000240B5 = {
 			isa = PBXGroup;
 			children = (
+				5217704F1B08057000D8A7B5 /* rocket5.png */,
 				24D7F5201B051844000240B5 /* Rocket */,
 				24D7F53A1B051844000240B5 /* RocketTests */,
 				24D7F51F1B051844000240B5 /* Products */,
@@ -210,6 +213,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				521770501B08057000D8A7B5 /* rocket5.png in Resources */,
 				24D7F5321B051844000240B5 /* LaunchScreen.xib in Resources */,
 				24D7F52F1B051844000240B5 /* Images.xcassets in Resources */,
 				24D7F5261B051844000240B5 /* GameScene.sks in Resources */,
