@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene {
     
+//    MARK: Variables
     var titleLabel1 = SKLabelNode(text:"Marque as caixas" )
     var titleLabel2 = SKLabelNode()
     var arrayBox: [SKSpriteNode] = []
@@ -23,7 +24,28 @@ class GameScene: SKScene {
 //    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        self.viewConfig()
+        self.createRule()
+        self.randomArray()
         
+        self.createBox()
+        self.createLabels()
+        self.createPositions()
+        
+        
+        for index in 0...11{
+            arrayBox[index].position = arrayPos[index]
+            arrayLabels[index].position = arrayPos[index]
+            
+            addChild(arrayBox[index])
+            addChild(arrayLabels[index])
+        }
+        
+        self.view?.multipleTouchEnabled = false
+    }
+    
+//    MARK:  Create
+    func viewConfig(){
         titleLabel1.fontName = "Chalkduster"
         titleLabel1.fontSize = 20
         titleLabel1.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 35);
@@ -34,7 +56,6 @@ class GameScene: SKScene {
         titleLabel2.fontSize = 20
         titleLabel2.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 55);
         titleLabel2.zPosition = 3
-        self.createRule()
         addChild(titleLabel2)
         
         let myLabel = SKLabelNode(fontNamed:"Chalkduster")
@@ -49,29 +70,12 @@ class GameScene: SKScene {
         bg.position = CGPointMake(self.size.width/2, self.size.height/2)
         bg.size = size
         addChild(bg)
-        
-        self.randomArray()
-        
-        self.createBox()
-        self.createPositions()
-        
-        var cont = 0
-        for box in self.arrayBox{
-            box.position = self.arrayPos[cont]
-            cont++
-            addChild(box)
-        }
-        
-//        self.createNumbers()
-        
-        self.view?.multipleTouchEnabled = false
     }
     
-//    MARK:  Create
     func createBox(){
-        for index in 0...11{
+        for number in arrayNumbers{
             let box = SKSpriteNode(imageNamed: "box")
-            box.name = "\(index)"
+            box.name = "\(number)"
             self.arrayBox.append(box)
         }
     }
@@ -102,22 +106,18 @@ class GameScene: SKScene {
         }
     }
     
-//    func createNumbers(){
-//        
-//            var newLabel = SKLabelNode(text: "\(index)")
-//            newLabel.fontName = "Chalkduster"
-//            newLabel.fontSize = 30
-//            newLabel.fontColor = UIColor.whiteColor()
-//            newLabel.name = self.arrayBox[index].name
-//            newLabel.position = self.arrayPos[index]
-//            newLabel.position.y = newLabel.position.y - 23
-//            newLabel.zPosition = 5
-//            
-//            self.arrayNumbers.append(newLabel)
-//            
-//            addChild(newLabel)
-//    }
-//    
+    func createLabels(){
+        for number in arrayNumbers{
+            var newLabel = SKLabelNode(text: "\(number)")
+            newLabel.fontName = "Chalkduster"
+            newLabel.fontSize = 30
+            newLabel.fontColor = UIColor.whiteColor()
+            newLabel.name = "\(number)"
+            newLabel.zPosition = 5
+            
+            self.arrayLabels.append(newLabel)
+        }
+    }
     
     func createRule(){
         let rule = self.equations.allDividers()
@@ -166,8 +166,6 @@ class GameScene: SKScene {
         
         arrayNumbers = randomizedArray as [Int]
         println(arrayNumbers)
-        
-        //Randomizar o array de números
     }
     
 //    MARK: Touches
@@ -176,31 +174,32 @@ class GameScene: SKScene {
         
         let touch = touches.first as! UITouch
         let location = touch.locationInNode(self)
-        let box = self.nodeAtPoint(location)
+        let clicked = self.nodeAtPoint(location)
+        var isRight = false
         
-        if (box.name != "" && box.name != nil){
-            let isRight = (box.name == "4")
+        if (clicked.name != "" && clicked.name != nil){
+            for number in arrayAnswers{
+                if (clicked.name == "\(number)"){
+                    isRight = true
+                }
+            }
             self.view?.userInteractionEnabled = false
-            self.animateBoxes(box.name!, isRight: isRight)
+            self.animateBoxes(clicked.name!, isRight: isRight)
         }
-        println(box.name)
+        println(clicked.name)
     }
     
 //    MARK: Animation
-    
     func animateBoxes(name: String, isRight: Bool){
         var boxToMove = SKNode()
         var labelToMove = SKLabelNode()
+        var saved = 0
         
-        for box in arrayBox{
-            if (box.name == name){
-                boxToMove = box
-            }
-        }
-        
-        for label in arrayLabels{
-            if (label.name == name){
-                labelToMove = label
+        for index in 0...arrayBox.count-1{
+            if (arrayBox[index].name == name){
+                boxToMove = arrayBox[index]
+                labelToMove = arrayLabels[index]
+                saved = index
             }
         }
         
@@ -212,6 +211,14 @@ class GameScene: SKScene {
             labelToMove.runAction(SKAction.sequence([action1, action2]), completion:{
                 self.view?.userInteractionEnabled = true
             })
+            
+            arrayBox.removeAtIndex(saved)
+            arrayLabels.removeAtIndex(saved)
+            
+            if(arrayBox.isEmpty){
+                self.winAction()
+            }
+            
         }else{
             let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
             let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
@@ -224,6 +231,11 @@ class GameScene: SKScene {
                 self.view?.userInteractionEnabled = true
             })
         }
+    }
+    
+//    MARK: WIN
+    func winAction(){
+        //Ação quando o cara ganhar
     }
     
 //    MARK: Update
