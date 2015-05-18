@@ -19,7 +19,7 @@ class GameScene: SKScene {
     var arrayRockets = [SKSpriteNode]()
     var countHits = Int8() //contador de acertos
     var countErrs = Int() //contador de erros
-    var titleLabel1 = SKLabelNode(text:"Marque as caixas" )
+    var titleLabel1 = SKLabelNode(text:"Marque as caixas cujos" )
     var titleLabel2 = SKLabelNode()
     var arrayBox: [SKSpriteNode] = []
     var arrayPos: [CGPoint] = []
@@ -156,7 +156,7 @@ class GameScene: SKScene {
         arrayAnswers = rule.newArray
         let key = rule.newNumber
         var isValid: Bool
-        self.titleLabel2.text = "que sao divisores de \(key)"
+        self.titleLabel2.text = "números sao divisores de \(key)"
         arrayNumbers = arrayAnswers
         
         for index in 0...7{
