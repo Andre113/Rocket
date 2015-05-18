@@ -224,23 +224,23 @@ class Equations: NSObject {
     
     //pragma metodos para 2.4. quando criar tal scene inserir lá!
     
-    func randomizedProblem() {
-        
-        let choice = Int(arc4random() % 3)
-        
-        switch choice {
-        case 0:
-            timeProblem()
-        case 1:
-            timeProblem()
-        case 2:
-            timeProblem()
-        default:
-            println("Deu ruim!")
-            
-        }
-        
-    }
+//    func randomizedProblem() {
+//        
+//        let choice = Int(arc4random() % 3)
+//        
+//        switch choice {
+//        case 0:
+//            timeProblem()
+//        case 1:
+//            timeProblem()
+//        case 2:
+//            timeProblem()
+//        default:
+//            println("Deu ruim!")
+//            
+//        }
+//    
+//    }
     
     func randomSpeed() ->Int {
         var speed =  Int(arc4random()%100) * 100
@@ -260,36 +260,13 @@ class Equations: NSObject {
     }
     
     func randomTime() -> Int {
-        var time = Int(arc4random() % 25)
+        var time = Int(arc4random() % 501)
         while(time == 0) {
-            time = Int(arc4random() % 25)
+            time = Int(arc4random() % 501)
         }
+        println(time)
         return time
     }
-    
-    func timeProblem() {
-        var questionLabel = "Rocket precisa levar as encomendas para o planeta (nome do planeta temporário), mas existem duas rotas, A e B. Qual das duas rotas o tempo da viagem será o menor?"
-        var speed1 = randomSpeed()
-        var distance1 = randomDistance()
-        var answer1 = calculateTime(speed1, distance: distance1)
-        
-        var speed2 = randomSpeed()
-        var distance2 = randomDistance()
-        var answer2 = calculateTime(speed2, distance: distance2)
-        
-        println("speed1:\(speed1)")
-        println("distance1: \(distance1)")
-        println("speed2: \(speed2)")
-        println("distance2: \(distance2)")
-        
-        if(answer1 < answer2) {
-            println("Menor tempo é a rota 1!")
-        }
-        else {
-            println("Menor tempo é a rota 2!")
-        }
-    }
-    
 }
    
 

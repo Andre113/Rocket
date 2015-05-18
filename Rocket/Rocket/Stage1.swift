@@ -1,5 +1,5 @@
 //
-//  GameScene.swift
+//  Stage1.swift
 //  Rocket
 //
 //  Created by Andre Lucas Ota on 14/05/15.
@@ -8,11 +8,8 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
-    
+class Stage1: SKScene {
 //    MARK: Variables
-    
-    
     var rocket1 = SKSpriteNode(imageNamed:"rocket5")
     var rocket2 =  SKSpriteNode(imageNamed:"rocket5")
     var rocket3 =  SKSpriteNode(imageNamed:"rocket5")
@@ -36,6 +33,9 @@ class GameScene: SKScene {
         self.scaleMode = .AspectFill
         self.view?.userInteractionEnabled = true
 
+//        timeProblem()
+        println("-----------")
+        equations.randomTime()
         
         self.viewConfig()
         self.createRule()
@@ -59,8 +59,6 @@ class GameScene: SKScene {
     
 //    MARK:  Create
     func viewConfig(){
-        
-    
         titleLabel1.fontName = "Chalkduster"
         titleLabel1.fontSize = 20
         titleLabel1.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 35);
@@ -279,20 +277,20 @@ class GameScene: SKScene {
         }
     }
     
-//    MARK: WIN
+//    MARK: WIN or Lose
     func winAction(){
         //Ação quando o cara ganhar
+        println("Win")
     }
     
-//    MARK: LOSE
     func loseAction(){
         
         let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
 
         let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
-        let resetScene = GameScene(size: self.size)
-        self.view?.presentScene(resetScene, transition: fadeOut)
+        let resetScene = Stage1(size: self.size)
         
+        self.view?.presentScene(resetScene, transition: fadeOut)
     }
     
 //    MARK: Update
