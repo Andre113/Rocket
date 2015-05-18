@@ -55,6 +55,22 @@ class Stage2: SKScene {
         }
     }
     
+    func setLabels(){
+        var newX:CGFloat = 400
+        var newY = CGFloat()
+        
+        for route in arrayRoutes{
+            let newSpeed = SKLabelNode(text: "\(route.deltaSpeed)")
+            let newDistance = SKLabelNode(text: "\(route.deltaDistance)")
+            
+            newSpeed.position = CGPoint()
+            newDistance.position = CGPoint()
+            
+//            addChild(newSpeed)
+//            addChild(newDistance)
+        }
+    }
+    
 //    MARK: Other
     func timeProblem() -> (speed: Int, distance: Int, answer: Int) {
         var questionLabel = "Rocket precisa levar as encomendas para o planeta (nome do planeta temporário), mas existem duas rotas, A e B. Qual das duas rotas o tempo da viagem será o menor?"
