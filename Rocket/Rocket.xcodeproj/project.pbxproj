@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		246998161B0A4E1800B73B41 /* rocket5.png in Resources */ = {isa = PBXBuildFile; fileRef = 246998151B0A4E1800B73B41 /* rocket5.png */; };
 		2490179C1B0A662E00CDA657 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2490179B1B0A662E00CDA657 /* Route.swift */; };
+		24D647301B0A7B8500BB72CF /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 24D6472F1B0A7B8500BB72CF /* GameScene.sks */; };
 		24D7F5241B051844000240B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D7F5231B051844000240B5 /* AppDelegate.swift */; };
 		24D7F5281B051844000240B5 /* Stage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D7F5271B051844000240B5 /* Stage1.swift */; };
 		24D7F52A1B051844000240B5 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D7F5291B051844000240B5 /* GameViewController.swift */; };
@@ -33,6 +34,7 @@
 /* Begin PBXFileReference section */
 		246998151B0A4E1800B73B41 /* rocket5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rocket5.png; path = images/rocket5.png; sourceTree = "<group>"; };
 		2490179B1B0A662E00CDA657 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		24D6472F1B0A7B8500BB72CF /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		24D7F51E1B051844000240B5 /* Rocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24D7F5221B051844000240B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		24D7F5231B051844000240B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24D647311B0A7C8F00BB72CF /* Introduction */ = {
+			isa = PBXGroup;
+			children = (
+				24D6472F1B0A7B8500BB72CF /* GameScene.sks */,
+			);
+			name = Introduction;
+			sourceTree = "<group>";
+		};
 		24D7F5151B051844000240B5 = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +98,7 @@
 		24D7F5201B051844000240B5 /* Rocket */ = {
 			isa = PBXGroup;
 			children = (
+				24D647311B0A7C8F00BB72CF /* Introduction */,
 				24DE3E191B0A521200A32049 /* Fase 1 */,
 				24DE3E1A1B0A522B00A32049 /* Fase 2 */,
 				E38C038F1B051DFD004CF63E /* Equations */,
@@ -234,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				24D7F5321B051844000240B5 /* LaunchScreen.xib in Resources */,
+				24D647301B0A7B8500BB72CF /* GameScene.sks in Resources */,
 				24D7F52F1B051844000240B5 /* Images.xcassets in Resources */,
 				24D7F52D1B051844000240B5 /* Main.storyboard in Resources */,
 				246998161B0A4E1800B73B41 /* rocket5.png in Resources */,

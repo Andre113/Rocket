@@ -18,9 +18,15 @@ class Stage2: SKScene {
     var arrayRoutes: [Route] = []
     
     override func didMoveToView(view: SKView) {
+        /* Setup your scene here */
+        self.scaleMode = .AspectFill
+        self.view?.userInteractionEnabled = true
         
+        self.createRoutes()
+        self.setPositions()
     }
     
+//    MARK: Create
     func configureView(){
         deltaT.position = CGPoint()
         deltaV.position = CGPoint()
@@ -34,11 +40,22 @@ class Stage2: SKScene {
             let newSpeed = newOption.speed
             let newDistance = newOption.distance
             let newAnswer = newOption.answer
-            let newRoute = Route(bgImage: "", deltaTime: newAnswer, deltaDistance: newDistance, deltaSpeed: newSpeed)
+            let newRoute = Route(bgImage: "rocket5.png", deltaTime: newAnswer, deltaDistance: newDistance, deltaSpeed: newSpeed)
             self.arrayRoutes.append(newRoute)
         }
     }
     
+    func setPositions(){
+        var newX = self.frame.midX
+        var newY:CGFloat = 160
+        for route in arrayRoutes{
+            route.position = CGPointMake(newX, newY)
+            newY += 150
+            addChild(route)
+        }
+    }
+    
+//    MARK: Other
     func timeProblem() -> (speed: Int, distance: Int, answer: Int) {
         var questionLabel = "Rocket precisa levar as encomendas para o planeta (nome do planeta temporário), mas existem duas rotas, A e B. Qual das duas rotas o tempo da viagem será o menor?"
         var speed = equations.randomSpeed()
