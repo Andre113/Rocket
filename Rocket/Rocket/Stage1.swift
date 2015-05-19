@@ -7,9 +7,11 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 class Stage1: SKScene {
 //    MARK: Variables
+    var audioPlayer = AVAudioPlayer()
     var rocket1 = SKSpriteNode(imageNamed:"rocket5")
     var rocket2 =  SKSpriteNode(imageNamed:"rocket5")
     var rocket3 =  SKSpriteNode(imageNamed:"rocket5")
@@ -26,6 +28,9 @@ class Stage1: SKScene {
     var pauseBtn  = SKSpriteNode(imageNamed: "Pause1")
     var bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
     let equations = Equations.sharedInstance
+    var rightBoxSound = NSURL()
+    var wrongBoxSound = NSURL()
+
 //    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -34,6 +39,13 @@ class Stage1: SKScene {
         self.view?.userInteractionEnabled = true
 
 //        timeProblem()
+        
+        
+        rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
+      
+        wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
+        
+        
         println("-----------")
         equations.randomTime()
         
@@ -232,7 +244,10 @@ class Stage1: SKScene {
             }
         }
         
+        self.makeSoundAnswer(isRight)
+        
         if(isRight){
+        
             let action1 = SKAction.fadeOutWithDuration(0.5)
             let action2 = SKAction.removeFromParent()
             
@@ -270,11 +285,38 @@ class Stage1: SKScene {
             })
             
             if(countErrs > 2){
-               self.loseAction()
+                
+                labelToMove.runAction(action5, completion:{
+                    self.loseAction()
+                })
             }
             
             
         }
+    }
+    
+    
+    func makeSoundAnswer(boxChosenBool:Bool){
+        
+        
+        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
+        AVAudioSession.sharedInstance().setActive(true, error: nil)
+        
+        var error:NSError?
+        
+        if(boxChosenBool){
+          
+            audioPlayer = AVAudioPlayer(contentsOfURL: rightBoxSound, error: &error)
+           
+            
+        }else{
+            audioPlayer = AVAudioPlayer(contentsOfURL: wrongBoxSound, error: &error)
+
+        }
+        
+        audioPlayer.prepareToPlay()
+        audioPlayer.play()
+        
     }
     
 //    MARK: WIN or Lose
