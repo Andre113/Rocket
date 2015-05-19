@@ -12,12 +12,8 @@ import AVFoundation
 class Stage1: SKScene {
 //    MARK: Variables
     var audioPlayer = AVAudioPlayer()
-    var rocket1 = SKSpriteNode(imageNamed:"rocket5")
-    var rocket2 =  SKSpriteNode(imageNamed:"rocket5")
-    var rocket3 =  SKSpriteNode(imageNamed:"rocket5")
-    var arrayRockets = [SKSpriteNode]()
+    var arrayLifes = [SKSpriteNode]()
     var countHits = Int8() //contador de acertos
-    var countErrs = Int() //contador de erros
     var titleLabel1 = SKLabelNode(text:"Marque as caixas cujos" )
     var titleLabel2 = SKLabelNode()
     var arrayBox: [SKSpriteNode] = []
@@ -31,32 +27,23 @@ class Stage1: SKScene {
     var rightBoxSound = NSURL()
     var wrongBoxSound = NSURL()
 
-//    
+//    MARK: DidMoveToView
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        
         self.scaleMode = .AspectFill
         self.view?.userInteractionEnabled = true
 
-//        timeProblem()
-        
-        
         rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
       
         wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
         
-        
-        println("-----------")
-        equations.randomTime()
-        
         self.viewConfig()
+        self.createLifes()
         self.createRule()
         self.randomArray()
         
         self.createBox()
         self.createLabels()
         self.createPositions()
-        
         
         for index in 0...11{
             arrayBox[index].position = arrayPos[index]
@@ -95,22 +82,6 @@ class Stage1: SKScene {
         bg.position = CGPointMake(self.size.width/2, self.size.height/2)
         bg.size = size
         addChild(bg)
-        
-        rocket1.position = CGPointMake(size.width * 0.68 ,size.height * 0.05 )
-        addChild(rocket1)
-        
-        rocket2.position = CGPointMake(size.width * 0.71 ,size.height * 0.05 )
-        addChild(rocket2)
-        
-        rocket3.position = CGPointMake(size.width * 0.74 ,size.height * 0.05 )
-        addChild(rocket3)
-        
-        arrayRockets.append(rocket1)
-        arrayRockets.append(rocket2)
-        arrayRockets.append(rocket3)
-
-        
-        
     }
     
     func createBox(){
@@ -118,6 +89,18 @@ class Stage1: SKScene {
             let box = SKSpriteNode(imageNamed: "box")
             box.name = "\(number)"
             self.arrayBox.append(box)
+        }
+    }
+    
+    func createLifes(){
+        var newX: CGFloat = 0.68
+        for index in 0...2{
+            let life = SKSpriteNode(imageNamed:"rocket5")
+            life.position = CGPointMake(size.width * newX ,size.height * 0.05)
+            newX += 0.03
+            
+            arrayLifes.append(life)
+            addChild(life)
         }
     }
     
@@ -271,8 +254,7 @@ class Stage1: SKScene {
 //            }
             
         }else{
-            arrayRockets[countErrs].removeFromParent()
-            countErrs++
+            arrayLifes.removeLast()
             let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
             let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
             let action3 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
@@ -284,8 +266,7 @@ class Stage1: SKScene {
                 self.view?.userInteractionEnabled = true
             })
             
-            if(countErrs > 2){
-                
+            if(arrayLifes.isEmpty){
                 labelToMove.runAction(action5, completion:{
                     self.loseAction()
                 })
@@ -295,28 +276,20 @@ class Stage1: SKScene {
         }
     }
     
-    
+//    MARK: Music
     func makeSoundAnswer(boxChosenBool:Bool){
-        
-        
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
         AVAudioSession.sharedInstance().setActive(true, error: nil)
         
         var error:NSError?
         
         if(boxChosenBool){
-          
             audioPlayer = AVAudioPlayer(contentsOfURL: rightBoxSound, error: &error)
-           
-            
         }else{
             audioPlayer = AVAudioPlayer(contentsOfURL: wrongBoxSound, error: &error)
-
         }
-        
         audioPlayer.prepareToPlay()
         audioPlayer.play()
-        
     }
     
 //    MARK: WIN or Lose

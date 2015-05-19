@@ -14,6 +14,7 @@ class Stage2: SKScene {
     let deltaT = SKLabelNode(text: "∆T")
     var deltaV = SKLabelNode(text: "∆V")
     var deltaS = SKLabelNode(text: "∆S")
+    var questionLabel = ""
     let bar = SKSpriteNode()
     var arrayRoutes: [Route] = []
     
@@ -32,6 +33,12 @@ class Stage2: SKScene {
         deltaV.position = CGPoint()
         deltaS.position = CGPoint()
         bar.position = CGPoint()
+    }
+    
+    func createPlanetName(){
+        var novoNome = ""
+        
+        self.questionLabel = "Rocket precisa levar as encomendas para o planeta \(novoNome), mas existem duas rotas, A e B. Qual das duas rotas o tempo da viagem será o menor?"
     }
     
     func createRoutes(){
@@ -71,9 +78,8 @@ class Stage2: SKScene {
         }
     }
     
-//    MARK: Other
+//    MARK: Question
     func timeProblem() -> (speed: Int, distance: Int, answer: Int) {
-        var questionLabel = "Rocket precisa levar as encomendas para o planeta (nome do planeta temporário), mas existem duas rotas, A e B. Qual das duas rotas o tempo da viagem será o menor?"
         var speed = equations.randomSpeed()
         var distance = equations.randomDistance()
         var answer = equations.calculateTime(speed, distance: distance)
