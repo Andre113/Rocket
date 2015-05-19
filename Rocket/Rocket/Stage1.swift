@@ -14,32 +14,30 @@ class Stage1: SKScene {
     var audioPlayer = AVAudioPlayer()
     var arrayLifes = [SKSpriteNode]()
     var countHits = Int8() //contador de acertos
-    var titleLabel1 = SKLabelNode(text:"Marque as caixas cujos" )
+    let titleLabel1 = SKLabelNode(text:"Marque as caixas cujos" )
     var titleLabel2 = SKLabelNode()
     var arrayBox: [SKSpriteNode] = []
     var arrayPos: [CGPoint] = []
     var arrayLabels: [SKLabelNode] = []
     var arrayNumbers: [Int] = []
     var arrayAnswers: [Int] = []
-    var pauseBtn  = SKSpriteNode(imageNamed: "Pause1")
-    var bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
+    var lifeToRemove = 2
+    let pauseBtn  = SKSpriteNode(imageNamed: "Pause1")
+    let bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
     let equations = Equations.sharedInstance
-    var rightBoxSound = NSURL()
-    var wrongBoxSound = NSURL()
+    let rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
+    let wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
 
 //    MARK: DidMoveToView
     override func didMoveToView(view: SKView) {
         self.scaleMode = .AspectFill
         self.view?.userInteractionEnabled = true
-
-        rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
-      
-        wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
         
-        self.viewConfig()
+        self.createTileLabels()
+        self.createBG()
+        self.createPause()
         self.createLifes()
         self.createRule()
-        self.randomArray()
         
         self.createBox()
         self.createLabels()
@@ -57,31 +55,30 @@ class Stage1: SKScene {
     }
     
 //    MARK:  Create
-    func viewConfig(){
-        titleLabel1.fontName = "Chalkduster"
-        titleLabel1.fontSize = 20
-        titleLabel1.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 35);
-        titleLabel1.zPosition = 2
-        addChild(titleLabel1)
-        
-        titleLabel2.fontName = "Chalkduster"
-        titleLabel2.fontSize = 20
-        titleLabel2.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - 55);
-        titleLabel2.zPosition = 3
-        addChild(titleLabel2)
-        
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = String(equations.zeroToTwentyGenerator())
-        myLabel.fontSize = 65;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
-        
-        pauseBtn.position = CGPointMake(size.width * 0.3,size.height * 0.08 )
-        pauseBtn.zPosition = 3
-        addChild(pauseBtn)
-        
+    //ViewConfig
+    func createTileLabels(){
+        createTitleLabel(titleLabel1, newY: 35)
+        createTitleLabel(titleLabel2, newY: 55)
+    }
+    
+    func createBG(){
         bg.position = CGPointMake(self.size.width/2, self.size.height/2)
         bg.size = size
         addChild(bg)
+    }
+    
+    func createPause(){
+        pauseBtn.position = CGPointMake(size.width * 0.3,size.height * 0.08 )
+        pauseBtn.zPosition = 3
+        addChild(pauseBtn)
+    }
+    
+    func createTitleLabel(titleLabel: SKLabelNode, newY: CGFloat){
+        titleLabel.fontName = "Chalkduster"
+        titleLabel.fontSize = 20
+        titleLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - newY);
+        titleLabel.zPosition = 2
+        addChild(titleLabel)
     }
     
     func createBox(){
@@ -94,10 +91,13 @@ class Stage1: SKScene {
     
     func createLifes(){
         var newX: CGFloat = 0.68
+        var newName = 0
         for index in 0...2{
             let life = SKSpriteNode(imageNamed:"rocket5")
+            life.name = "\(newName)"
             life.position = CGPointMake(size.width * newX ,size.height * 0.05)
             newX += 0.03
+            newName++
             
             arrayLifes.append(life)
             addChild(life)
@@ -143,15 +143,31 @@ class Stage1: SKScene {
         }
     }
     
+    //Cria a regra
     func createRule(){
+        //Objetos que irão compor a regra
         let rule = self.equations.allDividers()
+        
+        //Array de números para comparar
         let arrayToCompare = rule.arrayToCompare
+        
+        //Array de números certos
         arrayAnswers = rule.newArray
-        let key = rule.newNumber
-        var isValid: Bool
-        self.titleLabel2.text = "números sao divisores de \(key)"
+        
+        //Adiciona números certos ao ArrayNumbers
         arrayNumbers = arrayAnswers
         
+        //Número multiplo de todos
+        let key = rule.newNumber
+        
+        self.titleLabel2.text = "números sao divisores de \(key)"
+        
+        self.createNumbers(arrayToCompare)
+    }
+    
+    //Cria valores aleatórios para o arrayNumbers
+    func createNumbers(arrayToCompare: [Int]){
+        var isValid: Bool
         for index in 0...7{
             var numberToInsert: Int
             do{
@@ -174,22 +190,8 @@ class Stage1: SKScene {
             } while (!isValid)
             arrayNumbers.append(numberToInsert)
         }
-        println(arrayNumbers)
-    }
-    
-//    MARK: Random
-    func randomArray(){
-        var auxArray = NSMutableArray(array: arrayNumbers)
-        var randomizedArray = [Int]()
-        var randomIndex:Int
-        while auxArray.count > 0 {
-            randomIndex = Int(arc4random_uniform(UInt32(auxArray.count)))
-            randomizedArray.append(auxArray.objectAtIndex(randomIndex) as! Int)
-            auxArray.removeObjectAtIndex(randomIndex)
-        }
         
-        arrayNumbers = randomizedArray as [Int]
-        println(arrayNumbers)
+        self.randomArray()
     }
     
 //    MARK: Touches
@@ -199,18 +201,22 @@ class Stage1: SKScene {
         let touch = touches.first as! UITouch
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
-        var isRight = false
         
         if (clicked.name != "" && clicked.name != nil){
-            for number in arrayAnswers{
-                if (clicked.name == "\(number)"){
-                    isRight = true
-                }
-            }
-            self.view?.userInteractionEnabled = false
-            self.animateBoxes(clicked.name!, isRight: isRight)
+            self.checkRight(clicked.name!)
         }
-        println(clicked.name)
+    }
+    
+    //Checa se a caixa está correta
+    func checkRight(name: String){
+        var isRight = false
+        for number in arrayAnswers{
+            if (name == "\(number)"){
+                isRight = true
+            }
+        }
+        self.view?.userInteractionEnabled = false
+        self.animateBoxes(name, isRight: isRight)
     }
     
 //    MARK: Animation
@@ -230,7 +236,6 @@ class Stage1: SKScene {
         self.makeSoundAnswer(isRight)
         
         if(isRight){
-        
             let action1 = SKAction.fadeOutWithDuration(0.5)
             let action2 = SKAction.removeFromParent()
             
@@ -255,6 +260,8 @@ class Stage1: SKScene {
             
         }else{
             arrayLifes.removeLast()
+            removeNodeWithName("\(lifeToRemove)")
+            lifeToRemove--
             let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
             let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
             let action3 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
@@ -299,13 +306,31 @@ class Stage1: SKScene {
     }
     
     func loseAction(){
-        
         let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
 
         let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
         let resetScene = Stage1(size: self.size)
         
         self.view?.presentScene(resetScene, transition: fadeOut)
+    }
+    
+    //    MARK: Other
+    func randomArray(){
+        var auxArray = NSMutableArray(array: arrayNumbers)
+        var randomizedArray = [Int]()
+        var randomIndex:Int
+        while auxArray.count > 0 {
+            randomIndex = Int(arc4random_uniform(UInt32(auxArray.count)))
+            randomizedArray.append(auxArray.objectAtIndex(randomIndex) as! Int)
+            auxArray.removeObjectAtIndex(randomIndex)
+        }
+        
+        arrayNumbers = randomizedArray as [Int]
+        println(arrayNumbers)
+    }
+    
+    func removeNodeWithName(name: String){
+        self.childNodeWithName(name)?.removeFromParent()
     }
     
 //    MARK: Update

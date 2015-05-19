@@ -16,10 +16,13 @@ class Stage3: SKScene{
     var arrayChoices: [SKLabelNode] = []
     var arrayQuestions: [Question] = []
     var questionLabel: SKLabelNode = SKLabelNode()
+    var count = 0
     
     override func didMoveToView(view: SKView) {
         self.createLifes()
         self.createQuestions()
+        self.createQuestionLabel()
+        self.createChoices()
     }
     
 //    MARK: Create
@@ -27,6 +30,7 @@ class Stage3: SKScene{
         
     }
     
+    //Cria vidas
     func createLifes(){
         var newX: CGFloat = 0.68
         for index in 0...2{
@@ -39,9 +43,10 @@ class Stage3: SKScene{
         }
     }
     
+    //Cria o array de objetos questões (equações)
     func createQuestions(){
-        for index in 0...4{
-//            Sortear entre 1 e 2
+        for index in 0...7{
+//            Sortear entre equation 1 e 2
             var newData = equations.equationTypeOne()
             var newQuestion = Question(equation: newData.equation, answer: newData.answer)
             
@@ -55,19 +60,36 @@ class Stage3: SKScene{
         }
     }
     
+    //Cria label da questão
     func createQuestionLabel(){
         questionLabel = SKLabelNode(text: arrayQuestions[0].equation)
+        questionLabel.name = "Question"
         addChild(questionLabel)
     }
     
+    //Cria alternativas
     func createChoices(){
+        self.createRightChoice()
+        self.createWrongChoices()
+        self.randomChoices()
+        
+        for choice in arrayChoices{
+            addChild(choice)
+        }
+    }
+    
+    //Cria alternativa correta
+    func createRightChoice(){
         //Alternativa correta (não sorteada)
         let rightAnswer = self.arrayQuestions[0].answer
         let rightChoice = self.createChoice(rightAnswer)
         
         //Append no arrayChoices, que é um array de Labels
         arrayChoices.append(rightChoice)
-        
+    }
+    
+    //Cria alternativas incorretas
+    func createWrongChoices(){
         //Randomiza 3 alternativas erradas
         for index in 0...2{
             var newAnswer = equations.randomNumberGenerator()
@@ -84,10 +106,21 @@ class Stage3: SKScene{
         }
     }
     
+    //Randomiza as alternativas
     func randomChoices(){
+        var auxArray = NSMutableArray(array: arrayChoices)
+        var randomizedArray = [SKLabelNode]()
+        var randomIndex:Int
+        while auxArray.count > 0 {
+            randomIndex = Int(arc4random_uniform(UInt32(auxArray.count)))
+            randomizedArray.append(auxArray.objectAtIndex(randomIndex) as! SKLabelNode)
+            auxArray.removeObjectAtIndex(randomIndex)
+        }
         
+        arrayChoices = randomizedArray as [SKLabelNode]
     }
     
+    //Cria label de alternativas
     func createChoice(newAnswer: Int) -> SKLabelNode{
         var newChoice = SKLabelNode(text: "\(newAnswer)")
         newChoice.name = "\(newAnswer)"
@@ -98,6 +131,14 @@ class Stage3: SKScene{
         return newChoice
     }
     
+//    MARK: NextQuestion
+    //Cria próxima escolha
+    func nextQuestion(){
+        self.createQuestionLabel()
+        self.arrayChoices.removeAll(keepCapacity: false)
+        self.createChoices()
+    }
+    
 //    MARK: Touches
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         /* Called when a touch begins */
@@ -105,17 +146,63 @@ class Stage3: SKScene{
         let touch = touches.first as! UITouch
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
+        let clickName = clicked.name
         var isRight = false
         
-        if (clicked.name != "" && clicked.name != nil){
-            if (clicked.name == arrayQuestions[0]){
-                //Açao de acertar
+        //Se clicar em uma alternativa
+        if (clickName != "" && clickName != nil && clickName != "Question"){
+            self.checkRight(clickName!)
+        }
+    }
+    
+    //Checa se a alternativa está correta
+    func checkRight(name: String){
+        let intToCompare = arrayQuestions[0].answer
+        self.arrayQuestions.removeAtIndex(0)
+        self.removeQuestion()
+        self.removeChoices()
+        
+        if (name == "\(intToCompare)"){
+            count++
+            if(count == 5){
+                self.winAction()
             }
             else{
-                //Açao de errar
+                self.nextQuestion()
             }
-            self.view?.userInteractionEnabled = false
         }
-        println(clicked.name)
+        else{
+            self.arrayLifes.removeLast()
+            if(self.arrayLifes.isEmpty){
+                self.loseAction()
+            }
+            else{
+                self.nextQuestion()
+            }
+        }
+    }
+    
+//    MARK: Other
+    func removeQuestion(){
+        self.removeNodeWithName("Question")
+    }
+    
+    func removeChoices(){
+        for choice in arrayChoices{
+            self.removeNodeWithName(choice.name!)
+        }
+    }
+    
+    func removeNodeWithName(name: String){
+        self.childNodeWithName(name)?.removeFromParent()
+    }
+    
+//    MARK: Win or Lose
+    func winAction(){
+        
+    }
+    
+    func loseAction(){
+        
     }
 }
