@@ -28,6 +28,8 @@ class Stage1: SKScene {
     let rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
     let wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+    
+    let timer = Timer(time:5)
 
 //    MARK: DidMoveToView
     override func didMoveToView(view: SKView) {
@@ -44,6 +46,15 @@ class Stage1: SKScene {
 //        self.createBox()
 //        self.createLabels()
 //        self.createPositions()
+//        
+//        for index in 0...11{
+//            arrayBox[index].position = arrayPos[index]
+//            arrayLabels[index].position = CGPoint(x: arrayPos[index].x , y: arrayPos[index].y  - 25)
+//            
+//            addChild(arrayBox[index])
+//            addChild(arrayLabels[index])
+//        }
+
         
         //bloco assincrono para carregar paralelamente os conteúdos da view e outro para criar as box, labels e as posições
        
@@ -54,6 +65,7 @@ class Stage1: SKScene {
             self.createPause()
             self.createLifes()
             self.createRule()
+           
             dispatch_async(dispatch_get_main_queue(), {
                 self.createBox()
                 self.createLabels()
@@ -65,24 +77,29 @@ class Stage1: SKScene {
                     
                     self.addChild(self.arrayBox[index])
                     self.addChild(self.arrayLabels[index])
+                    
                 }
+                self.createTimer()
                 
             })
         })
         
-//        for index in 0...11{
-//            arrayBox[index].position = arrayPos[index]
-//            arrayLabels[index].position = CGPoint(x: arrayPos[index].x , y: arrayPos[index].y  - 25)
-//            
-//            addChild(arrayBox[index])
-//            addChild(arrayLabels[index])
-//        }
         
         self.view?.multipleTouchEnabled = false
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loseAction", name: "TimeOverIdentifier", object: nil)
     }
     
 //    MARK:  Create
     //ViewConfig
+    
+    func createTimer() {
+        self.timer.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        self.timer.zPosition = 2
+        self.timer.fontName = "Chalkduster"
+        self.timer.fontSize = 20
+        self.timer.fontColor = UIColor.whiteColor()
+        self.addChild(self.timer)
+    }
     func createTileLabels(){
         createTitleLabel(titleLabel1, newY: 35)
         createTitleLabel(titleLabel2, newY: 55)
@@ -331,10 +348,12 @@ class Stage1: SKScene {
     }
     
     func loseAction(){
-        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
+        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.0)
 
-        let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
+//        let reveal = SKTransition.doorsCloseHorizontalWithDuration(0.5)
         let resetScene = Stage1(size: self.size)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
         
         self.view?.presentScene(resetScene, transition: fadeOut)
     }

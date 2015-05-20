@@ -22,6 +22,7 @@
 		24E1A38D1B0BAC3B00DE274B /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E1A38C1B0BAC3B00DE274B /* Question.swift */; };
 		521770551B0AC13300D8A7B5 /* rightBox.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 521770531B0AC13300D8A7B5 /* rightBox.mp3 */; };
 		521770561B0AC13300D8A7B5 /* wrongBox.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 521770541B0AC13300D8A7B5 /* wrongBox.mp3 */; };
+		5262B51F1B0D0A1C002BB667 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5262B51E1B0D0A1C002BB667 /* Timer.swift */; };
 		E38C03911B051E26004CF63E /* Equations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C03901B051E26004CF63E /* Equations.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +56,7 @@
 		24E1A38C1B0BAC3B00DE274B /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		521770531B0AC13300D8A7B5 /* rightBox.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = rightBox.mp3; path = sfx/rightBox.mp3; sourceTree = "<group>"; };
 		521770541B0AC13300D8A7B5 /* wrongBox.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = wrongBox.mp3; path = sfx/wrongBox.mp3; sourceTree = "<group>"; };
+		5262B51E1B0D0A1C002BB667 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		E38C03901B051E26004CF63E /* Equations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				24D012CB1B0CF3C400AAB33B /* Life.swift */,
+				5262B51E1B0D0A1C002BB667 /* Timer.swift */,
 			);
 			name = "Aux Files";
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				24D7F5281B051844000240B5 /* Stage1.swift in Sources */,
 				24E1A38D1B0BAC3B00DE274B /* Question.swift in Sources */,
 				24DE3E1E1B0A529B00A32049 /* Stage2.swift in Sources */,
+				5262B51F1B0D0A1C002BB667 /* Timer.swift in Sources */,
 				24D7F52A1B051844000240B5 /* GameViewController.swift in Sources */,
 				24E1A38B1B0BA40500DE274B /* Stage3.swift in Sources */,
 				2490179C1B0A662E00CDA657 /* Route.swift in Sources */,
