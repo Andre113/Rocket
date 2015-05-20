@@ -11,14 +11,13 @@ import SpriteKit
 class Stage2: SKScene {
 //    MARK: Variables
     let equations = Equations.sharedInstance
-    var arrayLifes: [Life] = []
     let deltaT = SKLabelNode(text: "∆T")
     let deltaV = SKLabelNode(text: "∆V")
     let deltaS = SKLabelNode(text: "∆S")
-    var questionLabel = ""
     let bar = SKSpriteNode()
+    var questionLabel = ""
     var arrayRoutes: [Route] = []
-    var answer = Route?()
+    var rightRoute = Route?()
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -27,6 +26,7 @@ class Stage2: SKScene {
         
         self.createRoutes()
         self.setPositions()
+        self.setLabels()
     }
     
 //    MARK: Create
@@ -35,21 +35,6 @@ class Stage2: SKScene {
         deltaV.position = CGPoint()
         deltaS.position = CGPoint()
         bar.position = CGPoint()
-    }
-    
-    func createLifes(){
-        var incX: CGFloat = 0.68
-        let newY = size.height * 0.05
-        var newName = 0
-        for index in 0...1{
-            let newX = size.width * incX
-            let life = Life(name: "\(newName)", newX: newX, newY: newY)
-            arrayLifes.append(life)
-            incX += 0.03
-            newName++
-            
-            addChild(life)
-        }
     }
     
 //    MARK: Create Routes
@@ -63,7 +48,7 @@ class Stage2: SKScene {
             self.arrayRoutes.append(newRoute)
         }
         
-        self.rightQuestion()
+        self.selectRightQuestion()
     }
     
     func setPositions(){
@@ -77,15 +62,21 @@ class Stage2: SKScene {
     }
     
     func setLabels(){
-        var newX:CGFloat = 400
-        var newY = CGFloat()
+        let speedX:CGFloat = 400
+        var speedY = CGFloat()
+        
+        let distanceX = CGFloat()
+        var distanceY = CGFloat()
         
         for route in arrayRoutes{
             let newSpeed = SKLabelNode(text: "\(route.deltaSpeed)")
             let newDistance = SKLabelNode(text: "\(route.deltaDistance)")
             
-            newSpeed.position = CGPoint()
-            newDistance.position = CGPoint()
+            newSpeed.position = CGPointMake(speedX, speedY)
+            newDistance.position = CGPointMake(distanceX, distanceY)
+            
+            speedY += 0
+            distanceY += 0
             
 //            addChild(newSpeed)
 //            addChild(newDistance)
@@ -104,17 +95,17 @@ class Stage2: SKScene {
     func createPlanetName(){
         var novoNome = ""
         
-        self.questionLabel = "Rocket precisa escolher uma rota para levar as encomendas para o planeta \(novoNome). Qual delas rotas possui o menor tempo de viagem?"
+        self.questionLabel = "Rocket precisa escolher uma rota para levar as encomendas para o planeta \(novoNome). Qual delas possui o menor tempo de viagem?"
     }
     
-    func rightQuestion(){
-        var rightRoute = arrayRoutes[0]
+    func selectRightQuestion(){
+        var select = arrayRoutes[0]
         for route in arrayRoutes{
-            if(route.deltaTime < rightRoute.deltaTime){
-                rightRoute = route
+            if(route.deltaTime < select.deltaTime){
+                select = route
             }
         }
-        self.answer = rightRoute
+        self.rightRoute = select
     }
     
 //    MARK: Touches
@@ -125,17 +116,49 @@ class Stage2: SKScene {
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
         let clickName = clicked.name
-        var isRight = false
         
-        //Se clicar em uma alternativa
+        //Se clicar em uma rota
         if (clickName == "Route"){
+            self.view?.userInteractionEnabled = false
             self.checkRight(clicked as! Route)
         }
     }
     
     func checkRight(route: Route){
-        if(route.deltaTime == self.answer?.deltaTime){
-            
+        self.animateRoute(route)
+        if(route.deltaTime == self.rightRoute?.deltaTime){
+            self.winAction()
         }
+        else{
+            self.loseAction()
+        }
+    }
+    
+//    MARK: Win or Lose
+    func winAction(){
+        
+    }
+    
+    func loseAction(){
+        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
+        
+        let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
+        let resetScene = Stage2(size: self.size)
+        
+        self.view?.presentScene(resetScene, transition: fadeOut)
+    }
+    
+//    MARK: Animation
+    func animateRoute(routeToMove: Route){
+        let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
+        let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
+        let action3 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
+        let action4 = SKAction.sequence([action1, action2, action3])
+        let action5 = SKAction.repeatAction(action4, count: 5)
+        
+        routeToMove.runAction(action5)
+        routeToMove.runAction(action5, completion:{
+            self.view?.userInteractionEnabled = true
+        })
     }
 }
