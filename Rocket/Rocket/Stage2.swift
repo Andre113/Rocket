@@ -10,6 +10,7 @@ import SpriteKit
 
 class Stage2: SKScene {
 //    MARK: Variables
+    let bgRoute = SKSpriteNode(imageNamed: "bg1.jpg" )
     let equations = Equations.sharedInstance
     let deltaT = SKLabelNode(text: "∆T")
     let deltaV = SKLabelNode(text: "∆V")
@@ -18,11 +19,14 @@ class Stage2: SKScene {
     var questionLabel = ""
     var arrayRoutes: [Route] = []
     var rightRoute = Route?()
+    var equation = Equations.sharedInstance
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         self.scaleMode = .AspectFill
         self.view?.userInteractionEnabled = true
+        
+        self.configureView()
         
         self.createRoutes()
         self.setPositions()
@@ -35,16 +39,25 @@ class Stage2: SKScene {
         deltaV.position = CGPoint()
         deltaS.position = CGPoint()
         bar.position = CGPoint()
+        
+        self.bgRoute.size = self.size
+        self.bgRoute.position = CGPointMake(self.frame.midX, self.frame.midY)
+        self.bgRoute.zPosition = -1
+        addChild(bgRoute)
+        
+ 
     }
     
 //    MARK: Create Routes
     func createRoutes(){
-        for index in 0...2{
+        for index in 1...3{
             let newOption = timeProblem()
             let newSpeed = newOption.speed
             let newDistance = newOption.distance
             let newAnswer = newOption.answer
-            let newRoute = Route(bgImage: "rocket5.png", deltaTime: newAnswer, deltaDistance: newDistance, deltaSpeed: newSpeed)
+            let newRoute = Route(bgImage: "route\(index).png", deltaTime: newAnswer, deltaDistance: newDistance, deltaSpeed: newSpeed)
+            newRoute.name = "route\(index)"
+            
             self.arrayRoutes.append(newRoute)
         }
         
@@ -53,10 +66,10 @@ class Stage2: SKScene {
     
     func setPositions(){
         var newX = self.frame.midX
-        var newY:CGFloat = 160
+        var newY:CGFloat = 100
         for route in arrayRoutes{
             route.position = CGPointMake(newX, newY)
-            newY += 150
+            newY += 190
             addChild(route)
         }
     }
@@ -69,6 +82,7 @@ class Stage2: SKScene {
         var distanceY = CGFloat()
         
         for route in arrayRoutes{
+            
             let newSpeed = SKLabelNode(text: "\(route.deltaSpeed)")
             let newDistance = SKLabelNode(text: "\(route.deltaDistance)")
             
@@ -78,8 +92,8 @@ class Stage2: SKScene {
             speedY += 0
             distanceY += 0
             
-//            addChild(newSpeed)
-//            addChild(newDistance)
+//           addChild(newSpeed)
+//           addChild(newDistance)
         }
     }
     

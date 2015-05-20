@@ -17,7 +17,7 @@ class Route: SKSpriteNode{
         let bg = getImage(bgImage)
         let texture = SKTexture(image: bg)
         
-        super.init(texture: texture, color: UIColor.clearColor(), size: CGSizeMake(400, 130))
+        super.init(texture: texture, color: UIColor.clearColor(), size: CGSizeMake(450, 180))
         
         self.deltaTime = deltaTime
         self.deltaDistance = deltaDistance
