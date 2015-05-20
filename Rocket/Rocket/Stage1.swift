@@ -27,29 +27,56 @@ class Stage1: SKScene {
     let equations = Equations.sharedInstance
     let rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
     let wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
+    let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 
 //    MARK: DidMoveToView
     override func didMoveToView(view: SKView) {
         self.scaleMode = .AspectFill
         self.view?.userInteractionEnabled = true
         
-        self.createTileLabels()
-        self.createBG()
-        self.createPause()
-        self.createLifes()
-        self.createRule()
+//        self.createTileLabels()
+//        self.createBG()
+//        self.createPause()
+//        self.createLifes()
+//        self.createRule()
+//        
+//        
+//        self.createBox()
+//        self.createLabels()
+//        self.createPositions()
         
-        self.createBox()
-        self.createLabels()
-        self.createPositions()
+        //bloco assincrono para carregar paralelamente os conteúdos da view e outro para criar as box, labels e as posições
+       
+        dispatch_async(dispatch_get_global_queue(priority, 0), {
+            ()-> () in
+            self.createTileLabels()
+            self.createBG()
+            self.createPause()
+            self.createLifes()
+            self.createRule()
+            dispatch_async(dispatch_get_main_queue(), {
+                self.createBox()
+                self.createLabels()
+                self.createPositions()
+                
+                for index in 0...11{
+                    self.arrayBox[index].position = self.arrayPos[index]
+                    self.arrayLabels[index].position = CGPoint(x: self.arrayPos[index].x , y: self.arrayPos[index].y  - 25)
+                    
+                    self.addChild(self.arrayBox[index])
+                    self.addChild(self.arrayLabels[index])
+                }
+                
+            })
+        })
         
-        for index in 0...11{
-            arrayBox[index].position = arrayPos[index]
-            arrayLabels[index].position = CGPoint(x: arrayPos[index].x , y: arrayPos[index].y  - 25)
-            
-            addChild(arrayBox[index])
-            addChild(arrayLabels[index])
-        }
+//        for index in 0...11{
+//            arrayBox[index].position = arrayPos[index]
+//            arrayLabels[index].position = CGPoint(x: arrayPos[index].x , y: arrayPos[index].y  - 25)
+//            
+//            addChild(arrayBox[index])
+//            addChild(arrayLabels[index])
+//        }
         
         self.view?.multipleTouchEnabled = false
     }
