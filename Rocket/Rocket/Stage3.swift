@@ -12,7 +12,7 @@ class Stage3: SKScene{
 //    MARK: Variables
     let equations = Equations.sharedInstance
     var rocket = SKSpriteNode()
-    var arrayLifes: [SKSpriteNode] = []
+    var arrayLifes: [Life] = []
     var arrayChoices: [SKLabelNode] = []
     var arrayQuestions: [Question] = []
     var questionLabel: SKLabelNode = SKLabelNode()
@@ -26,23 +26,27 @@ class Stage3: SKScene{
     }
     
 //    MARK: Create
-    func configureView(){
-        
-    }
+//    func configureView(){
+//        
+//    }
     
     //Cria vidas
     func createLifes(){
-        var newX: CGFloat = 0.68
+        var incX: CGFloat = 0.68
+        let newY = size.height * 0.05
+        var newName = 0
         for index in 0...2{
-            let life = SKSpriteNode(imageNamed:"rocket5")
-            life.position = CGPointMake(size.width * newX ,size.height * 0.05)
-            newX += 0.03
-            
+            let newX = size.width * incX
+            let life = Life(name: "\(newName)", newX: newX, newY: newY)
             arrayLifes.append(life)
+            incX += 0.03
+            newName++
+            
             addChild(life)
         }
     }
     
+//    MARK: Create Questions
     //Cria o array de objetos questões (equações)
     func createQuestions(){
         for index in 0...7{
@@ -67,6 +71,7 @@ class Stage3: SKScene{
         addChild(questionLabel)
     }
     
+//    MARK: Create Choices
     //Cria alternativas
     func createChoices(){
         self.createRightChoice()
@@ -132,7 +137,7 @@ class Stage3: SKScene{
     }
     
 //    MARK: NextQuestion
-    //Cria próxima escolha
+    //Cria próxima questão e alternativas
     func nextQuestion(){
         self.createQuestionLabel()
         self.arrayChoices.removeAll(keepCapacity: false)
@@ -199,10 +204,15 @@ class Stage3: SKScene{
     
 //    MARK: Win or Lose
     func winAction(){
-        
+        //Ação de ganhar
     }
     
     func loseAction(){
+        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
         
+        let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
+        let resetScene = Stage3(size: self.size)
+        
+        self.view?.presentScene(resetScene, transition: fadeOut)
     }
 }

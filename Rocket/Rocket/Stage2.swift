@@ -11,12 +11,14 @@ import SpriteKit
 class Stage2: SKScene {
 //    MARK: Variables
     let equations = Equations.sharedInstance
+    var arrayLifes: [Life] = []
     let deltaT = SKLabelNode(text: "∆T")
-    var deltaV = SKLabelNode(text: "∆V")
-    var deltaS = SKLabelNode(text: "∆S")
+    let deltaV = SKLabelNode(text: "∆V")
+    let deltaS = SKLabelNode(text: "∆S")
     var questionLabel = ""
     let bar = SKSpriteNode()
     var arrayRoutes: [Route] = []
+    var answer = Route?()
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -35,12 +37,22 @@ class Stage2: SKScene {
         bar.position = CGPoint()
     }
     
-    func createPlanetName(){
-        var novoNome = ""
-        
-        self.questionLabel = "Rocket precisa levar as encomendas para o planeta \(novoNome), mas existem duas rotas, A e B. Qual das duas rotas o tempo da viagem será o menor?"
+    func createLifes(){
+        var incX: CGFloat = 0.68
+        let newY = size.height * 0.05
+        var newName = 0
+        for index in 0...1{
+            let newX = size.width * incX
+            let life = Life(name: "\(newName)", newX: newX, newY: newY)
+            arrayLifes.append(life)
+            incX += 0.03
+            newName++
+            
+            addChild(life)
+        }
     }
     
+//    MARK: Create Routes
     func createRoutes(){
         for index in 0...2{
             let newOption = timeProblem()
@@ -50,6 +62,8 @@ class Stage2: SKScene {
             let newRoute = Route(bgImage: "rocket5.png", deltaTime: newAnswer, deltaDistance: newDistance, deltaSpeed: newSpeed)
             self.arrayRoutes.append(newRoute)
         }
+        
+        self.rightQuestion()
     }
     
     func setPositions(){
@@ -78,7 +92,7 @@ class Stage2: SKScene {
         }
     }
     
-//    MARK: Question
+//    MARK: Create Question
     func timeProblem() -> (speed: Int, distance: Int, answer: Int) {
         var speed = equations.randomSpeed()
         var distance = equations.randomDistance()
@@ -87,20 +101,41 @@ class Stage2: SKScene {
         return (speed, distance, answer)
     }
     
-//    func compareAnswers(){
-//        if(answer1 < answer2 && answer1 < answer3) {
-//            println("Menor tempo é a rota 1!")
-//            return answer1
-//        }
-//        else {
-//            if (answer2 < answer1 && answer2 < answer3){
-//                println("Menor tempo é a rota 2!")
-//                return answer2
-//            }
-//            else{
-//                println("Menor tempo é a rota 3!")
-//                return answer3
-//            }
-//        }
-//    }
+    func createPlanetName(){
+        var novoNome = ""
+        
+        self.questionLabel = "Rocket precisa escolher uma rota para levar as encomendas para o planeta \(novoNome). Qual delas rotas possui o menor tempo de viagem?"
+    }
+    
+    func rightQuestion(){
+        var rightRoute = arrayRoutes[0]
+        for route in arrayRoutes{
+            if(route.deltaTime < rightRoute.deltaTime){
+                rightRoute = route
+            }
+        }
+        self.answer = rightRoute
+    }
+    
+//    MARK: Touches
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        /* Called when a touch begins */
+        
+        let touch = touches.first as! UITouch
+        let location = touch.locationInNode(self)
+        let clicked = self.nodeAtPoint(location)
+        let clickName = clicked.name
+        var isRight = false
+        
+        //Se clicar em uma alternativa
+        if (clickName == "Route"){
+            self.checkRight(clicked as! Route)
+        }
+    }
+    
+    func checkRight(route: Route){
+        if(route.deltaTime == self.answer?.deltaTime){
+            
+        }
+    }
 }

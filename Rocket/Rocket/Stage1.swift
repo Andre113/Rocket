@@ -12,7 +12,7 @@ import AVFoundation
 class Stage1: SKScene {
 //    MARK: Variables
     var audioPlayer = AVAudioPlayer()
-    var arrayLifes = [SKSpriteNode]()
+    var arrayLifes:[Life] = []
     var countHits = Int8() //contador de acertos
     let titleLabel1 = SKLabelNode(text:"Marque as caixas cujos" )
     var titleLabel2 = SKLabelNode()
@@ -90,16 +90,16 @@ class Stage1: SKScene {
     }
     
     func createLifes(){
-        var newX: CGFloat = 0.68
+        var incX: CGFloat = 0.68
+        let newY = size.height * 0.05
         var newName = 0
         for index in 0...2{
-            let life = SKSpriteNode(imageNamed:"rocket5")
-            life.name = "\(newName)"
-            life.position = CGPointMake(size.width * newX ,size.height * 0.05)
-            newX += 0.03
+            let newX = size.width * incX
+            let life = Life(name: "\(newName)", newX: newX, newY: newY)
+            arrayLifes.append(life)
+            incX += 0.03
             newName++
             
-            arrayLifes.append(life)
             addChild(life)
         }
     }
@@ -278,8 +278,6 @@ class Stage1: SKScene {
                     self.loseAction()
                 })
             }
-            
-            
         }
     }
     

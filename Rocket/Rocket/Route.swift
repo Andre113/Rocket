@@ -8,11 +8,6 @@
 
 import SpriteKit
 
-func getImage(imgName: String) -> UIImage{
-    let imageToSet = UIImage(contentsOfFile: (NSBundle .mainBundle()) .pathForResource(imgName, ofType: nil)!)!
-    return imageToSet
-}
-
 class Route: SKSpriteNode{
     var deltaTime: Int = 0
     var deltaDistance: Int = 0
@@ -27,6 +22,7 @@ class Route: SKSpriteNode{
         self.deltaTime = deltaTime
         self.deltaDistance = deltaDistance
         self.deltaSpeed = deltaSpeed
+        self.name = "Route"
     }
     
     required init?(coder aDecoder: NSCoder) {

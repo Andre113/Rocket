@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2490179C1B0A662E00CDA657 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2490179B1B0A662E00CDA657 /* Route.swift */; };
+		24D012CC1B0CF3C400AAB33B /* Life.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D012CB1B0CF3C400AAB33B /* Life.swift */; };
 		24D647301B0A7B8500BB72CF /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 24D6472F1B0A7B8500BB72CF /* GameScene.sks */; };
 		24D7F5241B051844000240B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D7F5231B051844000240B5 /* AppDelegate.swift */; };
 		24D7F5281B051844000240B5 /* Stage1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D7F5271B051844000240B5 /* Stage1.swift */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		2490179B1B0A662E00CDA657 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		24D012CB1B0CF3C400AAB33B /* Life.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Life.swift; sourceTree = "<group>"; };
 		24D6472F1B0A7B8500BB72CF /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		24D7F51E1B051844000240B5 /* Rocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24D7F5221B051844000240B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -74,6 +76,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24D012CA1B0CF3B000AAB33B /* Aux Files */ = {
+			isa = PBXGroup;
+			children = (
+				24D012CB1B0CF3C400AAB33B /* Life.swift */,
+			);
+			name = "Aux Files";
+			sourceTree = "<group>";
+		};
 		24D647311B0A7C8F00BB72CF /* Introduction */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +113,7 @@
 		24D7F5201B051844000240B5 /* Rocket */ = {
 			isa = PBXGroup;
 			children = (
+				24D012CA1B0CF3B000AAB33B /* Aux Files */,
 				521770571B0AC2AB00D8A7B5 /* SFX */,
 				24D647311B0A7C8F00BB72CF /* Introduction */,
 				24DE3E191B0A521200A32049 /* Fase 1 */,
@@ -299,6 +310,7 @@
 				24D7F52A1B051844000240B5 /* GameViewController.swift in Sources */,
 				24E1A38B1B0BA40500DE274B /* Stage3.swift in Sources */,
 				2490179C1B0A662E00CDA657 /* Route.swift in Sources */,
+				24D012CC1B0CF3C400AAB33B /* Life.swift in Sources */,
 				24D7F5241B051844000240B5 /* AppDelegate.swift in Sources */,
 				E38C03911B051E26004CF63E /* Equations.swift in Sources */,
 			);
