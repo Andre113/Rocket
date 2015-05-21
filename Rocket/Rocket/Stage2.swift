@@ -25,6 +25,7 @@ class Stage2: SKScene {
         /* Setup your scene here */
         self.scaleMode = .AspectFill
         self.view?.userInteractionEnabled = true
+        self.view?.multipleTouchEnabled = false
         
         self.configureView()
         
@@ -66,7 +67,7 @@ class Stage2: SKScene {
     
     func setPositions(){
         var newX = self.frame.midX
-        var newY:CGFloat = 100
+        var newY:CGFloat = 110
         for route in arrayRoutes{
             route.position = CGPointMake(newX, newY)
             newY += 190
@@ -132,19 +133,20 @@ class Stage2: SKScene {
         let clickName = clicked.name
         
         //Se clicar em uma rota
-        if (clickName == "Route"){
+        if (clickName == "route1" || clickName == "route2" || clickName == "route3"){
+            println("click")
             self.view?.userInteractionEnabled = false
             self.checkRight(clicked as! Route)
         }
     }
     
     func checkRight(route: Route){
-        self.animateRoute(route)
         if(route.deltaTime == self.rightRoute?.deltaTime){
             self.winAction()
         }
         else{
-            self.loseAction()
+            self.animateRoute(route)
+            NSTimer.scheduledTimerWithTimeInterval(0.7, target: self, selector: "loseAction", userInfo: nil, repeats: false)
         }
     }
     
