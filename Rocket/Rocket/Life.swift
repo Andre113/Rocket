@@ -8,11 +8,6 @@
 
 import SpriteKit
 
-func getImage(imgName: String) -> UIImage{
-    let imageToSet = UIImage(contentsOfFile: (NSBundle .mainBundle()) .pathForResource(imgName, ofType: nil)!)!
-    return imageToSet
-}
-
 class Life: SKSpriteNode{
     init(name: String, newX: CGFloat, newY: CGFloat){
         let img = UIImage(named: "rocket5")

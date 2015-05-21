@@ -8,14 +8,20 @@
 
 import SpriteKit
 
+func getImage(imgName: String) -> UIImage{
+    let imageToSet = UIImage(contentsOfFile: (NSBundle .mainBundle()) .pathForResource(imgName, ofType: nil)!)!
+    return imageToSet
+}
+
+
 class Route: SKSpriteNode{
     var deltaTime: Int = 0
     var deltaDistance: Int = 0
     var deltaSpeed: Int = 0
     
     init(bgImage: String, deltaTime: Int, deltaDistance: Int, deltaSpeed: Int){
-        let bg = getImage(bgImage)
-        let texture = SKTexture(image: bg)
+        let bg = UIImage(named: bgImage)
+        let texture = SKTexture(image: bg!)
         
         super.init(texture: texture, color: UIColor.clearColor(), size: CGSizeMake(450, 180))
         
