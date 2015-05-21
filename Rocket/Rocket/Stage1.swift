@@ -14,8 +14,7 @@ class Stage1: SKScene {
     var audioPlayer = AVAudioPlayer()
     var arrayLifes:[Life] = []
     var countHits = Int8() //contador de acertos
-    let titleLabel1 = SKLabelNode(text:"Marque as caixas cujos" )
-    var titleLabel2 = SKLabelNode()
+    var key = 0
     var arrayBox: [SKSpriteNode] = []
     var arrayPos: [CGPoint] = []
     var arrayLabels: [SKLabelNode] = []
@@ -29,7 +28,7 @@ class Stage1: SKScene {
     let wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
     
-    let timer = Timer(time:5)
+    let timer = Timer(time:10)
 
 //    MARK: DidMoveToView
     override func didMoveToView(view: SKView) {
@@ -102,9 +101,15 @@ class Stage1: SKScene {
         self.timer.fontColor = UIColor.whiteColor()
         self.addChild(self.timer)
     }
+    
     func createTileLabels(){
-        createTitleLabel(titleLabel1, newY: 35)
-        createTitleLabel(titleLabel2, newY: 55)
+        let pos1 = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) - 35)
+        let titleLabel1 = Title(text: "Marque as caixas cujos", pos: pos1, fntSize: 20)
+        addChild(titleLabel1)
+        
+        let pos2 = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) - 55)
+        let titleLabel2 = Title(text: "Números são divisiveis por \(key)", pos: pos2, fntSize: 20)
+        addChild(titleLabel2)
     }
     
     func createBG(){
@@ -117,14 +122,6 @@ class Stage1: SKScene {
         pauseBtn.position = CGPointMake(size.width * 0.3,size.height * 0.08 )
         pauseBtn.zPosition = 3
         addChild(pauseBtn)
-    }
-    
-    func createTitleLabel(titleLabel: SKLabelNode, newY: CGFloat){
-        titleLabel.fontName = "Chalkduster"
-        titleLabel.fontSize = 20
-        titleLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - newY);
-        titleLabel.zPosition = 2
-        addChild(titleLabel)
     }
     
     func createBox(){
@@ -142,7 +139,7 @@ class Stage1: SKScene {
         var newName = 0
         for index in 0...2{
             let newX = size.width * incX
-            let life = Life(name: "\(newName)", newX: newX, newY: newY)
+            let life = Life(name: "life\(newName)", newX: newX, newY: newY)
             arrayLifes.append(life)
             incX += 0.03
             newName++
@@ -205,9 +202,7 @@ class Stage1: SKScene {
         arrayNumbers = arrayAnswers
         
         //Número multiplo de todos
-        let key = rule.newNumber
-        
-        self.titleLabel2.text = "números sao divisores de \(key)"
+        self.key = rule.newNumber
         
         self.createNumbers(arrayToCompare)
     }
@@ -249,6 +244,7 @@ class Stage1: SKScene {
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
         
+        println(clicked.name)
         if (clicked.name != "" && clicked.name != nil){
             self.checkRight(clicked.name!)
         }
@@ -299,15 +295,9 @@ class Stage1: SKScene {
             if(countHits > 3){
                 self.winAction()
             }
-           
-            
-//            if(arrayBox.isEmpty){
-//                self.winAction()
-//            }
-            
         }else{
             arrayLifes.removeLast()
-            removeNodeWithName("\(lifeToRemove)")
+            removeNodeWithName("life\(lifeToRemove)")
             lifeToRemove--
             let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
             let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
@@ -322,13 +312,30 @@ class Stage1: SKScene {
             
             if(arrayLifes.isEmpty){
                 labelToMove.runAction(action5, completion:{
+                    self.timer.timer?.invalidate()
                     self.loseAction()
                 })
             }
         }
     }
     
-//    MARK: Music
+//    MARK: WIN or Lose
+    func winAction(){
+        //Ação quando o cara ganhar
+        println("Win")
+    }
+    
+    func loseAction(){
+        self.view?.userInteractionEnabled = false
+        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.0)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
+
+        let resetScene = Stage1(size: self.size)
+        
+        self.view?.presentScene(resetScene, transition: fadeOut)
+    }
+    
+    //    MARK: Music
     func makeSoundAnswer(boxChosenBool:Bool){
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
         AVAudioSession.sharedInstance().setActive(true, error: nil)
@@ -344,24 +351,7 @@ class Stage1: SKScene {
         audioPlayer.play()
     }
     
-//    MARK: WIN or Lose
-    func winAction(){
-        //Ação quando o cara ganhar
-        println("Win")
-    }
-    
-    func loseAction(){
-        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.0)
-
-//        let reveal = SKTransition.doorsCloseHorizontalWithDuration(0.5)
-        let resetScene = Stage1(size: self.size)
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
-        
-        self.view?.presentScene(resetScene, transition: fadeOut)
-    }
-    
-    //    MARK: Other
+//    MARK: Other
     func randomArray(){
         var auxArray = NSMutableArray(array: arrayNumbers)
         var randomizedArray = [Int]()
