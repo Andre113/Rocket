@@ -60,27 +60,18 @@ class Stage1: SKScene {
        
         dispatch_async(dispatch_get_global_queue(priority, 0), {
             ()-> () in
-            self.createTileLabels()
-            self.createBG()
-            self.createPause()
-            self.createLifes()
+            self.createPositions()
             self.createRule()
-           
+            self.createTileLabels()
+            self.createBox()
+            self.createLabels()
+            self.setPositions()
+            
             dispatch_async(dispatch_get_main_queue(), {
-                self.createBox()
-                self.createLabels()
-                self.createPositions()
-                
-                for index in 0...11{
-                    self.arrayBox[index].position = self.arrayPos[index]
-                    self.arrayLabels[index].position = CGPoint(x: self.arrayPos[index].x , y: self.arrayPos[index].y  - 25)
-                    
-                    self.addChild(self.arrayBox[index])
-                    self.addChild(self.arrayLabels[index])
-                    
-                }
                 self.createTimer()
-                
+                self.createBG()
+                self.createLifes()
+                self.createPause()
             })
         })
         
@@ -91,6 +82,17 @@ class Stage1: SKScene {
     
 //    MARK:  Create
     //ViewConfig
+    
+    func setPositions(){
+        for index in 0...11{
+            self.arrayBox[index].position = self.arrayPos[index]
+            self.arrayLabels[index].position = CGPoint(x: self.arrayPos[index].x , y: self.arrayPos[index].y  - 25)
+            
+            self.addChild(self.arrayBox[index])
+            self.addChild(self.arrayLabels[index])
+            
+        }
+    }
     
     func createTimer() {
         self.timer.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
@@ -129,6 +131,7 @@ class Stage1: SKScene {
         for number in arrayNumbers{
             let box = SKSpriteNode(imageNamed: "box")
             box.name = "\(number)"
+            box.zPosition = 4
             self.arrayBox.append(box)
         }
     }
@@ -375,10 +378,5 @@ class Stage1: SKScene {
     
     func removeNodeWithName(name: String){
         self.childNodeWithName(name)?.removeFromParent()
-    }
-    
-//    MARK: Update
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
     }
 }
