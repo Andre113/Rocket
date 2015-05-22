@@ -267,6 +267,95 @@ class Equations: NSObject {
         println(time)
         return time
     }
+    
+    //mark 2.5 methods
+    
+    func calcAccel(speed:Int, time:Int) -> Int {
+        
+        if speed == 0 || time == 0 {
+            return  0
+        }
+        
+        else {
+            let accel:Int = speed / time
+            return accel
+        }
+    }
+    
+    func calcWeight(gravity:Int, mass: Int) -> Int {
+        let weight = mass * gravity
+        return weight
+    }
+    
+    func calcImpulse(mass:Int, accel:Int) ->Int {
+        let impulse = accel * mass
+        return impulse
+        
+    }
+    
+    func resultantForce(impulse:Int, weight:Int) -> Int {
+        return impulse  - weight
+        
+    }
+    
+    func exercise4Test()  {
+        
+        // dados básicos: massa, gravidade, distance, tempo
+        //lembrar considerar a gravidade está errada por acaso estou calculando km/h e usando m/sˆ2
+        //velocidade do foguete mais rápido = 11000 km/h
+        
+        var mass = 100 //kg
+        var weight = calcWeight(10, mass: mass) //Newton
+        var speed = calculateSpeed(500000, time: 20) //m/s
+        var accel = calcAccel(speed, time: 20) //m/sˆ2
+        var impulse = calcImpulse(mass, accel: accel) // Newton
+        var resultant = resultantForce(impulse, weight: weight) // Newton
+        println("mass: \(mass)")
+        println("weight: \(weight)")
+        println("speed: \(speed)")
+        println("acceleration: \(accel)")
+        println("applied force or impulse: \(impulse)")
+        println("resultant: \(resultant)")
+        
+    }
+    
+    func takeOff(accel: Int, gravity:Int, mass:Int, speed: Int, answer:Int) -> Bool {
+        let weight = calcWeight(gravity, mass: mass)
+        let launchSpeed = speed
+        var impulse = calcImpulse(mass, accel: self.calcAccel(speed, time: self.randomTime()))
+        var resultant = resultantForce(impulse, weight: weight)
+        
+        if resultant >= answer && resultant < answer * 1000 {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    //fazem parte da 2.5, talvez devam ficar dentro da fase
+    
+    func rocketMass() -> Int {
+        //considering for example challenger spaceship as 78 ton
+        return Int(arc4random_uniform(50) + 51) * 1000
+    }
+    
+    func rocketLaunchSpeed() -> Int {
+        //considering the spaceship discovery as parameter, 28000km/h or 7777m/s
+        return Int(arc4random_uniform(5) + 6) * 1000
+        
+    }
+    
+    func randomGravity() -> Int {
+        return Int(arc4random_uniform(10) + 1)
+    }
+    
+    func randomOrbit()-> Int {
+        //distance needed to come out from the atmosphere and reach the space
+        return Int(arc4random_uniform(10) + 6)
+    }
+    
+    
 }
    
 
