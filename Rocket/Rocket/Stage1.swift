@@ -32,48 +32,38 @@ class Stage1: SKScene {
     override func didMoveToView(view: SKView) {
         self.scaleMode = .AspectFill
         self.view?.userInteractionEnabled = true
+        self.view?.multipleTouchEnabled = false
         
-//        self.createTileLabels()
-//        self.createBG()
-//        self.createPause()
-//        self.createLifes()
-//        self.createRule()
-//        
-//        
-//        self.createBox()
-//        self.createLabels()
-//        self.createPositions()
-//        
-//        for index in 0...11{
-//            arrayBox[index].position = arrayPos[index]
-//            arrayLabels[index].position = CGPoint(x: arrayPos[index].x , y: arrayPos[index].y  - 25)
-//            
-//            addChild(arrayBox[index])
-//            addChild(arrayLabels[index])
-//        }
-
+        self.createRule()
+        self.createTileLabels()
+        self.createBG()
+        self.createLifes()
+        self.createBox()
+        self.createLabels()
+        self.createPositions()
+        self.setPositions()
+        self.createTimer()
+        self.createPause()
         
         //bloco assincrono para carregar paralelamente os conteúdos da view e outro para criar as box, labels e as posições
        
-        dispatch_async(dispatch_get_global_queue(priority, 0), {
-            ()-> () in
-            self.createRule()
-            self.createTileLabels()
-            self.createBox()
-            self.createLabels()
-            self.createPositions()
-            self.setPositions()
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                self.createTimer()
-                self.createBG()
-                self.createLifes()
-                self.createPause()
-            })
-        })
-        
-        
-        self.view?.multipleTouchEnabled = false
+//        dispatch_async(dispatch_get_global_queue(priority, 0), {
+//            ()-> () in
+//            self.createRule()
+//            self.createTileLabels()
+//            self.createBox()
+//            self.createLabels()
+//            self.createPositions()
+//            self.setPositions()
+//            
+//            dispatch_async(dispatch_get_main_queue(), {
+//                self.createTimer()
+//                self.createBG()
+//                self.createLifes()
+//                self.createPause()
+//            })
+//        })
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loseAction", name: "TimeOverIdentifier", object: nil)
     }
     
@@ -135,7 +125,7 @@ class Stage1: SKScene {
         let newY = size.height * 0.05
         for index in 0...2{
             let newX = size.width * incX
-            let life = Life(name: "life\(index)", newX: newX, newY: newY)
+            let life = Life(name: "life.\(index)", newX: newX, newY: newY)
             arrayLifes.append(life)
             incX += 0.03
             
@@ -241,8 +231,11 @@ class Stage1: SKScene {
         
         if (clicked.name != "" && clicked.name != nil){
             let fullName = clicked.name?.componentsSeparatedByString(".")
-            let name: String? = fullName?.last
-            self.checkRight(name!)
+            let firstName = fullName?.first
+            if(firstName != "life"){
+                let name: String? = fullName?.last
+                self.checkRight(name!)
+            }
         }
     }
     
@@ -304,7 +297,8 @@ class Stage1: SKScene {
         
         if(arrayLifes.isEmpty){
             label.runAction(action5, completion:{
-                self.timer.timer?.invalidate()
+                NSNotificationCenter.defaultCenter().postNotificationName("LifeEndIdentifier", object: nil)
+                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LifeEndIdentifier", object: nil)
                 self.loseAction()
             })
         }
@@ -318,8 +312,13 @@ class Stage1: SKScene {
     
     func loseAction(){
         self.view?.userInteractionEnabled = false
-        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.0)
+        
+        if (!arrayLifes.isEmpty){
+            removeLifes()
+        }
+        
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
+        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
 
         let resetScene = Stage1(size: self.size)
         
@@ -369,9 +368,13 @@ class Stage1: SKScene {
         return saved
     }
     
+    func removeLifes(){
+        arrayLifes.removeAll(keepCapacity: false)
+    }
+    
     func removeLife(){
         arrayLifes.removeAtIndex(lifes)
-        removeNodeWithName("life\(lifes)")
+        removeNodeWithName("life.\(lifes)")
         lifes--
     }
     
