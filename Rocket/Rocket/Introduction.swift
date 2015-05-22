@@ -10,9 +10,11 @@ import SpriteKit
 
 class Introduction: SKScene{
     let startLabel = SKLabelNode(text: "INICIAR CONTAGEM REGRESSIVA")
+    let bg = SKSpriteNode(imageNamed: "bgStage3.jpg")
     
     override func didMoveToView(view: SKView) {
         self.createBG()
+        self.createTitle()
         self.createChar()
         self.createRocket()
         self.createStartLabel()
@@ -20,16 +22,23 @@ class Introduction: SKScene{
     
 //    MARK: Create
     func createBG(){
-        let bg = SKSpriteNode(imageNamed: "")
+        bg.position = CGPointMake(frame.midX, frame.midY)
         bg.zPosition = 0
+        addChild(bg)
+    }
+    
+    func createTitle(){
+        let title = SKSpriteNode(imageNamed: "")
+        title.position = CGPointMake(frame.midX, 600)
+        title.zPosition = 1
     }
     
     func createStartLabel(){
         startLabel.fontColor = UIColor.redColor()
         startLabel.fontName = "Chalkduster"
-        startLabel.fontSize = 20
+        startLabel.fontSize = 25
         startLabel.name = "start"
-        startLabel.position = CGPointMake(500, 500)
+        startLabel.position = CGPointMake(frame.midX, 560)
         startLabel.zPosition = 1
         addChild(startLabel)
         
@@ -37,11 +46,19 @@ class Introduction: SKScene{
     }
     
     func createRocket(){
-        
+        let rocket = SKSpriteNode(imageNamed: "rocket")
+        rocket.position = CGPointMake(frame.midX-70, 270)
+        rocket.size = CGSizeMake(180, 450)
+        rocket.zPosition = 1
+        addChild(rocket)
     }
     
     func createChar(){
-        
+        let char = SKSpriteNode(imageNamed: "astronaut")
+        char.position = CGPointMake(frame.midX+170, 110)
+        char.size = CGSizeMake(120, 150)
+        char.zPosition = 1
+        addChild(char)
     }
     
 //    MARK: StartLabel
@@ -71,6 +88,7 @@ class Introduction: SKScene{
         let clicked = nodeAtPoint(location)
         
         if(clicked.name == "start"){
+            self.beginGame()
         }
     }
     
