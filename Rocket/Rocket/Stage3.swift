@@ -11,22 +11,55 @@ import SpriteKit
 class Stage3: SKScene{
 //    MARK: Variables
     let equations = Equations.sharedInstance
-    var rocket = SKSpriteNode()
+    var rocket = SKSpriteNode(imageNamed: "rocketStage3")
     var arrayLifes: [Life] = []
+    var fireBoost = SKSpriteNode(imageNamed:"fireBoost")
     var arrayChoices: [SKLabelNode] = []
     var arrayQuestions: [Question] = []
     var questionLabel: SKLabelNode = SKLabelNode()
+    var bgScene = SKSpriteNode(imageNamed:"bgStage3.jpg" )
     var count = 0
+    var toggleFire = Bool()
     
     override func didMoveToView(view: SKView) {
         self.createLifes()
+        self.createNodes()
         self.createQuestions()
         self.createQuestionLabel()
         self.createChoices()
+//        self.movingScene()
+        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
     }
     
 //    MARK: Create
 //    func configureView(){
+    
+//        
+//    }
+    
+// MARK: Change fireboost texture
+    
+    //troca textura do fogo do foguete
+    func changeTexture(){
+     
+        if(toggleFire == true){
+            fireBoost.texture = SKTexture(imageNamed:"fireBoost1")
+            toggleFire = false
+        }else{
+            fireBoost.texture = SKTexture(imageNamed:"fireBoost2" )
+            toggleFire = true
+        }
+    }
+    
+//    func movingScene(){
+//        var ff: Float = Float(bgScene.position.y)
+//        var zz:Int = Int(ff)
+//        
+//        
+//        for i in zz...zz * 2{
+//            bgScene.position.y = CGFloat(i)
+//        }
+//            
 //        
 //    }
     
@@ -62,6 +95,26 @@ class Stage3: SKScene{
             
             arrayQuestions.append(newQuestion)
         }
+    }
+    
+    
+//  MARK: Create Nodes 
+    //Cria nodes da scene
+    
+    func createNodes(){
+        bgScene.size = CGSize(width: 580, height:800)
+//        bgScene.size = self.size
+        bgScene.position = CGPointMake(self.size.width/2, self.size.height/2)
+        addChild(bgScene)
+        
+        rocket.position = CGPoint(x: self.size.width / 2, y: self.size.height * 0.8)
+        rocket.zPosition = 1
+        addChild(rocket)
+        
+        fireBoost.position = CGPoint(x: self.size.width / 2, y: self.size.height * 0.7050)
+        fireBoost.zPosition = 4
+        fireBoost.size = CGSize(width: 50, height: 50)
+        addChild(fireBoost)
     }
     
     //Cria label da questão
