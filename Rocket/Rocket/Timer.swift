@@ -15,6 +15,7 @@ class Timer: SKLabelNode {
     
     init(time: Int) {
         super.init()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "noLifes", name: "LifeEndIdentifier", object: nil)
         self.startTime = time
         self.text = "\(startTime)"
         self.startDelay()
@@ -40,8 +41,12 @@ class Timer: SKLabelNode {
         if self.text == "0" {
             timer?.invalidate()
             NSNotificationCenter.defaultCenter().postNotificationName("TimeOverIdentifier", object: nil)
+            self.removeFromParent()
         }
     }
     
-    
+    func noLifes(){
+        timer?.invalidate()
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "LifeEndIdentifier", object: nil)
+    }
 }

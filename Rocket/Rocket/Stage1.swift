@@ -13,70 +13,57 @@ class Stage1: SKScene {
 //    MARK: Variables
     var audioPlayer = AVAudioPlayer()
     var arrayLifes:[Life] = []
-    var countHits = Int8() //contador de acertos
-    let titleLabel1 = SKLabelNode(text:"Marque as caixas cujos" )
-    var titleLabel2 = SKLabelNode()
+    var key = 0
     var arrayBox: [SKSpriteNode] = []
     var arrayPos: [CGPoint] = []
     var arrayLabels: [SKLabelNode] = []
     var arrayNumbers: [Int] = []
     var arrayAnswers: [Int] = []
-    var lifeToRemove = 2
+    var lifes = 2
     let pauseBtn  = SKSpriteNode(imageNamed: "Pause1")
     let bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
     let equations = Equations.sharedInstance
     let rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
     let wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-    
-    let timer = Timer(time:5)
+    let timer = Timer(time:10)
 
 //    MARK: DidMoveToView
     override func didMoveToView(view: SKView) {
         self.scaleMode = .AspectFill
         self.view?.userInteractionEnabled = true
+        self.view?.multipleTouchEnabled = false
         
-//        self.createTileLabels()
-//        self.createBG()
-//        self.createPause()
-//        self.createLifes()
-//        self.createRule()
-//        
-//        
-//        self.createBox()
-//        self.createLabels()
-//        self.createPositions()
-//        
-//        for index in 0...11{
-//            arrayBox[index].position = arrayPos[index]
-//            arrayLabels[index].position = CGPoint(x: arrayPos[index].x , y: arrayPos[index].y  - 25)
-//            
-//            addChild(arrayBox[index])
-//            addChild(arrayLabels[index])
-//        }
-
+        self.createRule()
+        self.createTileLabels()
+        self.createBG()
+        self.createLifes()
+        self.createBox()
+        self.createLabels()
+        self.createPositions()
+        self.setPositions()
+        self.createTimer()
+        self.createPause()
         
         //bloco assincrono para carregar paralelamente os conteúdos da view e outro para criar as box, labels e as posições
        
-        dispatch_async(dispatch_get_global_queue(priority, 0), {
-            ()-> () in
-            self.createPositions()
-            self.createRule()
-            self.createTileLabels()
-            self.createBox()
-            self.createLabels()
-            self.setPositions()
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                self.createTimer()
-                self.createBG()
-                self.createLifes()
-                self.createPause()
-            })
-        })
-        
-        
-        self.view?.multipleTouchEnabled = false
+//        dispatch_async(dispatch_get_global_queue(priority, 0), {
+//            ()-> () in
+//            self.createRule()
+//            self.createTileLabels()
+//            self.createBox()
+//            self.createLabels()
+//            self.createPositions()
+//            self.setPositions()
+//            
+//            dispatch_async(dispatch_get_main_queue(), {
+//                self.createTimer()
+//                self.createBG()
+//                self.createLifes()
+//                self.createPause()
+//            })
+//        })
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loseAction", name: "TimeOverIdentifier", object: nil)
     }
     
@@ -90,7 +77,6 @@ class Stage1: SKScene {
             
             self.addChild(self.arrayBox[index])
             self.addChild(self.arrayLabels[index])
-            
         }
     }
     
@@ -102,9 +88,15 @@ class Stage1: SKScene {
         self.timer.fontColor = UIColor.whiteColor()
         self.addChild(self.timer)
     }
+    
     func createTileLabels(){
-        createTitleLabel(titleLabel1, newY: 35)
-        createTitleLabel(titleLabel2, newY: 55)
+        let pos1 = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) - 35)
+        let titleLabel1 = Title(text: "Marque as caixas cujos", pos: pos1, fntSize: 20)
+        addChild(titleLabel1)
+        
+        let pos2 = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame) - 55)
+        let titleLabel2 = Title(text: "Números são divisores de \(key)", pos: pos2, fntSize: 20)
+        addChild(titleLabel2)
     }
     
     func createBG(){
@@ -119,18 +111,10 @@ class Stage1: SKScene {
         addChild(pauseBtn)
     }
     
-    func createTitleLabel(titleLabel: SKLabelNode, newY: CGFloat){
-        titleLabel.fontName = "Chalkduster"
-        titleLabel.fontSize = 20
-        titleLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame) - newY);
-        titleLabel.zPosition = 2
-        addChild(titleLabel)
-    }
-    
     func createBox(){
         for number in arrayNumbers{
             let box = SKSpriteNode(imageNamed: "box")
-            box.name = "\(number)"
+            box.name = "box.\(number)"
             box.zPosition = 4
             self.arrayBox.append(box)
         }
@@ -139,13 +123,11 @@ class Stage1: SKScene {
     func createLifes(){
         var incX: CGFloat = 0.68
         let newY = size.height * 0.05
-        var newName = 0
         for index in 0...2{
             let newX = size.width * incX
-            let life = Life(name: "\(newName)", newX: newX, newY: newY)
+            let life = Life(name: "life.\(index)", newX: newX, newY: newY)
             arrayLifes.append(life)
             incX += 0.03
-            newName++
             
             addChild(life)
         }
@@ -179,11 +161,11 @@ class Stage1: SKScene {
     
     func createLabels(){
         for number in arrayNumbers{
-            var newLabel = SKLabelNode(text: "\(number)")
+            let newLabel = SKLabelNode(text: "\(number)")
             newLabel.fontName = "Chalkduster"
             newLabel.fontSize = 30
             newLabel.fontColor = UIColor.whiteColor()
-            newLabel.name = "\(number)"
+            newLabel.name = "label.\(number)"
             newLabel.zPosition = 5
             
             self.arrayLabels.append(newLabel)
@@ -205,9 +187,7 @@ class Stage1: SKScene {
         arrayNumbers = arrayAnswers
         
         //Número multiplo de todos
-        let key = rule.newNumber
-        
-        self.titleLabel2.text = "números sao divisores de \(key)"
+        self.key = rule.newNumber
         
         self.createNumbers(arrayToCompare)
     }
@@ -243,14 +223,19 @@ class Stage1: SKScene {
     
 //    MARK: Touches
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        /* Called when a touch begins */
-        
         let touch = touches.first as! UITouch
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
         
+        println(clicked.name)
+        
         if (clicked.name != "" && clicked.name != nil){
-            self.checkRight(clicked.name!)
+            let fullName = clicked.name?.componentsSeparatedByString(".")
+            let firstName = fullName?.first
+            if(firstName != "life"){
+                let name: String? = fullName?.last
+                self.checkRight(name!)
+            }
         }
     }
     
@@ -263,69 +248,81 @@ class Stage1: SKScene {
             }
         }
         self.view?.userInteractionEnabled = false
+        self.makeSoundAnswer(isRight)
         self.animateBoxes(name, isRight: isRight)
     }
     
 //    MARK: Animation
     func animateBoxes(name: String, isRight: Bool){
-        var boxToMove = SKNode()
-        var labelToMove = SKLabelNode()
-        var saved = 0
+        let boxToMove = self.childNodeWithName("box.\(name)")!
+        let labelToMove = self.childNodeWithName("label.\(name)")!
         
-        for index in 0...arrayBox.count-1{
-            if (arrayBox[index].name == name){
-                boxToMove = arrayBox[index]
-                labelToMove = arrayLabels[index]
-                saved = index
-            }
-        }
-        
-        self.makeSoundAnswer(isRight)
+        let saved = getAnswerIndex(name)
         
         if(isRight){
-            let action1 = SKAction.fadeOutWithDuration(0.5)
-            let action2 = SKAction.removeFromParent()
-            
-            boxToMove.runAction(SKAction.sequence([action1, action2]))
-            labelToMove.runAction(SKAction.sequence([action1, action2]), completion:{
-                self.view?.userInteractionEnabled = true
-            })
-            
-            arrayBox.removeAtIndex(saved)
-            arrayLabels.removeAtIndex(saved)
-            
-            countHits++
-            
-            if(countHits > 3){
-                self.winAction()
-            }
-           
-            
-//            if(arrayBox.isEmpty){
-//                self.winAction()
-//            }
-            
+            arrayAnswers.removeAtIndex(saved)
+            animateRight(boxToMove, label: labelToMove)
         }else{
-            arrayLifes.removeLast()
-            removeNodeWithName("\(lifeToRemove)")
-            lifeToRemove--
-            let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
-            let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
-            let action3 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
-            let action4 = SKAction.sequence([action1, action2, action3])
-            let action5 = SKAction.repeatAction(action4, count: 5)
-            
-            boxToMove.runAction(action5)
-            labelToMove.runAction(action5, completion:{
-                self.view?.userInteractionEnabled = true
-            })
-            
-            if(arrayLifes.isEmpty){
-                labelToMove.runAction(action5, completion:{
-                    self.loseAction()
-                })
-            }
+            removeLife()
+            animateWrong(boxToMove, label: labelToMove)
         }
+    }
+    
+    func animateRight(box: SKNode, label: SKNode){
+        let action1 = SKAction.fadeOutWithDuration(0.5)
+        let action2 = SKAction.removeFromParent()
+        
+        box.runAction(SKAction.sequence([action1, action2]))
+        label.runAction(SKAction.sequence([action1, action2]), completion:{
+            self.view?.userInteractionEnabled = true
+        })
+        
+        if(arrayAnswers.isEmpty){
+            self.winAction()
+        }
+    }
+    
+    func animateWrong(box: SKNode, label: SKNode){
+        
+        let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
+        let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
+        let action3 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
+        let action4 = SKAction.sequence([action1, action2, action3])
+        let action5 = SKAction.repeatAction(action4, count: 5)
+        
+        box.runAction(action5)
+        label.runAction(action5, completion:{
+            self.view?.userInteractionEnabled = true
+        })
+        
+        if(arrayLifes.isEmpty){
+            label.runAction(action5, completion:{
+                NSNotificationCenter.defaultCenter().postNotificationName("LifeEndIdentifier", object: nil)
+                NSNotificationCenter.defaultCenter().removeObserver(self, name: "LifeEndIdentifier", object: nil)
+                self.loseAction()
+            })
+        }
+    }
+    
+//    MARK: WIN or Lose
+    func winAction(){
+        //Ação quando o cara ganhar
+        println("Win")
+    }
+    
+    func loseAction(){
+        self.view?.userInteractionEnabled = false
+        
+        if (!arrayLifes.isEmpty){
+            removeLifes()
+        }
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
+        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
+
+        let resetScene = Stage1(size: self.size)
+        
+        self.view?.presentScene(resetScene, transition: fadeOut)
     }
     
 //    MARK: Music
@@ -344,24 +341,7 @@ class Stage1: SKScene {
         audioPlayer.play()
     }
     
-//    MARK: WIN or Lose
-    func winAction(){
-        //Ação quando o cara ganhar
-        println("Win")
-    }
-    
-    func loseAction(){
-        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.0)
-
-//        let reveal = SKTransition.doorsCloseHorizontalWithDuration(0.5)
-        let resetScene = Stage1(size: self.size)
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
-        
-        self.view?.presentScene(resetScene, transition: fadeOut)
-    }
-    
-    //    MARK: Other
+//    MARK: Other
     func randomArray(){
         var auxArray = NSMutableArray(array: arrayNumbers)
         var randomizedArray = [Int]()
@@ -374,6 +354,28 @@ class Stage1: SKScene {
         
         arrayNumbers = randomizedArray as [Int]
         println(arrayNumbers)
+    }
+    
+    func getAnswerIndex(name: String) ->Int{
+        var saved = -1
+        var i = 0
+        
+        for i = 0; i<arrayAnswers.count && saved == -1; i+=1{
+            if("\(arrayAnswers[i])" == name){
+                saved = i
+            }
+        }
+        return saved
+    }
+    
+    func removeLifes(){
+        arrayLifes.removeAll(keepCapacity: false)
+    }
+    
+    func removeLife(){
+        arrayLifes.removeAtIndex(lifes)
+        removeNodeWithName("life.\(lifes)")
+        lifes--
     }
     
     func removeNodeWithName(name: String){

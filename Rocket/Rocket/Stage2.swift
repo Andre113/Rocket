@@ -10,13 +10,8 @@ import SpriteKit
 
 class Stage2: SKScene {
 //    MARK: Variables
-    let bgRoute = SKSpriteNode(imageNamed: "bg1.jpg" )
+    let bgRoute = SKSpriteNode(imageNamed: "bg6.jpg" )
     let equations = Equations.sharedInstance
-    let deltaT = SKLabelNode(text: "∆T")
-    let deltaV = SKLabelNode(text: "∆V")
-    let deltaS = SKLabelNode(text: "∆S")
-    let bar = SKSpriteNode()
-    var questionLabel = ""
     var arrayRoutes: [Route] = []
     var rightRoute = Route?()
     var equation = Equations.sharedInstance
@@ -29,6 +24,7 @@ class Stage2: SKScene {
         
         self.configureView()
         
+        self.createPlanetName()
         self.createRoutes()
         self.setPositions()
         self.setLabels()
@@ -36,17 +32,10 @@ class Stage2: SKScene {
     
 //    MARK: Create
     func configureView(){
-        deltaT.position = CGPoint()
-        deltaV.position = CGPoint()
-        deltaS.position = CGPoint()
-        bar.position = CGPoint()
-        
         self.bgRoute.size = self.size
         self.bgRoute.position = CGPointMake(self.frame.midX, self.frame.midY)
-        self.bgRoute.zPosition = -1
+        self.bgRoute.zPosition = 0
         addChild(bgRoute)
-        
- 
     }
     
 //    MARK: Create Routes
@@ -57,6 +46,7 @@ class Stage2: SKScene {
             let newDistance = newOption.distance
             let newAnswer = newOption.answer
             let newRoute = Route(bgImage: "route\(index).png", deltaTime: newAnswer, deltaDistance: newDistance, deltaSpeed: newSpeed)
+            newRoute.zPosition = 1
             newRoute.name = "route\(index)"
             
             self.arrayRoutes.append(newRoute)
@@ -108,9 +98,15 @@ class Stage2: SKScene {
     }
     
     func createPlanetName(){
-        var novoNome = ""
+        var novoNome = "Urano"
         
-        self.questionLabel = "Rocket precisa escolher uma rota para levar as encomendas para o planeta \(novoNome). Qual delas possui o menor tempo de viagem?"
+        let questionLabel1 = Title(text: "Rocket precisa escolher uma rota para", pos: CGPointMake(500, 730), fntSize: 20)
+        let questionLabel2 = Title(text:  "levar as encomendas para o planeta \(novoNome).", pos: CGPointMake(500, 700), fntSize: 20)
+        let questionLabel3 = Title(text: "Qual delas possui o menor tempo de viagem?", pos: CGPointMake(500, 670), fntSize: 20)
+
+        addChild(questionLabel1)
+        addChild(questionLabel2)
+        addChild(questionLabel3)
     }
     
     func selectRightQuestion(){
