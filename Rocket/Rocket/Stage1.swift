@@ -20,7 +20,6 @@ class Stage1: SKScene {
     var arrayNumbers: [Int] = []
     var arrayAnswers: [Int] = []
     var lifes = 2
-    let pauseBtn  = SKSpriteNode(imageNamed: "Pause1")
     let bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
     let equations = Equations.sharedInstance
     let rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
@@ -106,9 +105,8 @@ class Stage1: SKScene {
     }
     
     func createPause(){
-        pauseBtn.position = CGPointMake(size.width * 0.3,size.height * 0.08 )
-        pauseBtn.zPosition = 3
-        addChild(pauseBtn)
+        let pauseButton = PauseButton(newX: size.width * 0.3, newY: size.height * 0.035)
+        addChild(pauseButton)
     }
     
     func createBox(){
@@ -230,11 +228,15 @@ class Stage1: SKScene {
         println(clicked.name)
         
         if (clicked.name != "" && clicked.name != nil){
-            let fullName = clicked.name?.componentsSeparatedByString(".")
-            let firstName = fullName?.first
-            if(firstName != "life"){
-                let name: String? = fullName?.last
-                self.checkRight(name!)
+            if(clicked.name == "pause"){
+                
+            }else{
+                let fullName = clicked.name?.componentsSeparatedByString(".")
+                let firstName = fullName?.first
+                if(firstName != "life"){
+                    let name: String? = fullName?.last
+                    self.checkRight(name!)
+                }
             }
         }
     }

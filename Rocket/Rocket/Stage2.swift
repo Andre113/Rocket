@@ -28,6 +28,7 @@ class Stage2: SKScene {
         self.createRoutes()
         self.setPositions()
         self.setLabels()
+        self.createPause()
     }
     
 //    MARK: Create
@@ -36,6 +37,11 @@ class Stage2: SKScene {
         self.bgRoute.position = CGPointMake(self.frame.midX, self.frame.midY)
         self.bgRoute.zPosition = 0
         addChild(bgRoute)
+    }
+    
+    func createPause(){
+        let pauseButton = PauseButton(newX: size.width * 0.3, newY: size.height * 0.035)
+        addChild(pauseButton)
     }
     
 //    MARK: Create Routes
@@ -57,10 +63,10 @@ class Stage2: SKScene {
     
     func setPositions(){
         var newX = self.frame.midX
-        var newY:CGFloat = 110
+        var newY:CGFloat = 140
         for route in arrayRoutes{
             route.position = CGPointMake(newX, newY)
-            newY += 190
+            newY += 185
             addChild(route)
         }
     }
@@ -133,6 +139,11 @@ class Stage2: SKScene {
             println("click")
             self.view?.userInteractionEnabled = false
             self.checkRight(clicked as! Route)
+        }
+        else{
+            if(clickName == "pause"){
+                
+            }
         }
     }
     
