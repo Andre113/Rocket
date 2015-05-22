@@ -232,12 +232,13 @@ class Stage1: SKScene {
     }
     
 //    MARK: Touches
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {        
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         let touch = touches.first as! UITouch
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
         
         println(clicked.name)
+        
         if (clicked.name != "" && clicked.name != nil){
             let fullName = clicked.name?.componentsSeparatedByString(".")
             let name: String? = fullName?.last
@@ -269,6 +270,7 @@ class Stage1: SKScene {
             arrayAnswers.removeAtIndex(saved)
             animateRight(boxToMove, label: labelToMove)
         }else{
+            removeLife()
             animateWrong(boxToMove, label: labelToMove)
         }
     }
@@ -288,7 +290,6 @@ class Stage1: SKScene {
     }
     
     func animateWrong(box: SKNode, label: SKNode){
-        removeLife()
         
         let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
         let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
