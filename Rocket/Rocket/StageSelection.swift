@@ -7,11 +7,13 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 class StageSelection: SKScene {
     
     var stageNodeArray:[StageNode] = []
     var title:SKLabelNode!
+    var backButton:SKSpriteNode!
     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 
 
@@ -31,12 +33,14 @@ class StageSelection: SKScene {
         self.setTitle()
         self.createStages()
         self.stageSetPosition()
+        self.playMusicTheme("rightBox", type: "mp3", numberOfLoops: 4, volume: 0.4)
+        self.backButtonSetup()
     }
     
     func createStages() {
         for index in 0 ... 9 {
             stageNodeArray.append(StageNode(texture: "planet", stageNumber: index+1))
-            stageNodeArray[index].name = "stage\(index)"
+            stageNodeArray[index].name = "stage\(index+1)"
         }
     }
     
@@ -72,8 +76,50 @@ class StageSelection: SKScene {
             self.addChild(backgroundImage)
         }
     
-    func playBackgroundTheme() {
+    func musicThemeSetup(audioFile:String, type:String) ->AVAudioPlayer {
+        var path = NSBundle.mainBundle().pathForResource(audioFile, ofType:type)
+        var url = NSURL.fileURLWithPath(path!)
+        var error:NSError?
+        var backgroundMusic = AVAudioPlayer()
+        var audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
+
+        return audioPlayer
+    }
+    
+    func playMusicTheme(audioFile:String, type:String, numberOfLoops:Int, volume:Float) {
+        var backgroundMusic = musicThemeSetup("rightBox", type: "mp3")
+        backgroundMusic.volume = 0.3
+        backgroundMusic.numberOfLoops = 10
+        backgroundMusic.prepareToPlay()
+        backgroundMusic.play()
+
+    }
+    
+    func backButtonSetup() {
+        backButton = SKSpriteNode(imageNamed: "backButton")
+        backButton.position = CGPointMake(self.frame.midX - 225, self.frame.minY + 40)
+        backButton.zPosition = 2
+        backButton.name = "backButton"
+        self.addChild(backButton)
+    }
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        let touch = touches.first as! UITouch
+        let location = touch.locationInNode(self)
+        let clicked = self.nodeAtPoint(location)
         
+        println(clicked.name)
+        if clicked.name != nil && clicked.name != "" {
+        }
+        else {
+            
+//        println("touches")
+        }
+        
+    }
+    
+    func stageAnimation() {
+        //implementar no futuro...
     }
     
 }

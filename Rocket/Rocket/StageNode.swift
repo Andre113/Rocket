@@ -16,7 +16,7 @@ class StageNode: SKSpriteNode {
         super.init(texture: newTexture, color: UIColor.clearColor(), size: CGSizeMake(100, 100))
         label = SKLabelNode(text: "\(stageNumber)")
         label.fontName = "Chalkduster"
-        label.name = "fase\(stageNumber)"
+        label.name = "stage\(stageNumber)"
         label.fontSize = 50
         label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
