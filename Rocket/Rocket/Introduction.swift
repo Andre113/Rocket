@@ -15,6 +15,7 @@ class Introduction: SKScene{
     override func didMoveToView(view: SKView) {
         self.createBG()
         self.createTitle()
+        self.createGround()
         self.createChar()
         self.createRocket()
         self.createStartLabel()
@@ -29,6 +30,7 @@ class Introduction: SKScene{
     
     func createTitle(){
         let title = SKSpriteNode(imageNamed: "")
+        title.name = "title"
         title.position = CGPointMake(frame.midX, 600)
         title.zPosition = 1
     }
@@ -47,18 +49,29 @@ class Introduction: SKScene{
     
     func createRocket(){
         let rocket = SKSpriteNode(imageNamed: "rocket")
+        rocket.name = "rocket"
         rocket.position = CGPointMake(frame.midX-70, 270)
         rocket.size = CGSizeMake(180, 450)
-        rocket.zPosition = 1
+        rocket.zPosition = 2
         addChild(rocket)
     }
     
     func createChar(){
         let char = SKSpriteNode(imageNamed: "astronaut")
+        char.name = "char"
         char.position = CGPointMake(frame.midX+170, 110)
         char.size = CGSizeMake(120, 150)
-        char.zPosition = 1
+        char.zPosition = 2
         addChild(char)
+    }
+    
+    func createGround(){
+        let ground = SKSpriteNode(imageNamed: "ground1")
+        ground.name = "ground"
+        ground.position = CGPointMake(frame.midX, 140)
+        ground.size = CGSizeMake(frame.width, 300)
+        ground.zPosition = 1
+        addChild(ground)
     }
     
 //    MARK: StartLabel
