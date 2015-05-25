@@ -13,7 +13,6 @@ func getImage(imgName: String) -> UIImage{
     return imageToSet
 }
 
-
 class Route: SKSpriteNode{
     var deltaTime: Int = 0
     var deltaDistance: Int = 0

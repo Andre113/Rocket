@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		243D89161B0E658E00B2FE01 /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243D89151B0E658E00B2FE01 /* Title.swift */; };
 		2490179C1B0A662E00CDA657 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2490179B1B0A662E00CDA657 /* Route.swift */; };
+		24CC52F31B13936D00EF6D88 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CC52F21B13936D00EF6D88 /* Box.swift */; };
 		24D012CC1B0CF3C400AAB33B /* Life.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D012CB1B0CF3C400AAB33B /* Life.swift */; };
 		24D647301B0A7B8500BB72CF /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 24D6472F1B0A7B8500BB72CF /* GameScene.sks */; };
 		24D7F5241B051844000240B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D7F5231B051844000240B5 /* AppDelegate.swift */; };
@@ -47,6 +48,7 @@
 /* Begin PBXFileReference section */
 		243D89151B0E658E00B2FE01 /* Title.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		2490179B1B0A662E00CDA657 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		24CC52F21B13936D00EF6D88 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		24D012CB1B0CF3C400AAB33B /* Life.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Life.swift; sourceTree = "<group>"; };
 		24D6472F1B0A7B8500BB72CF /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		24D7F51E1B051844000240B5 /* Rocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				24D7F5271B051844000240B5 /* Stage1.swift */,
+				24CC52F21B13936D00EF6D88 /* Box.swift */,
 			);
 			name = "Fase 1";
 			path = ..;
@@ -337,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				24D7F5281B051844000240B5 /* Stage1.swift in Sources */,
+				24CC52F31B13936D00EF6D88 /* Box.swift in Sources */,
 				24E1A38D1B0BAC3B00DE274B /* Question.swift in Sources */,
 				24E148FB1B0FB8EC0025CC1E /* Introduction.swift in Sources */,
 				243D89161B0E658E00B2FE01 /* Title.swift in Sources */,

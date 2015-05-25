@@ -101,12 +101,12 @@ class Introduction: SKScene{
         let clicked = nodeAtPoint(location)
         
         if(clicked.name == "start"){
-            self.beginGame()
+            self.goToSelectionGame()
         }
     }
     
 //    MARK: Begin
-    func beginGame(){
+    func goToSelectionGame(){
         
     }
 }
