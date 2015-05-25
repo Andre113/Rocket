@@ -11,6 +11,7 @@ import SpriteKit
 class Introduction: SKScene{
     let startLabel = SKLabelNode(text: "INICIAR CONTAGEM REGRESSIVA")
     let bg = SKSpriteNode(imageNamed: "bgStage3.jpg")
+    let redirect = Redirect.sharedInstance
     
     override func didMoveToView(view: SKView) {
         self.createBG()
@@ -107,6 +108,6 @@ class Introduction: SKScene{
     
 //    MARK: Begin
     func goToSelectionGame(){
-        
+        redirect.winAction()
     }
 }

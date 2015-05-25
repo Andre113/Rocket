@@ -209,11 +209,15 @@ class Stage1: SKScene {
     func getClicked(clicked: SKNode){
         let name = clicked.name?.componentsSeparatedByString(".")
         let firstName = name!.first!
+        let secondName = name!.last!
         
         switch firstName{
             case "box":
                 self.checkRight(clicked as! Box)
                 break
+            case "label":
+                let box = self.childNodeWithName("box.\(secondName)") as! Box
+                self.checkRight(box)
             case "pause":
                 //pauseAction
                 break
