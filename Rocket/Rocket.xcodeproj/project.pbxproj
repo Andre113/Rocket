@@ -31,6 +31,9 @@
 		52475F661B0FB2F400AD0D1E /* fireBoost1.png in Resources */ = {isa = PBXBuildFile; fileRef = 52475F651B0FB2F400AD0D1E /* fireBoost1.png */; };
 		52475F681B0FB5C900AD0D1E /* fireBoost2.png in Resources */ = {isa = PBXBuildFile; fileRef = 52475F671B0FB5C900AD0D1E /* fireBoost2.png */; };
 		5262B51F1B0D0A1C002BB667 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5262B51E1B0D0A1C002BB667 /* Timer.swift */; };
+		E31E54FB1B1389530087776C /* StageSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31E54FA1B1389530087776C /* StageSelection.swift */; };
+		E31E54FD1B1389EF0087776C /* StageNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31E54FC1B1389EF0087776C /* StageNode.swift */; };
+		E31E54FF1B13A1690087776C /* testebg12.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E31E54FE1B13A1690087776C /* testebg12.jpg */; };
 		E38C03911B051E26004CF63E /* Equations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C03901B051E26004CF63E /* Equations.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +76,9 @@
 		52475F651B0FB2F400AD0D1E /* fireBoost1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fireBoost1.png; sourceTree = "<group>"; };
 		52475F671B0FB5C900AD0D1E /* fireBoost2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fireBoost2.png; sourceTree = "<group>"; };
 		5262B51E1B0D0A1C002BB667 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		E31E54FA1B1389530087776C /* StageSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageSelection.swift; sourceTree = "<group>"; };
+		E31E54FC1B1389EF0087776C /* StageNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageNode.swift; sourceTree = "<group>"; };
+		E31E54FE1B13A1690087776C /* testebg12.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testebg12.jpg; sourceTree = "<group>"; };
 		E38C03901B051E26004CF63E /* Equations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,6 +116,8 @@
 			children = (
 				24D6472F1B0A7B8500BB72CF /* GameScene.sks */,
 				24E148FA1B0FB8EC0025CC1E /* Introduction.swift */,
+				E31E54FC1B1389EF0087776C /* StageNode.swift */,
+				E31E54FA1B1389530087776C /* StageSelection.swift */,
 			);
 			name = Introduction;
 			sourceTree = "<group>";
@@ -122,6 +130,7 @@
 				52475F611B0FB0B300AD0D1E /* fireDown.png */,
 				52475F5F1B0FAA4D00AD0D1E /* rocketStage3.png */,
 				52475F591B0FA1C900AD0D1E /* bgStage3.jpg */,
+				E31E54FE1B13A1690087776C /* testebg12.jpg */,
 				24D7F5201B051844000240B5 /* Rocket */,
 				24D7F53A1B051844000240B5 /* RocketTests */,
 				24D7F51F1B051844000240B5 /* Products */,
@@ -317,6 +326,7 @@
 				52475F5A1B0FA1C900AD0D1E /* bgStage3.jpg in Resources */,
 				24D7F5321B051844000240B5 /* LaunchScreen.xib in Resources */,
 				24D647301B0A7B8500BB72CF /* GameScene.sks in Resources */,
+				E31E54FF1B13A1690087776C /* testebg12.jpg in Resources */,
 				24D7F52F1B051844000240B5 /* Images.xcassets in Resources */,
 				24D7F52D1B051844000240B5 /* Main.storyboard in Resources */,
 			);
@@ -345,6 +355,8 @@
 				24D7F52A1B051844000240B5 /* GameViewController.swift in Sources */,
 				24E1A38B1B0BA40500DE274B /* Stage3.swift in Sources */,
 				2490179C1B0A662E00CDA657 /* Route.swift in Sources */,
+				E31E54FD1B1389EF0087776C /* StageNode.swift in Sources */,
+				E31E54FB1B1389530087776C /* StageSelection.swift in Sources */,
 				24E148F91B0FB5720025CC1E /* PauseButton.swift in Sources */,
 				24D012CC1B0CF3C400AAB33B /* Life.swift in Sources */,
 				24D7F5241B051844000240B5 /* AppDelegate.swift in Sources */,
