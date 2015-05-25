@@ -18,6 +18,7 @@ class Stage1: SKScene {
     var arrayAnswers: [Int] = []
     var lifes = 2
     let equations = Equations.sharedInstance
+    let redirect = Redirect.sharedInstance
     let rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
     let wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -282,23 +283,32 @@ class Stage1: SKScene {
     
 //    MARK: WIN or Lose
     func winAction(){
-        //Ação quando o cara ganhar
-        println("Win")
+//        println("Win")
+//        self.view?.userInteractionEnabled = false
+//        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
+//        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
+//        
+//        let newScene = StageSelection(size: self.size)
+//        
+//        self.view?.presentScene(newScene, transition: fadeOut)
+        redirect.winAction()
     }
     
     func loseAction(){
-        self.view?.userInteractionEnabled = false
-        
-        if (!arrayLifes.isEmpty){
-            removeLifes()
-        }
-        
+//        self.view?.userInteractionEnabled = false
+//        
+//        if (!arrayLifes.isEmpty){
+//            removeLifes()
+//        }
+//        
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
-        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
-
-        let resetScene = Stage1(size: self.size)
-        
-        self.view?.presentScene(resetScene, transition: fadeOut)
+//        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
+//
+//        let resetScene = Stage1(size: self.size)
+//        
+//        self.view?.presentScene(resetScene, transition: fadeOut)
+        redirect.loseAction(1)
     }
     
 //    MARK: Music

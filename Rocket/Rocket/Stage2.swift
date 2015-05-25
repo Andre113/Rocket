@@ -159,9 +159,17 @@ class Stage2: SKScene {
     
 //    MARK: Win or Lose
     func winAction(){
+        println("Win")
+        self.view?.userInteractionEnabled = false
         
+//        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
+        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
+        
+        let newScene = StageSelection(size: self.size)
+        
+        self.view?.presentScene(newScene, transition: fadeOut)
     }
-    
+
     func loseAction(){
         let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
         
