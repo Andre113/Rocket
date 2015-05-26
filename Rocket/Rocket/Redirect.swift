@@ -16,6 +16,7 @@ class Redirect: NSObject{
         super.init()
     }
     
+    //chama a new scene
     func winAction(){
         println("Win")
         skView.userInteractionEnabled = false
@@ -25,6 +26,7 @@ class Redirect: NSObject{
         showScene(newScene)
     }
     
+    //repete a scene de acordo com qual está rodando
     func loseAction(number: Int){
         self.skView.userInteractionEnabled = false
         var resetScene = SKScene()

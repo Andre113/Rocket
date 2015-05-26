@@ -15,6 +15,7 @@ class StageSelection: SKScene {
     var title:SKLabelNode!
     var backButton:SKSpriteNode!
     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+    var redirect = Redirect.sharedInstance
 
 
     override func  didMoveToView(view: SKView) {
@@ -35,6 +36,7 @@ class StageSelection: SKScene {
         self.stageSetPosition()
         self.playMusicTheme("rightBox", type: "mp3", numberOfLoops: 4, volume: 0.4)
         self.backButtonSetup()
+        self.view!.userInteractionEnabled = true
     }
     
     func createStages() {
@@ -45,25 +47,26 @@ class StageSelection: SKScene {
     }
     
     func stageSetPosition() {
-        var ammountX: CGFloat = 0.2
+        var ammountX: CGFloat = 0.1
         var ammountY: CGFloat = 0.7
         var index = 0
         for column in 0 ... 2 {
             for line in 0 ... 2 {
-                ammountX += 0.15
+                ammountX += 0.20
                 let newX = (size.width ) * ammountX
                 let newY = size.height * ammountY
                 stageNodeArray[index].setPosition(newX, y: newY)
                 addChild(stageNodeArray[index])
                 index++
             }
-            ammountX = 0.2
+            ammountX = 0.1
             ammountY -= 0.25
         }
     }
         func setTitle() {
             title = SKLabelNode(text: "Selecione a fase desejada!")
             title.fontName = "Chalkduster"
+            title.fontSize = 50
             title.position = CGPointMake(self.frame.midX, self.frame.maxY * 0.85)
             title.color = UIColor.whiteColor()
             title.zPosition = 1
@@ -110,7 +113,8 @@ class StageSelection: SKScene {
         
         
         if clicked.name != nil && clicked.name != "" {
-            println(clicked.name)
+           println(clicked.name)
+           redirect.winAction()
         }
         else {
             

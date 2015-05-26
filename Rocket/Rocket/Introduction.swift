@@ -46,7 +46,7 @@ class Introduction: SKScene{
         bg1.position.x = bg1.position.x - 1
         bg2.position.x = bg2.position.x - 1
         
-        println(bg1.position.x)
+       // println(bg1.position.x)
         
 //        bgScene1.position.y =  bgScene1.position.y + 1
         
