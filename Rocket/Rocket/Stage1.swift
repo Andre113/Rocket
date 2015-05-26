@@ -17,6 +17,8 @@ class Stage1: SKScene {
     var arrayNumbers: [Int] = []
     var arrayAnswers: [Int] = []
     var lifes = 2
+    var timer:Timer?
+    
     let equations = Equations.sharedInstance
     let redirect = Redirect.sharedInstance
     let rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
@@ -59,6 +61,7 @@ class Stage1: SKScene {
         self.scaleMode = .AspectFill
         self.view?.userInteractionEnabled = true
         self.view?.multipleTouchEnabled = false
+        self.scene?.paused = false
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loseAction", name: "TimeOverIdentifier", object: nil)
     }
@@ -72,13 +75,13 @@ class Stage1: SKScene {
     }
     
     func createTimer(time: Int) {
-        let timer = Timer(time: time)
-        timer.fontColor = UIColor.whiteColor()
-        timer.fontName = "Chalkduster"
-        timer.fontSize = 20
-        timer.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        timer.zPosition = 2
-        addChild(timer)
+        self.timer = Timer(time: time)
+        timer!.fontColor = UIColor.whiteColor()
+        timer!.fontName = "Chalkduster"
+        timer!.fontSize = 20
+        timer!.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        timer!.zPosition = 2
+        addChild(timer!)
     }
     
     func createTileLabels(){
@@ -207,6 +210,7 @@ class Stage1: SKScene {
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         let touch = touches.first as! UITouch
         let location = touch.locationInNode(self)
+        println(location)
         let clicked = self.nodeAtPoint(location)
         
         if(clicked.name != "" && clicked.name != nil){
@@ -220,7 +224,8 @@ class Stage1: SKScene {
         let firstName = name!.first!
         let secondName = name!.last!
         
-        switch firstName{
+        if(self.scene?.paused == false){
+            switch firstName{
             case "box":
                 self.checkRight(clicked as! Box)
                 break
@@ -228,10 +233,23 @@ class Stage1: SKScene {
                 let box = self.childNodeWithName("box.\(secondName)") as! Box
                 self.checkRight(box)
             case "pause":
-                //pauseAction
+                self.pauseAction()
                 break
             default:
                 break
+            }
+        }
+        else{
+            switch firstName{
+            case "back":
+                redirect.stageSelection()
+                break
+            case "resume":
+                resumeAction()
+                break
+            default:
+                break
+            }
         }
     }
     
@@ -249,6 +267,19 @@ class Stage1: SKScene {
         self.view?.userInteractionEnabled = false
         self.makeSoundAnswer(isRight)
         self.animateBoxes(box, isRight: isRight)
+    }
+    
+    func resumeAction(){
+        self.scene?.paused = false
+        self.removeNodeWithName("PauseBox")
+        self.timer?.resume()
+    }
+    
+    func pauseAction(){
+        let pauseNode = PauseNode(newX: self.frame.midX, newY: self.frame.midY)
+        addChild(pauseNode)
+        self.timer?.pause()
+        self.scene?.paused = true
     }
     
 //    MARK: Animation
@@ -284,8 +315,7 @@ class Stage1: SKScene {
         
         box.runAction(action5, completion:{
             if(self.arrayLifes.isEmpty){
-                    NSNotificationCenter.defaultCenter().postNotificationName("LifeEndIdentifier", object: nil)
-                    NSNotificationCenter.defaultCenter().removeObserver(self, name: "LifeEndIdentifier", object: nil)
+                    self.timer?.timer?.invalidate()
                     self.loseAction()
                 }
             else{

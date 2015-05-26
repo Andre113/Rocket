@@ -25,6 +25,7 @@
 		24E148FB1B0FB8EC0025CC1E /* Introduction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E148FA1B0FB8EC0025CC1E /* Introduction.swift */; };
 		24E1A38B1B0BA40500DE274B /* Stage3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E1A38A1B0BA40500DE274B /* Stage3.swift */; };
 		24E1A38D1B0BAC3B00DE274B /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E1A38C1B0BAC3B00DE274B /* Question.swift */; };
+		24F547D61B14F7D200C23ECD /* PauseNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F547D51B14F7D200C23ECD /* PauseNode.swift */; };
 		521770551B0AC13300D8A7B5 /* rightBox.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 521770531B0AC13300D8A7B5 /* rightBox.mp3 */; };
 		521770561B0AC13300D8A7B5 /* wrongBox.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 521770541B0AC13300D8A7B5 /* wrongBox.mp3 */; };
 		52475F5A1B0FA1C900AD0D1E /* bgStage3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52475F591B0FA1C900AD0D1E /* bgStage3.jpg */; };
@@ -72,6 +73,7 @@
 		24E148FA1B0FB8EC0025CC1E /* Introduction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Introduction.swift; sourceTree = "<group>"; };
 		24E1A38A1B0BA40500DE274B /* Stage3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stage3.swift; sourceTree = "<group>"; };
 		24E1A38C1B0BAC3B00DE274B /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		24F547D51B14F7D200C23ECD /* PauseNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseNode.swift; sourceTree = "<group>"; };
 		521770531B0AC13300D8A7B5 /* rightBox.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = rightBox.mp3; path = sfx/rightBox.mp3; sourceTree = "<group>"; };
 		521770541B0AC13300D8A7B5 /* wrongBox.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = wrongBox.mp3; path = sfx/wrongBox.mp3; sourceTree = "<group>"; };
 		52475F591B0FA1C900AD0D1E /* bgStage3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bgStage3.jpg; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				243D89151B0E658E00B2FE01 /* Title.swift */,
 				24E148F81B0FB5720025CC1E /* PauseButton.swift */,
 				24CC52F51B13B0BA00EF6D88 /* Redirect.swift */,
+				24F547D51B14F7D200C23ECD /* PauseNode.swift */,
 			);
 			name = "Aux Class";
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				E31E54FD1B1389EF0087776C /* StageNode.swift in Sources */,
 				E31E54FB1B1389530087776C /* StageSelection.swift in Sources */,
 				24E148F91B0FB5720025CC1E /* PauseButton.swift in Sources */,
+				24F547D61B14F7D200C23ECD /* PauseNode.swift in Sources */,
 				24D012CC1B0CF3C400AAB33B /* Life.swift in Sources */,
 				24D7F5241B051844000240B5 /* AppDelegate.swift in Sources */,
 				E38C03911B051E26004CF63E /* Equations.swift in Sources */,
