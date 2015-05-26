@@ -38,6 +38,7 @@ class Introduction: SKScene{
         bg2.zPosition = 0
         addChild(bg2)
         
+        
       
     }
     
@@ -46,9 +47,21 @@ class Introduction: SKScene{
         bg1.position.x = bg1.position.x - 1
         bg2.position.x = bg2.position.x - 1
         
-        println(bg1.position.x)
+        println("bg1: \(bg1.position.x)")
+        println("bg2: \(bg2.position.x)")
+
         
-//        bgScene1.position.y =  bgScene1.position.y + 1
+        
+        if(bg1.position.x < -175){
+            
+            bg1.position = CGPointMake(bg2.position.x  + bg2.size.width,  frame.midY)
+        }
+        
+        if(bg2.position.x < -175 ){
+            
+            bg2.position = CGPointMake(bg1.position.x + bg1.size.width, frame.midX)
+            
+        }
         
     
     }
@@ -101,14 +114,16 @@ class Introduction: SKScene{
     
 //    MARK: StartLabel
     func updateStart(){
-        let fadeIn = SKAction.fadeInWithDuration(0.6)
-        let fadeOut = SKAction.fadeOutWithDuration(0.6)
+        let fadeIn = SKAction.fadeInWithDuration(0.1)
+        let fadeOut = SKAction.fadeOutWithDuration(0.1)
         let changeToRed = SKAction.runBlock{
             self.startLabel.fontColor = UIColor.redColor()
         }
+        
         let changeToGreen = SKAction.runBlock{
             self.startLabel.fontColor = UIColor.greenColor()
         }
+        
         let changeToBlue = SKAction.runBlock{
             self.startLabel.fontColor = UIColor.blueColor()
         }
