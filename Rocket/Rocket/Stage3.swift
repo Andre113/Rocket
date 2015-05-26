@@ -174,6 +174,7 @@ class Stage3: SKScene{
     func createQuestionLabel(){
         questionLabel = SKLabelNode(text: arrayQuestions[0].equation)
         questionLabel.name = "Question"
+        questionLabel.position = CGPointMake(self.frame.midX, self.frame.midY)
         addChild(questionLabel)
     }
     

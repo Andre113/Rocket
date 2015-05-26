@@ -31,6 +31,10 @@ class StageNode: SKSpriteNode {
         
     }
     
+    func getPosition()->(x:CGFloat, y:CGFloat) {
+        return (self.position.x,self.position.y)
+    }
+    
    
     
 

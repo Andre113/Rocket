@@ -115,7 +115,7 @@ class StageSelection: SKScene {
         if clicked.name != nil && clicked.name != "" {
            println(clicked.name)
             if clicked.name != "backButton" {
-           redirect.loseAction(1)
+           redirect.loseAction(3)
             }
         }
         else {
