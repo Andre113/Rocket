@@ -10,32 +10,34 @@ import SpriteKit
 
 class Stage2: SKScene {
 //    MARK: Variables
-    let bgRoute = SKSpriteNode(imageNamed: "bg6.jpg" )
     let equations = Equations.sharedInstance
+    let redirect = Redirect.sharedInstance
     var arrayRoutes: [Route] = []
     var rightRoute = Route?()
     var equation = Equations.sharedInstance
     
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        self.scaleMode = .AspectFill
-        self.view?.userInteractionEnabled = true
-        self.view?.multipleTouchEnabled = false
-        
         self.configureView()
-        
+        self.createBG("testebg2.jpg")
         self.createPlanetName()
         self.createRoutes()
         self.setPositions()
-        self.setLabels()
+//        self.setLabels()
         self.createPause()
     }
     
 //    MARK: Create
     func configureView(){
-        self.bgRoute.size = self.size
-        self.bgRoute.position = CGPointMake(self.frame.midX, self.frame.midY)
-        self.bgRoute.zPosition = 0
+        self.scaleMode = .AspectFill
+        self.view?.userInteractionEnabled = true
+        self.view?.multipleTouchEnabled = false
+    }
+    
+    func createBG(bgName: String){
+        let bgRoute = SKSpriteNode(imageNamed: bgName)
+        bgRoute.size = self.size
+        bgRoute.position = CGPointMake(self.frame.midX, self.frame.midY)
+        bgRoute.zPosition = 0
         addChild(bgRoute)
     }
     
@@ -159,24 +161,27 @@ class Stage2: SKScene {
     
 //    MARK: Win or Lose
     func winAction(){
-        println("Win")
-        self.view?.userInteractionEnabled = false
-        
+//        println("Win")
+//        self.view?.userInteractionEnabled = false
+//        
 //        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
-        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
+//        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
+//        
+//        let newScene = StageSelection(size: self.size)
+//        
+//        self.view?.presentScene(newScene, transition: fadeOut)
         
-        let newScene = StageSelection(size: self.size)
-        
-        self.view?.presentScene(newScene, transition: fadeOut)
+        redirect.winAction()
     }
 
     func loseAction(){
-        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
-        
-        let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
-        let resetScene = Stage2(size: self.size)
-        
-        self.view?.presentScene(resetScene, transition: fadeOut)
+//        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
+//        
+//        let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
+//        let resetScene = Stage2(size: self.size)
+//        
+//        self.view?.presentScene(resetScene, transition: fadeOut)
+        redirect.loseAction(2)
     }
     
 //    MARK: Animation

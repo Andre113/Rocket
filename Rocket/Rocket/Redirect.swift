@@ -16,19 +16,13 @@ class Redirect: NSObject{
         super.init()
     }
     
-    func setView(skView: SKView){
-        self.skView = skView
-    }
-    
     func winAction(){
         println("Win")
         skView.userInteractionEnabled = false
         
-        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
-        
         let newScene = StageSelection(size: skView.scene!.size)
         
-        self.skView.presentScene(newScene, transition: fadeOut)
+        showScene(newScene)
     }
     
     func loseAction(number: Int){
@@ -49,8 +43,12 @@ class Redirect: NSObject{
             break
         }
         
+        showScene(resetScene)
+    }
+    
+    func showScene(newScene: SKScene){
         let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
         
-        skView.presentScene(resetScene, transition: fadeOut)
+        skView.presentScene(newScene, transition: fadeOut)
     }
 }

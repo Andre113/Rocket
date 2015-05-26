@@ -16,7 +16,7 @@ extension SKNode {
             var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
             
             archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! Stage1
+            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! Introduction
             archiver.finishDecoding()
             return scene
         } else {
@@ -31,12 +31,15 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let scene = Stage1.unarchiveFromFile("GameScene") as? Stage1{
+//        if let scene = Introduction.unarchiveFromFile("GameScene") as? Introduction{
+        if let scene = Introduction.unarchiveFromFile("GameScene") as? Introduction{
+
             // Configure the view.
             let skView = self.view as! SKView
 //            skView.showsFPS = true
             skView.showsNodeCount = true
-
+            skView.showsQuadCount = true
+            skView.showsPhysics = true
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
@@ -45,7 +48,7 @@ class GameViewController: UIViewController {
             scene.scaleMode = .AspectFill
             
             let redirect = Redirect.sharedInstance
-            redirect.setView(self.view as! SKView)
+            redirect.skView = self.view as! SKView
             
             skView.presentScene(scene)
         }

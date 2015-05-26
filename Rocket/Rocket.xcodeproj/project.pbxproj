@@ -104,6 +104,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24CC52F81B13C48000EF6D88 /* Stage Selection */ = {
+			isa = PBXGroup;
+			children = (
+				E31E54FC1B1389EF0087776C /* StageNode.swift */,
+				E31E54FA1B1389530087776C /* StageSelection.swift */,
+			);
+			name = "Stage Selection";
+			sourceTree = "<group>";
+		};
 		24D012CA1B0CF3B000AAB33B /* Aux Class */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,8 +130,6 @@
 			children = (
 				24D6472F1B0A7B8500BB72CF /* GameScene.sks */,
 				24E148FA1B0FB8EC0025CC1E /* Introduction.swift */,
-				E31E54FC1B1389EF0087776C /* StageNode.swift */,
-				E31E54FA1B1389530087776C /* StageSelection.swift */,
 			);
 			name = Introduction;
 			sourceTree = "<group>";
@@ -157,6 +164,7 @@
 				24D012CA1B0CF3B000AAB33B /* Aux Class */,
 				521770571B0AC2AB00D8A7B5 /* SFX */,
 				24D647311B0A7C8F00BB72CF /* Introduction */,
+				24CC52F81B13C48000EF6D88 /* Stage Selection */,
 				24DE3E191B0A521200A32049 /* Fase 1 */,
 				24DE3E1A1B0A522B00A32049 /* Fase 2 */,
 				24E1A3891B0BA3E900DE274B /* Fase 3 */,
