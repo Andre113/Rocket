@@ -9,7 +9,7 @@
 import SpriteKit
 
 class Stage3: SKScene{
-//    MARK: Variables
+    //    MARK: Variables
     let equations = Equations.sharedInstance
     var rocket = SKSpriteNode(imageNamed: "rocketStage3")
     var arrayLifes: [Life] = []
@@ -17,9 +17,14 @@ class Stage3: SKScene{
     var arrayChoices: [SKLabelNode] = []
     var arrayQuestions: [Question] = []
     var questionLabel: SKLabelNode = SKLabelNode()
-    var bgScene = SKSpriteNode(imageNamed:"bgStage3.jpg" )
+    var bgScene1 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
+    var bgScene2 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
+    var bgScene3 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
+    
+    
     var count = 0
     var toggleFire = Bool()
+    var getSkyDown = Int()
     
     override func didMoveToView(view: SKView) {
         self.createLifes()
@@ -27,21 +32,23 @@ class Stage3: SKScene{
         self.createQuestions()
         self.createQuestionLabel()
         self.createChoices()
-//        self.movingScene()
+        //        self.movingScene()
         NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
     }
     
-//    MARK: Create
-//    func configureView(){
+    //    MARK: Create
+    //    func configureView(){
     
-//        
-//    }
+    //
+    //    }
     
-// MARK: Change fireboost texture
+    // MARK: Change fireboost texture
     
     //troca textura do fogo do foguete
     func changeTexture(){
-     
+        
         if(toggleFire == true){
             fireBoost.texture = SKTexture(imageNamed:"fireBoost1")
             toggleFire = false
@@ -51,17 +58,49 @@ class Stage3: SKScene{
         }
     }
     
-//    func movingScene(){
-//        var ff: Float = Float(bgScene.position.y)
-//        var zz:Int = Int(ff)
-//        
-//        
-//        for i in zz...zz * 2{
-//            bgScene.position.y = CGFloat(i)
-//        }
-//            
-//        
-//    }
+    func movingScene(){
+        
+        
+        bgScene2.position.y = bgScene2.position.y + 1
+        bgScene1.position.y =  bgScene1.position.y + 1
+        
+        
+        
+        
+        if(bgScene2.position.y  >= self.size.height + 430){
+            
+            if(rocket.position.y > 80){
+                
+                rocket.position.y = rocket.position.y  - 1
+                fireBoost.position.y  = fireBoost.position.y - 1
+                println(rocket.position.y)
+                
+            }else{
+                
+                fireBoost.removeFromParent()
+                
+            }
+            
+            
+        }else{
+            bgScene3.position.y =  bgScene3.position.y + 1
+            
+        }
+        
+        //        if(bgScene1.position.y > 1200){
+        //
+        //            bgScene1.position = CGPointMake(self.size.width/2, self.size.height/2 - 700)
+        //
+        //        }
+        //
+        //        if(bgScene2.position.y > 1200){
+        //            bgScene2.position = CGPointMake(self.size.width/2, self.size.height/2 - 700)
+        //
+        //
+        //        }
+        
+        
+    }
     
     //Cria vidas
     func createLifes(){
@@ -75,15 +114,17 @@ class Stage3: SKScene{
             incX += 0.03
             newName++
             
+            life.zPosition = 1
+            
             addChild(life)
         }
     }
     
-//    MARK: Create Questions
+    //    MARK: Create Questions
     //Cria o array de objetos questões (equações)
     func createQuestions(){
         for index in 0...7{
-//            Sortear entre equation 1 e 2
+            //            Sortear entre equation 1 e 2
             var newData = equations.equationTypeOne()
             var newQuestion = Question(equation: newData.equation, answer: newData.answer)
             
@@ -98,14 +139,26 @@ class Stage3: SKScene{
     }
     
     
-//  MARK: Create Nodes 
+    //  MARK: Create Nodes
     //Cria nodes da scene
     
     func createNodes(){
-        bgScene.size = CGSize(width: 580, height:800)
-//        bgScene.size = self.size
-        bgScene.position = CGPointMake(self.size.width/2, self.size.height/2)
-        addChild(bgScene)
+        bgScene1.size = CGSize(width: 580, height:800)
+        bgScene1.position = CGPointMake(self.size.width/2, self.size.height/2)
+        addChild(bgScene1)
+        
+        bgScene2.size = CGSize(width: 580, height:800)
+        bgScene2.position = CGPointMake(self.size.width / 2 , self.size.height/2 - 800)
+        addChild(bgScene2)
+        
+        bgScene3.size = CGSize(width: 580, height:800)
+        bgScene3.position = CGPointMake(self.size.width / 2 , self.size.height/2 - 1600)
+        var ground = SKSpriteNode(imageNamed: "ground4")
+        ground.position.y =  -320
+        
+        bgScene3.addChild(ground)
+        addChild(bgScene3)
+        
         
         rocket.position = CGPoint(x: self.size.width / 2, y: self.size.height * 0.8)
         rocket.zPosition = 1
@@ -124,7 +177,7 @@ class Stage3: SKScene{
         addChild(questionLabel)
     }
     
-//    MARK: Create Choices
+    //    MARK: Create Choices
     //Cria alternativas
     func createChoices(){
         self.createRightChoice()
@@ -189,7 +242,7 @@ class Stage3: SKScene{
         return newChoice
     }
     
-//    MARK: NextQuestion
+    //    MARK: NextQuestion
     //Cria próxima questão e alternativas
     func nextQuestion(){
         self.createQuestionLabel()
@@ -197,7 +250,7 @@ class Stage3: SKScene{
         self.createChoices()
     }
     
-//    MARK: Touches
+    //    MARK: Touches
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         /* Called when a touch begins */
         
@@ -240,7 +293,7 @@ class Stage3: SKScene{
         }
     }
     
-//    MARK: Other
+    //    MARK: Other
     func removeQuestion(){
         self.removeNodeWithName("Question")
     }
@@ -255,7 +308,7 @@ class Stage3: SKScene{
         self.childNodeWithName(name)?.removeFromParent()
     }
     
-//    MARK: Win or Lose
+    //    MARK: Win or Lose
     func winAction(){
         //Ação de ganhar
     }

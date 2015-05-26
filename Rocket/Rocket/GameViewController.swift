@@ -16,7 +16,7 @@ extension SKNode {
             var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
             
             archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! Stage2
+            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! Stage3
             archiver.finishDecoding()
             return scene
         } else {
@@ -31,7 +31,7 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let scene = Stage2.unarchiveFromFile("GameScene") as? Stage2{
+        if let scene = Stage3.unarchiveFromFile("GameScene") as? Stage3{
             // Configure the view.
             let skView = self.view as! SKView
 //            skView.showsFPS = true
