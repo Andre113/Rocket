@@ -13,7 +13,8 @@ class StageNode: SKSpriteNode {
     
     init(texture:String, stageNumber:Int) {
         let newTexture:SKTexture = SKTexture(imageNamed: texture)
-        super.init(texture: newTexture, color: UIColor.clearColor(), size: CGSizeMake(100, 100))
+        super.init(texture: newTexture, color: UIColor.clearColor(), size: CGSizeMake(150, 150))
+        self.name = "stage\(stageNumber)"
         label = SKLabelNode(text: "\(stageNumber)")
         label.fontName = "Chalkduster"
         label.name = "stage\(stageNumber)"

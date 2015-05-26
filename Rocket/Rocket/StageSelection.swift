@@ -40,7 +40,7 @@ class StageSelection: SKScene {
     func createStages() {
         for index in 0 ... 9 {
             stageNodeArray.append(StageNode(texture: "planet", stageNumber: index+1))
-            stageNodeArray[index].name = "stage\(index+1)"
+            
         }
     }
     
@@ -108,8 +108,9 @@ class StageSelection: SKScene {
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
         
-        println(clicked.name)
+        
         if clicked.name != nil && clicked.name != "" {
+            println(clicked.name)
         }
         else {
             
@@ -118,7 +119,7 @@ class StageSelection: SKScene {
         
     }
     
-    func stageAnimation() {
+    func stageNodeAnimation() {
         //implementar no futuro...
     }
     
