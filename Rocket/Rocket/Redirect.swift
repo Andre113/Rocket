@@ -16,10 +16,6 @@ class Redirect: NSObject{
         super.init()
     }
     
-    func setView(skView: SKView){
-        self.skView = skView
-    }
-    
     func winAction(){
         println("Win")
         skView.userInteractionEnabled = false

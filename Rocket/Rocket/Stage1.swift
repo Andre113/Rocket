@@ -22,17 +22,16 @@ class Stage1: SKScene {
     let rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
     let wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-    let timer = Timer(time:10)
 
 //    MARK: DidMoveToView
     override func didMoveToView(view: SKView) {
         self.viewConfig()
         self.createRule()
         self.createTileLabels()
-        self.createBG()
-        self.createLifes()
+        self.createBG("woodwall.jpg")
+        self.createLifes(lifes)
         self.createBoxes()
-        self.createTimer()
+        self.createTimer(10)
         self.createPause()
         
         //bloco assincrono para carregar paralelamente os conteúdos da view e outro para criar as box, labels e as posições
@@ -64,21 +63,22 @@ class Stage1: SKScene {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loseAction", name: "TimeOverIdentifier", object: nil)
     }
     
-    func createBG(){
-        let bg  = SKSpriteNode(imageNamed: "woodwall.jpg")
+    func createBG(bgName: String){
+        let bg  = SKSpriteNode(imageNamed: bgName)
         bg.position = CGPointMake(self.size.width/2, self.size.height/2)
         bg.size = size
         bg.zPosition = 0
         addChild(bg)
     }
     
-    func createTimer() {
-        self.timer.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        self.timer.zPosition = 2
-        self.timer.fontName = "Chalkduster"
-        self.timer.fontSize = 20
-        self.timer.fontColor = UIColor.whiteColor()
-        self.addChild(self.timer)
+    func createTimer(time: Int) {
+        let timer = Timer(time: time)
+        timer.fontColor = UIColor.whiteColor()
+        timer.fontName = "Chalkduster"
+        timer.fontSize = 20
+        timer.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        timer.zPosition = 2
+        addChild(timer)
     }
     
     func createTileLabels(){
@@ -97,10 +97,11 @@ class Stage1: SKScene {
         addChild(pauseButton)
     }
     
-    func createLifes(){
+    func createLifes(qtd: Int){
         var incX: CGFloat = 0.68
         let newY = size.height * 0.05
-        for index in 0...2{
+        
+        for index in 0...qtd{
             let newX = size.width * incX
             let life = Life(name: "life.\(index)", newX: newX, newY: newY)
             arrayLifes.append(life)
@@ -111,6 +112,22 @@ class Stage1: SKScene {
     }
     
     func createBoxes(){
+        let positions = createPositions()
+        let arrayColumn = positions.arrayX
+        let arrayLine = positions.arrayY
+        
+        var index = 0
+        for column in arrayColumn{
+            for line in arrayLine{
+                let newPos = CGPointMake(column , line)
+                let newNumber = arrayNumbers[index]
+                createBox(newNumber, pos: newPos)
+                index++
+            }
+        }
+    }
+    
+    func createPositions() -> (arrayX: [CGFloat], arrayY: [CGFloat]){
         var arrayX: [CGFloat] = []
         var arrayY: [CGFloat] = []
         var ammountX: CGFloat = 0.35
@@ -128,19 +145,10 @@ class Stage1: SKScene {
             ammountY += 0.2
         }
         
-        var index = 0
-        for i in 0...2{
-            for j in 0...3{
-                let newPos = CGPointMake(arrayX[i] , arrayY[j])
-                let newNumber = arrayNumbers[index]
-                createBox(newNumber, pos: newPos)
-                index++
-            }
-        }
+        return (arrayX, arrayY)
     }
     
     func createBox(number: Int, pos: CGPoint){
-        println("box")
         let box = Box(number: number, pos: pos)
         self.addChild(box)
     }
@@ -168,6 +176,7 @@ class Stage1: SKScene {
     //Cria valores aleatórios para o arrayNumbers
     func createNumbers(arrayToCompare: [Int]){
         var isValid: Bool
+        
         for index in 0...7{
             var numberToInsert: Int
             do{

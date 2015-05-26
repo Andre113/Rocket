@@ -10,7 +10,6 @@ import SpriteKit
 
 class Stage2: SKScene {
 //    MARK: Variables
-    let bgRoute = SKSpriteNode(imageNamed: "bg6.jpg" )
     let equations = Equations.sharedInstance
     let redirect = Redirect.sharedInstance
     var arrayRoutes: [Route] = []
@@ -18,25 +17,27 @@ class Stage2: SKScene {
     var equation = Equations.sharedInstance
     
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        self.scaleMode = .AspectFill
-        self.view?.userInteractionEnabled = true
-        self.view?.multipleTouchEnabled = false
-        
         self.configureView()
-        
+        self.createBG("testebg2.jpg")
         self.createPlanetName()
         self.createRoutes()
         self.setPositions()
-        self.setLabels()
+//        self.setLabels()
         self.createPause()
     }
     
 //    MARK: Create
     func configureView(){
-        self.bgRoute.size = self.size
-        self.bgRoute.position = CGPointMake(self.frame.midX, self.frame.midY)
-        self.bgRoute.zPosition = 0
+        self.scaleMode = .AspectFill
+        self.view?.userInteractionEnabled = true
+        self.view?.multipleTouchEnabled = false
+    }
+    
+    func createBG(bgName: String){
+        let bgRoute = SKSpriteNode(imageNamed: bgName)
+        bgRoute.size = self.size
+        bgRoute.position = CGPointMake(self.frame.midX, self.frame.midY)
+        bgRoute.zPosition = 0
         addChild(bgRoute)
     }
     
