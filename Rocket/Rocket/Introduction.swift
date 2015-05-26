@@ -12,7 +12,7 @@ class Introduction: SKScene{
     let startLabel = SKLabelNode(text: "INICIAR CONTAGEM REGRESSIVA")
     let bg1 = SKSpriteNode(imageNamed: "bgStage3.jpg")
     let bg2 = SKSpriteNode(imageNamed: "bgStage3.jpg")
-
+    var timer: NSTimer?
     let redirect = Redirect.sharedInstance
     
     override func didMoveToView(view: SKView) {
@@ -22,13 +22,10 @@ class Introduction: SKScene{
         self.createChar()
         self.createRocket()
         self.createStartLabel()
-        
-        NSTimer.scheduledTimerWithTimeInterval(0.04, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
     }
     
 //    MARK: Create
     func createBG(){
-        
 //        -160
         bg1.position = CGPointMake(frame.midX, frame.midY)
         bg1.zPosition = 0
@@ -38,13 +35,20 @@ class Introduction: SKScene{
         bg2.zPosition = 0
         addChild(bg2)
         
-      
+        self.beginMove()
+    }
+    
+    func beginMove(){
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
     }
     
     func movingScene(){
-        
         bg1.position.x = bg1.position.x - 1
         bg2.position.x = bg2.position.x - 1
+
+        if(bg1.position.x < -175){
+            bg1.position = CGPointMake(bg2.position.x  + bg2.size.width,  frame.midY)
+        }
         
        // println(bg1.position.x)
         
@@ -101,14 +105,17 @@ class Introduction: SKScene{
     
 //    MARK: StartLabel
     func updateStart(){
-        let fadeIn = SKAction.fadeInWithDuration(0.6)
-        let fadeOut = SKAction.fadeOutWithDuration(0.6)
+        let timeControl = 0.3
+        let fadeIn = SKAction.fadeInWithDuration(timeControl)
+        let fadeOut = SKAction.fadeOutWithDuration(timeControl)
         let changeToRed = SKAction.runBlock{
             self.startLabel.fontColor = UIColor.redColor()
         }
+        
         let changeToGreen = SKAction.runBlock{
             self.startLabel.fontColor = UIColor.greenColor()
         }
+        
         let changeToBlue = SKAction.runBlock{
             self.startLabel.fontColor = UIColor.blueColor()
         }
@@ -126,6 +133,7 @@ class Introduction: SKScene{
         let clicked = nodeAtPoint(location)
         
         if(clicked.name == "start"){
+            self.timer?.invalidate()
             self.goToSelectionGame()
         }
     }
