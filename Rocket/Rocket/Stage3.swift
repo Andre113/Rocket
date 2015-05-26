@@ -32,10 +32,12 @@ class Stage3: SKScene{
         self.createQuestions()
         self.createQuestionLabel()
         self.createChoices()
+        self.setChoicePosition()
         //        self.movingScene()
         NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
         
         NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
+        self.view!.userInteractionEnabled = true
     }
     
     //    MARK: Create
@@ -174,7 +176,8 @@ class Stage3: SKScene{
     func createQuestionLabel(){
         questionLabel = SKLabelNode(text: arrayQuestions[0].equation)
         questionLabel.name = "Question"
-        questionLabel.position = CGPointMake(self.frame.midX, self.frame.midY)
+        questionLabel.fontSize = 50
+        questionLabel.position = CGPointMake(self.frame.midX, self.frame.midY + 100)
         addChild(questionLabel)
     }
     
@@ -237,11 +240,32 @@ class Stage3: SKScene{
         var newChoice = SKLabelNode(text: "\(newAnswer)")
         newChoice.name = "\(newAnswer)"
         newChoice.fontName = "Chalkduster"
-        newChoice.fontSize = 20
+        newChoice.fontSize = 40
         newChoice.fontColor = UIColor.whiteColor()
         
         return newChoice
     }
+    
+    //mark criar posiçoes label
+    
+    func setChoicePosition() {
+        var ammountX: CGFloat = 0.2
+        var ammountY: CGFloat = 0.4
+        var index = 0
+        for column in 0 ... 1 {
+            for line in 0 ... 1 {
+                ammountX += 0.20
+                let newX = (size.width ) * ammountX
+                let newY = size.height * ammountY
+                arrayChoices[index].position = CGPointMake(newX, newY)
+                //addChild(arrayChoices[index])
+                index++
+            }
+            ammountX = 0.2
+            ammountY -= 0.25
+        }
+    }
+    
     
     //    MARK: NextQuestion
     //Cria próxima questão e alternativas
@@ -249,6 +273,7 @@ class Stage3: SKScene{
         self.createQuestionLabel()
         self.arrayChoices.removeAll(keepCapacity: false)
         self.createChoices()
+        self.setChoicePosition()
     }
     
     //    MARK: Touches
@@ -261,6 +286,7 @@ class Stage3: SKScene{
         let clickName = clicked.name
         var isRight = false
         
+        println(clicked.name)
         //Se clicar em uma alternativa
         if (clickName != "" && clickName != nil && clickName != "Question"){
             self.checkRight(clickName!)

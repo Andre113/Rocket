@@ -112,10 +112,7 @@ class StageSelection: SKScene {
         let clicked = self.nodeAtPoint(location)
         
         if clicked.name != nil && clicked.name != "" {
-           println(clicked.name)
-            if clicked.name != "backButton" {
-           redirect.loseAction(3)
-            }
+            self.switchAction(clicked)
         }
     }
     
