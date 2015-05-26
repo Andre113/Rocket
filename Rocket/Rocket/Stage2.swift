@@ -171,7 +171,7 @@ class Stage2: SKScene {
 //        
 //        self.view?.presentScene(newScene, transition: fadeOut)
         
-        redirect.winAction()
+        redirect.stageSelection()
     }
 
     func loseAction(){

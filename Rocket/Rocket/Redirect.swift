@@ -17,7 +17,7 @@ class Redirect: NSObject{
     }
     
     //chama a new scene
-    func winAction(){
+    func stageSelection(){
         println("Win")
         skView.userInteractionEnabled = false
         

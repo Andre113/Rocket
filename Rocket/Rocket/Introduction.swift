@@ -50,11 +50,9 @@ class Introduction: SKScene{
             bg1.position = CGPointMake(bg2.position.x  + bg2.size.width,  frame.midY)
         }
         
-       // println(bg1.position.x)
-        
-//        bgScene1.position.y =  bgScene1.position.y + 1
-        
-    
+        if(bg2.position.x < -175 ){
+            bg2.position = CGPointMake(bg1.position.x + bg1.size.width, frame.midX)
+        }
     }
     
     func createTitle(){
@@ -140,6 +138,6 @@ class Introduction: SKScene{
     
 //    MARK: Begin
     func goToSelectionGame(){
-        redirect.winAction()
+        redirect.stageSelection()
     }
 }
