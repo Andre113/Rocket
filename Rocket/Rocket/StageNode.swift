@@ -10,14 +10,19 @@ import SpriteKit
 
 class StageNode: SKSpriteNode {
     var label:SKLabelNode = SKLabelNode()
+    var stageNumber: Int = 0
     
     init(texture:String, stageNumber:Int) {
         let newTexture:SKTexture = SKTexture(imageNamed: texture)
+        
         super.init(texture: newTexture, color: UIColor.clearColor(), size: CGSizeMake(200, 150))
-        self.name = "stage\(stageNumber)"
+        
+        self.stageNumber = stageNumber
+        self.name = "stage.\(stageNumber)"
+        
         label = SKLabelNode(text: "\(stageNumber)")
         label.fontName = "Chalkduster"
-        label.name = "stage\(stageNumber)"
+        label.name = "label.\(stageNumber)"
         label.fontSize = 50
         label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center

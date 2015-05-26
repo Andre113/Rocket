@@ -297,17 +297,12 @@ class Stage1: SKScene {
 //    MARK: WIN or Lose
     func winAction(){
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
-//        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
-//        
-//        let newScene = StageSelection(size: self.size)
-//        
-//        self.view?.presentScene(newScene, transition: fadeOut)
         redirect.stageSelection()
     }
     
     func loseAction(){
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
-        redirect.loseAction(1)
+        redirect.newStage(1)
     }
     
 //    MARK: Music

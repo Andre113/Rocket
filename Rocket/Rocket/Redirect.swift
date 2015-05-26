@@ -18,7 +18,6 @@ class Redirect: NSObject{
     
     //chama a new scene
     func stageSelection(){
-        println("Win")
         skView.userInteractionEnabled = false
         
         let newScene = StageSelection(size: skView.scene!.size)
@@ -27,9 +26,10 @@ class Redirect: NSObject{
     }
     
     //repete a scene de acordo com qual está rodando
-    func loseAction(number: Int){
+    func newStage(number: Int){
         self.skView.userInteractionEnabled = false
         var resetScene = SKScene()
+        var flag = true
         
         switch number{
         case 1:
@@ -42,10 +42,14 @@ class Redirect: NSObject{
             resetScene = Stage3(size: skView.scene!.size)
             break
         default:
+            self.skView.userInteractionEnabled = true
+            flag = false
             break
         }
         
-        showScene(resetScene)
+        if(flag){
+            showScene(resetScene)
+        }
     }
     
     func showScene(newScene: SKScene){
