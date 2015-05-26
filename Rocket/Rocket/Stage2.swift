@@ -175,12 +175,6 @@ class Stage2: SKScene {
     }
 
     func loseAction(){
-//        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
-//        
-//        let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
-//        let resetScene = Stage2(size: self.size)
-//        
-//        self.view?.presentScene(resetScene, transition: fadeOut)
         redirect.loseAction(2)
     }
     

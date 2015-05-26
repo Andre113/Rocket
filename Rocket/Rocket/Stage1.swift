@@ -296,9 +296,6 @@ class Stage1: SKScene {
     
 //    MARK: WIN or Lose
     func winAction(){
-//        println("Win")
-//        self.view?.userInteractionEnabled = false
-//        
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
 //        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
 //        
@@ -309,18 +306,7 @@ class Stage1: SKScene {
     }
     
     func loseAction(){
-//        self.view?.userInteractionEnabled = false
-//        
-//        if (!arrayLifes.isEmpty){
-//            removeLifes()
-//        }
-//        
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
-//        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
-//
-//        let resetScene = Stage1(size: self.size)
-//        
-//        self.view?.presentScene(resetScene, transition: fadeOut)
         redirect.loseAction(1)
     }
     
