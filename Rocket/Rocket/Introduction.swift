@@ -10,7 +10,9 @@ import SpriteKit
 
 class Introduction: SKScene{
     let startLabel = SKLabelNode(text: "INICIAR CONTAGEM REGRESSIVA")
-    let bg = SKSpriteNode(imageNamed: "bgStage3.jpg")
+    let bg1 = SKSpriteNode(imageNamed: "bgStage3.jpg")
+    let bg2 = SKSpriteNode(imageNamed: "bgStage3.jpg")
+
     let redirect = Redirect.sharedInstance
     
     override func didMoveToView(view: SKView) {
@@ -20,13 +22,35 @@ class Introduction: SKScene{
         self.createChar()
         self.createRocket()
         self.createStartLabel()
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.04, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
     }
     
 //    MARK: Create
     func createBG(){
-        bg.position = CGPointMake(frame.midX, frame.midY)
-        bg.zPosition = 0
-        addChild(bg)
+        
+//        -160
+        bg1.position = CGPointMake(frame.midX, frame.midY)
+        bg1.zPosition = 0
+        addChild(bg1)
+        
+        bg2.position = CGPointMake(bg1.position.x  + bg1.size.width,  frame.midY)
+        bg2.zPosition = 0
+        addChild(bg2)
+        
+      
+    }
+    
+    func movingScene(){
+        
+        bg1.position.x = bg1.position.x - 1
+        bg2.position.x = bg2.position.x - 1
+        
+        println(bg1.position.x)
+        
+//        bgScene1.position.y =  bgScene1.position.y + 1
+        
+    
     }
     
     func createTitle(){
