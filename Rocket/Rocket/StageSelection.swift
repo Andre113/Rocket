@@ -13,23 +13,22 @@ class StageSelection: SKScene {
     
     var stageNodeArray:[StageNode] = []
     var title:SKLabelNode!
-    var backButton:SKSpriteNode!
     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
     var redirect = Redirect.sharedInstance
-
-
+    
+    
     override func  didMoveToView(view: SKView) {
         
-//        dispatch_async(dispatch_get_global_queue(priority, 0), { () -> Void in
-//            self.createStages()
-//            self.stageSetPosition()
-//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                self.setBackground()
-//                self.setTitle()
-//            })
-//        })
-
-//rodando síncrono!
+        //        dispatch_async(dispatch_get_global_queue(priority, 0), { () -> Void in
+        //            self.createStages()
+        //            self.stageSetPosition()
+        //            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        //                self.setBackground()
+        //                self.setTitle()
+        //            })
+        //        })
+        
+        //rodando síncrono!
         self.setBackground()
         self.setTitle()
         self.createStages()
@@ -63,21 +62,21 @@ class StageSelection: SKScene {
             ammountY -= 0.25
         }
     }
-        func setTitle() {
-            title = SKLabelNode(text: "Selecione a fase desejada!")
-            title.fontName = "Chalkduster"
-            title.fontSize = 50
-            title.position = CGPointMake(self.frame.midX, self.frame.maxY * 0.85)
-            title.color = UIColor.whiteColor()
-            title.zPosition = 1
-            self.addChild(title)
-        }
-        
-        func setBackground() {
-            let backgroundImage = SKSpriteNode(imageNamed: "testebg12")
-            backgroundImage.position = CGPointMake(self.size.width/2, self.size.height/2)
-            self.addChild(backgroundImage)
-        }
+    func setTitle() {
+        title = SKLabelNode(text: "Selecione a fase desejada!")
+        title.fontName = "Chalkduster"
+        title.fontSize = 50
+        title.position = CGPointMake(self.frame.midX, self.frame.maxY * 0.85)
+        title.color = UIColor.whiteColor()
+        title.zPosition = 1
+        self.addChild(title)
+    }
+    
+    func setBackground() {
+        let backgroundImage = SKSpriteNode(imageNamed: "testebg12")
+        backgroundImage.position = CGPointMake(self.size.width/2, self.size.height/2)
+        self.addChild(backgroundImage)
+    }
     
     func musicThemeSetup(audioFile:String, type:String) ->AVAudioPlayer {
         var path = NSBundle.mainBundle().pathForResource(audioFile, ofType:type)
@@ -85,48 +84,55 @@ class StageSelection: SKScene {
         var error:NSError?
         var backgroundMusic = AVAudioPlayer()
         var audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
-
+        
         return audioPlayer
     }
     
     func playMusicTheme(audioFile:String, type:String, numberOfLoops:Int, volume:Float) {
-        var backgroundMusic = musicThemeSetup("rightBox", type: "mp3")
+        let backgroundMusic = musicThemeSetup("rightBox", type: "mp3")
         backgroundMusic.volume = 0.3
         backgroundMusic.numberOfLoops = 10
         backgroundMusic.prepareToPlay()
         backgroundMusic.play()
-
+        
     }
     
     func backButtonSetup() {
-        backButton = SKSpriteNode(imageNamed: "backButton")
+        let backButton = SKSpriteNode(imageNamed: "backButton")
         backButton.position = CGPointMake(self.frame.midX - 225, self.frame.minY + 40)
         backButton.zPosition = 2
         backButton.name = "backButton"
         self.addChild(backButton)
     }
     
+    //    MARK: Touches
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         let touch = touches.first as! UITouch
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
         
-        
         if clicked.name != nil && clicked.name != "" {
-           println(clicked.name)
-            if clicked.name != "backButton" {
-           redirect.loseAction(1)
-            }
+            self.switchAction(clicked)
         }
-        else {
+    }
+    
+    //    MARK: Switch Touch
+    func switchAction(clicked: SKNode){
+        println(clicked.name)
+        if clicked.name == "backButton" {
+            //back
+        }
+        else{
+            let fullName = clicked.name?.componentsSeparatedByString(".")
+            let number = fullName?.last?.toInt()
             
-//        println("touches")
+            redirect.newStage(number!)
         }
-        
     }
     
     func stageNodeAnimation() {
         //implementar no futuro...
     }
-    
 }
+
+    

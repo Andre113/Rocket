@@ -129,23 +129,25 @@ class Stage2: SKScene {
     
 //    MARK: Touches
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        /* Called when a touch begins */
-        
         let touch = touches.first as! UITouch
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
         let clickName = clicked.name
         
-        //Se clicar em uma rota
-        if (clickName == "route1" || clickName == "route2" || clickName == "route3"){
-            println("click")
-            self.view?.userInteractionEnabled = false
-            self.checkRight(clicked as! Route)
+        if(clickName != ""  && clickName != nil){
+            self.switchTouch(clicked)
+        }
+    }
+    
+//    MARK: Switch Touch
+    
+    func switchTouch(clicked: SKNode){
+        if(clicked.name == "pause"){
+            //pause
         }
         else{
-            if(clickName == "pause"){
-                
-            }
+            self.view?.userInteractionEnabled = false
+            self.checkRight(clicked as! Route)
         }
     }
     
@@ -161,21 +163,11 @@ class Stage2: SKScene {
     
 //    MARK: Win or Lose
     func winAction(){
-//        println("Win")
-//        self.view?.userInteractionEnabled = false
-//        
-//        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
-//        let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
-//        
-//        let newScene = StageSelection(size: self.size)
-//        
-//        self.view?.presentScene(newScene, transition: fadeOut)
-        
-        redirect.stageSelection()
+        redirect.newStage(3)
     }
 
     func loseAction(){
-        redirect.loseAction(2)
+        redirect.newStage(2)
     }
     
 //    MARK: Animation
