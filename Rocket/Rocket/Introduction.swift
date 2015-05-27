@@ -5,14 +5,18 @@
 //  Created by Andre Lucas Ota on 22/05/15.
 //  Copyright (c) 2015 Andre Lucas Ota. All rights reserved.
 //
-
 import SpriteKit
 
 class Introduction: SKScene{
     let startLabel = SKLabelNode(text: "INICIAR CONTAGEM REGRESSIVA")
     let bg1 = SKSpriteNode(imageNamed: "bgStage3.jpg")
     let bg2 = SKSpriteNode(imageNamed: "bgStage3.jpg")
-    var timer: NSTimer?
+    var cont = 1
+    var char = SKSpriteNode(imageNamed: "astronaut1")
+    var up = true
+    var timerScene: NSTimer?
+    var timerAstronaut: NSTimer?
+    
     let redirect = Redirect.sharedInstance
     
     override func didMoveToView(view: SKView) {
@@ -24,9 +28,9 @@ class Introduction: SKScene{
         self.createStartLabel()
     }
     
-//    MARK: Create
+    //    MARK: Create
     func createBG(){
-//        -160
+        //        -160
         bg1.position = CGPointMake(frame.midX, frame.midY)
         bg1.zPosition = 0
         addChild(bg1)
@@ -39,20 +43,8 @@ class Introduction: SKScene{
     }
     
     func beginMove(){
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
-    }
-    
-    func movingScene(){
-        bg1.position.x = bg1.position.x - 1
-        bg2.position.x = bg2.position.x - 1
-
-        if(bg1.position.x < -175){
-            bg1.position = CGPointMake(bg2.position.x  + bg2.size.width,  frame.midY)
-        }
-        
-        if(bg2.position.x < -175 ){
-            bg2.position = CGPointMake(bg1.position.x + bg1.size.width, frame.midX)
-        }
+        timerScene = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
+        timerAstronaut = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: Selector("movingAstronaut"), userInfo: nil, repeats: true)
     }
     
     func createTitle(){
@@ -84,7 +76,6 @@ class Introduction: SKScene{
     }
     
     func createChar(){
-        let char = SKSpriteNode(imageNamed: "astronaut")
         char.name = "char"
         char.position = CGPointMake(frame.midX+170, 110)
         char.size = CGSizeMake(120, 150)
@@ -101,11 +92,11 @@ class Introduction: SKScene{
         addChild(ground)
     }
     
-//    MARK: StartLabel
+//    MARK: Update
     func updateStart(){
-        let timeControl = 0.3
-        let fadeIn = SKAction.fadeInWithDuration(timeControl)
-        let fadeOut = SKAction.fadeOutWithDuration(timeControl)
+        let fadeIn = SKAction.fadeInWithDuration(0.1)
+        let fadeOut = SKAction.fadeOutWithDuration(0.1)
+        
         let changeToRed = SKAction.runBlock{
             self.startLabel.fontColor = UIColor.redColor()
         }
@@ -124,19 +115,54 @@ class Introduction: SKScene{
         startLabel.runAction(actionToRun)
     }
     
-//    MARK: Touch
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as! UITouch
-        let location = touch.locationInNode(self)
-        let clicked = nodeAtPoint(location)
+    func movingScene(){
+        bg1.position.x = bg1.position.x - 1
+        bg2.position.x = bg2.position.x - 1
         
-        if(clicked.name == "start"){
-            self.timer?.invalidate()
-            self.goToSelectionGame()
+        if(bg1.position.x < -175){
+            bg1.position = CGPointMake(bg2.position.x  + bg2.size.width,  frame.midY)
+        }
+        
+        if(bg2.position.x < -175 ){
+            bg2.position = CGPointMake(bg1.position.x + bg1.size.width, frame.midX)
         }
     }
     
-//    MARK: Begin
+    func movingAstronaut(){
+        if(up == true){
+            var texture  = SKTexture(imageNamed: "astronaut\(cont)")
+            cont++
+            char.texture = texture
+            if(cont == 6){
+                up = false
+            }
+        }else{
+            var texture  = SKTexture(imageNamed: "astronaut\(cont)")
+            cont--
+            char.texture = texture
+            if(cont == 1){
+                up = true
+            }
+        }
+    }
+    
+    //    MARK: Touch
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        let touch = touches.first as! UITouch
+        let location = touch.locationInNode(self)
+        
+        self.timerAstronaut?.invalidate()
+        self.timerScene?.invalidate()
+        self.goToSelectionGame()
+        
+//        let clicked = nodeAtPoint(location)
+        
+//        if(clicked.name == "start"){
+//            self.goToSelectionGame()
+//        }
+    }
+    
+    //    MARK: Begin
     func goToSelectionGame(){
         redirect.stageSelection()
     }
