@@ -24,6 +24,7 @@ class Equations: NSObject {
         return Int(arc4random() % 21)
     }
     
+    //use a random number generated, calculates the random  multiples between 1 to 10
     func randomMultiples() -> [Int] {
         
         var multiplesArray:[Int] = [Int]()
@@ -86,7 +87,51 @@ class Equations: NSObject {
                 }
             }
         }
-    
+        //if the generated answer is equal to one, recalculate a new equation
+        while((answer - b)/a == 1) {
+            while (auxArray.first == 0 || auxArray.count == 1){
+                auxArray = randomMultiples()
+            }
+            
+            if(auxArray.count >= 4) {
+                answer = auxArray[0]
+                //            b = auxArray[1]
+                a = auxArray[2]
+            }
+            else if auxArray.count == 3 {
+                answer = auxArray[0]
+                //            b = auxArray[1]
+                a = auxArray[2]
+            }
+            else if auxArray.count == 2 {
+                answer = auxArray[0]
+                //            b = auxArray[1]
+                a = 1
+            }
+            
+            //        answer = randomNumberGenerator()
+            b = zeroToTwentyGenerator()
+            //        a = zeroToTwentyGenerator()
+            
+            //fator de correção do a pra dar um inteiro
+            //        while( (answer - b) % a != 0 ){
+            //            a++
+            //        }
+            if a >= answer {
+                while( (answer - b) % a != 0 ){
+                    a--
+                }
+            }
+            else if a < answer {
+                while( (answer - b) % a != 0 ){
+                    a++
+                    if a - answer > 100 {
+                        a = 1
+                    }
+                }
+            }
+        }
+        
         let x:Int = (answer - b)/a
         let equation:String = "\(a)x + \(b) = \(answer)"
         return (equation, x)
