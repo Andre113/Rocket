@@ -22,6 +22,7 @@ class Timer: SKLabelNode {
         super.init()
         self.startTime = time
         self.text = "\(startTime)"
+        self.zPosition = 1
         self.startDelay()
     }
 

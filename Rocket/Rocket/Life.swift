@@ -16,6 +16,7 @@ class Life: SKSpriteNode{
         super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
         self.name = name
         self.position = CGPointMake(newX, newY)
+        self.zPosition = 1
     }
     
     required init?(coder aDecoder: NSCoder) {
