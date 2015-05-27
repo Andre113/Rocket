@@ -8,14 +8,18 @@
 
 import SpriteKit
 
+protocol TimerDelegate{
+    func timeEnd(timer: Timer)
+}
+
 class Timer: SKLabelNode {
     var startTime = 0
     var delay: NSTimer?
     var timer: NSTimer?
+    var delegate: TimerDelegate? = nil
     
     init(time: Int) {
         super.init()
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "noLifes", name: "LifeEndIdentifier", object: nil)
         self.startTime = time
         self.text = "\(startTime)"
         self.startDelay()
@@ -39,9 +43,9 @@ class Timer: SKLabelNode {
         self.text = "\(startTime)"
         
         if self.text == "0" {
-            timer?.invalidate()
-            NSNotificationCenter.defaultCenter().postNotificationName("TimeOverIdentifier", object: nil)
-            self.removeFromParent()
+            if(delegate != nil){
+                delegate?.timeEnd(self)
+            }
         }
     }
     
@@ -52,10 +56,5 @@ class Timer: SKLabelNode {
     
     func resume(){
         self.startTimer()
-    }
-    
-    func noLifes(){
-        timer?.invalidate()
-//        NSNotificationCenter.defaultCenter().removeObserver(self, name: "LifeEndIdentifier", object: nil)
     }
 }
