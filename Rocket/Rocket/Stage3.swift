@@ -38,6 +38,7 @@ class Stage3: SKScene{
         
         NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
         self.view!.userInteractionEnabled = true
+        self.view!.multipleTouchEnabled = false
     }
     
     //    MARK: Create
@@ -75,7 +76,7 @@ class Stage3: SKScene{
                 
                 rocket.position.y = rocket.position.y  - 1
                 fireBoost.position.y  = fireBoost.position.y - 1
-                println(rocket.position.y)
+                //println(rocket.position.y)
                 
             }else{
                 
@@ -176,7 +177,9 @@ class Stage3: SKScene{
     func createQuestionLabel(){
         questionLabel = SKLabelNode(text: arrayQuestions[0].equation)
         questionLabel.name = "Question"
+        questionLabel.fontName = "Chalkduster"
         questionLabel.fontSize = 50
+        questionLabel.fontColor = UIColor.redColor()
         questionLabel.position = CGPointMake(self.frame.midX, self.frame.midY + 100)
         addChild(questionLabel)
     }
@@ -240,9 +243,8 @@ class Stage3: SKScene{
         var newChoice = SKLabelNode(text: "\(newAnswer)")
         newChoice.name = "\(newAnswer)"
         newChoice.fontName = "Chalkduster"
+        newChoice.fontColor = UIColor.blackColor()
         newChoice.fontSize = 40
-        newChoice.fontColor = UIColor.whiteColor()
-        
         return newChoice
     }
     
@@ -311,6 +313,8 @@ class Stage3: SKScene{
         }
         else{
             self.arrayLifes.removeLast()
+            self.removeNodeWithName(self.arrayLifes.last!.name!)
+            println("quantidade de lifes: \(arrayLifes)")
             if(self.arrayLifes.isEmpty){
                 self.loseAction()
             }
@@ -331,6 +335,7 @@ class Stage3: SKScene{
         }
     }
     
+    //metodo que remove o node
     func removeNodeWithName(name: String){
         self.childNodeWithName(name)?.removeFromParent()
     }

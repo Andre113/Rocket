@@ -44,7 +44,7 @@ class Introduction: SKScene{
     
     func beginMove(){
         timerScene = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
-        timerAstronaut = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: Selector("movingAstronaut"), userInfo: nil, repeats: true)
+        timerAstronaut = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("movingAstronaut"), userInfo: nil, repeats: true)
     }
     
     func createTitle(){
@@ -94,8 +94,8 @@ class Introduction: SKScene{
     
 //    MARK: Update
     func updateStart(){
-        let fadeIn = SKAction.fadeInWithDuration(0.1)
-        let fadeOut = SKAction.fadeOutWithDuration(0.1)
+        let fadeIn = SKAction.fadeInWithDuration(0.25)
+        let fadeOut = SKAction.fadeOutWithDuration(0.25)
         
         let changeToRed = SKAction.runBlock{
             self.startLabel.fontColor = UIColor.redColor()
@@ -133,7 +133,7 @@ class Introduction: SKScene{
             var texture  = SKTexture(imageNamed: "astronaut\(cont)")
             cont++
             char.texture = texture
-            if(cont == 6){
+            if(cont == 5){
                 up = false
             }
         }else{
