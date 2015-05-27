@@ -9,7 +9,7 @@
 import SpriteKit
 import AVFoundation
 
-class Stage1: SKScene {
+class Stage1: SKScene, TimerDelegate {
 //    MARK: Variables
     var audioPlayer = AVAudioPlayer()
     var arrayLifes:[Life] = []
@@ -62,8 +62,6 @@ class Stage1: SKScene {
         self.view?.userInteractionEnabled = true
         self.view?.multipleTouchEnabled = false
         self.scene?.paused = false
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loseAction", name: "TimeOverIdentifier", object: nil)
     }
     
     func createBG(bgName: String){
@@ -82,6 +80,8 @@ class Stage1: SKScene {
         timer!.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         timer!.zPosition = 2
         addChild(timer!)
+        
+        timer?.delegate = self
     }
     
     func createTileLabels(){
@@ -326,13 +326,17 @@ class Stage1: SKScene {
     
 //    MARK: WIN or Lose
     func winAction(){
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
+        self.timer?.timer?.invalidate()
         redirect.stageSelection()
     }
     
     func loseAction(){
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "TimeOverIdentifier", object: nil)
+        self.timer?.timer?.invalidate()
         redirect.newStage(1)
+    }
+    
+    func timeEnd(timer: Timer) {
+        self.loseAction()
     }
     
 //    MARK: Music
