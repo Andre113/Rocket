@@ -32,6 +32,10 @@ class Redirect: NSObject{
         var flag = true
         
         switch number{
+            
+        case 0:
+            resetScene = Introduction(size: skView.scene!.size)
+            break
         case 1:
             resetScene = Stage1(size: skView.scene!.size)
             break
@@ -55,6 +59,7 @@ class Redirect: NSObject{
     func showScene(newScene: SKScene){
         let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 2.5)
         
+        skView.scene?.removeFromParent()
         skView.presentScene(newScene, transition: fadeOut)
     }
 }

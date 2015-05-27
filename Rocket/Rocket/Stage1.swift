@@ -12,11 +12,11 @@ import AVFoundation
 class Stage1: SKScene, TimerDelegate {
 //    MARK: Variables
     var audioPlayer = AVAudioPlayer()
-    var arrayLifes:[Life] = []
+//    var arrayLifes:[Life] = []
     var key = 0
     var arrayNumbers: [Int] = []
     var arrayAnswers: [Int] = []
-    var lifes = 2
+    var lifes = 3
     var timer:Timer?
     
     let equations = Equations.sharedInstance
@@ -30,10 +30,10 @@ class Stage1: SKScene, TimerDelegate {
         self.viewConfig()
         self.createRule()
         self.createTileLabels()
-        self.createBG("woodwall.jpg")
-        self.createLifes(lifes)
-        self.createBoxes()
         self.createTimer(10)
+        self.createBG("woodwall.jpg")
+        self.createLifes(lifes-1)
+        self.createBoxes()
         self.createPause()
         
         //bloco assincrono para carregar paralelamente os conteúdos da view e outro para criar as box, labels e as posições
@@ -107,8 +107,10 @@ class Stage1: SKScene, TimerDelegate {
         for index in 0...qtd{
             let newX = size.width * incX
             let life = Life(name: "life.\(index)", newX: newX, newY: newY)
-            arrayLifes.append(life)
+//            arrayLifes.append(life)
             incX += 0.03
+            
+            println(life.zPosition)
             
             addChild(life)
         }
@@ -269,19 +271,6 @@ class Stage1: SKScene, TimerDelegate {
         self.animateBoxes(box, isRight: isRight)
     }
     
-    func resumeAction(){
-        self.scene?.paused = false
-        self.removeNodeWithName("PauseBox")
-        self.timer?.resume()
-    }
-    
-    func pauseAction(){
-        let pauseNode = PauseNode(newX: self.frame.midX, newY: self.frame.midY)
-        addChild(pauseNode)
-        self.timer?.pause()
-        self.scene?.paused = true
-    }
-    
 //    MARK: Animation
     func animateBoxes(box: Box, isRight: Bool){
         if(isRight){
@@ -314,7 +303,7 @@ class Stage1: SKScene, TimerDelegate {
         let action5 = SKAction.repeatAction(action4, count: 5)
         
         box.runAction(action5, completion:{
-            if(self.arrayLifes.isEmpty){
+            if(self.lifes==0){
                     self.timer?.timer?.invalidate()
                     self.loseAction()
                 }
@@ -331,6 +320,7 @@ class Stage1: SKScene, TimerDelegate {
     }
     
     func loseAction(){
+//        removeLifes()
         self.timer?.timer?.invalidate()
         redirect.newStage(1)
     }
@@ -356,6 +346,19 @@ class Stage1: SKScene, TimerDelegate {
     }
     
 //    MARK: Other
+    func resumeAction(){
+        self.scene?.paused = false
+        self.removeNodeWithName("PauseBox")
+        self.timer?.resume()
+    }
+    
+    func pauseAction(){
+        let pauseNode = PauseNode(newX: self.frame.midX, newY: self.frame.midY)
+        addChild(pauseNode)
+        self.timer?.pause()
+        self.scene?.paused = true
+    }
+    
     func randomArray(){
         var auxArray = NSMutableArray(array: arrayNumbers)
         var randomizedArray = [Int]()
@@ -370,13 +373,12 @@ class Stage1: SKScene, TimerDelegate {
         println(arrayNumbers)
     }
     
-    func removeLifes(){
-        arrayLifes.removeAll(keepCapacity: false)
-    }
+//    func removeLifes(){
+//        arrayLifes.removeAll(keepCapacity: false)
+//    }
     
     func removeLife(){
-        arrayLifes.removeAtIndex(lifes)
-        removeNodeWithName("life.\(lifes)")
+        removeNodeWithName("life.\(lifes-1)")
         lifes--
     }
     

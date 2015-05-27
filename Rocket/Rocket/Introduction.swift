@@ -94,8 +94,9 @@ class Introduction: SKScene{
     
 //    MARK: Update
     func updateStart(){
-        let fadeIn = SKAction.fadeInWithDuration(0.25)
-        let fadeOut = SKAction.fadeOutWithDuration(0.25)
+        let speed = 0.25
+        let fadeIn = SKAction.fadeInWithDuration(speed)
+        let fadeOut = SKAction.fadeOutWithDuration(speed)
         
         let changeToRed = SKAction.runBlock{
             self.startLabel.fontColor = UIColor.redColor()
