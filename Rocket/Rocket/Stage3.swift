@@ -20,6 +20,7 @@ class Stage3: SKScene{
     var bgScene1 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
     var bgScene2 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
     var bgScene3 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
+    var redirect = Redirect.sharedInstance
     
     
     var count = 0
@@ -288,9 +289,10 @@ class Stage3: SKScene{
         let clickName = clicked.name
         var isRight = false
         
-        println(clicked.name)
+        
         //Se clicar em uma alternativa
         if (clickName != "" && clickName != nil && clickName != "Question"){
+            println(clickName)
             self.checkRight(clickName!)
         }
     }
@@ -312,8 +314,8 @@ class Stage3: SKScene{
             }
         }
         else{
-            self.arrayLifes.removeLast()
             self.removeNodeWithName(self.arrayLifes.last!.name!)
+            self.arrayLifes.removeLast()
             println("quantidade de lifes: \(arrayLifes)")
             if(self.arrayLifes.isEmpty){
                 self.loseAction()
@@ -343,6 +345,8 @@ class Stage3: SKScene{
     //    MARK: Win or Lose
     func winAction(){
         //Ação de ganhar
+        println("win")
+        self.redirect.stageSelection()
     }
     
     func loseAction(){
