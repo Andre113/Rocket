@@ -111,7 +111,7 @@ class Stage3: SKScene{
         var newName = 0
         for index in 0...2{
             let newX = size.width * incX
-            let life = Life(name: "\(newName)", newX: newX, newY: newY)
+            let life = Life(name: "life.\(newName)", newX: newX, newY: newY)
             arrayLifes.append(life)
             incX += 0.03
             newName++
