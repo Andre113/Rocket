@@ -37,11 +37,11 @@
 		52E63AD91B16A6B000C4DADD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52E63AD81B16A6B000C4DADD /* CoreData.framework */; };
 		52E63ADC1B16A6D500C4DADD /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52E63ADA1B16A6D500C4DADD /* Model.xcdatamodeld */; };
 		52E63AE61B16B86500C4DADD /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E63AE51B16B86500C4DADD /* Manager.swift */; };
-		52E63AE81B16C44000C4DADD /* Levels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E63AE71B16C44000C4DADD /* Levels.swift */; };
 		E31E54FB1B1389530087776C /* StageSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31E54FA1B1389530087776C /* StageSelection.swift */; };
 		E31E54FD1B1389EF0087776C /* StageNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31E54FC1B1389EF0087776C /* StageNode.swift */; };
 		E31E54FF1B13A1690087776C /* testebg12.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E31E54FE1B13A1690087776C /* testebg12.jpg */; };
 		E38C03911B051E26004CF63E /* Equations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C03901B051E26004CF63E /* Equations.swift */; };
+		E3FCFA591B1787130028FE32 /* Levels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FCFA581B1787130028FE32 /* Levels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,11 +89,11 @@
 		52E63AD81B16A6B000C4DADD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		52E63ADB1B16A6D500C4DADD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		52E63AE51B16B86500C4DADD /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
-		52E63AE71B16C44000C4DADD /* Levels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Levels.swift; sourceTree = "<group>"; };
 		E31E54FA1B1389530087776C /* StageSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageSelection.swift; sourceTree = "<group>"; };
 		E31E54FC1B1389EF0087776C /* StageNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageNode.swift; sourceTree = "<group>"; };
 		E31E54FE1B13A1690087776C /* testebg12.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testebg12.jpg; sourceTree = "<group>"; };
 		E38C03901B051E26004CF63E /* Equations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equations.swift; sourceTree = "<group>"; };
+		E3FCFA581B1787130028FE32 /* Levels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Levels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,7 +149,7 @@
 		24D7F5151B051844000240B5 = {
 			isa = PBXGroup;
 			children = (
-				52E63AE71B16C44000C4DADD /* Levels.swift */,
+				E3FCFA581B1787130028FE32 /* Levels.swift */,
 				52E63AE51B16B86500C4DADD /* Manager.swift */,
 				52E63ADA1B16A6D500C4DADD /* Model.xcdatamodeld */,
 				52E63AD81B16A6B000C4DADD /* CoreData.framework */,
@@ -315,7 +315,7 @@
 				TargetAttributes = {
 					24D7F51D1B051844000240B5 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = TF42CLK79T;
+						DevelopmentTeam = 2GEE43J5XT;
 					};
 					24D7F5361B051844000240B5 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -391,7 +391,7 @@
 				E31E54FD1B1389EF0087776C /* StageNode.swift in Sources */,
 				E31E54FB1B1389530087776C /* StageSelection.swift in Sources */,
 				24E148F91B0FB5720025CC1E /* PauseButton.swift in Sources */,
-				52E63AE81B16C44000C4DADD /* Levels.swift in Sources */,
+				E3FCFA591B1787130028FE32 /* Levels.swift in Sources */,
 				24F547D61B14F7D200C23ECD /* PauseNode.swift in Sources */,
 				24D012CC1B0CF3C400AAB33B /* Life.swift in Sources */,
 				24D7F5241B051844000240B5 /* AppDelegate.swift in Sources */,

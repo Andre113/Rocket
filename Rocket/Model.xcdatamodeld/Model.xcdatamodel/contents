@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14C1510" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Levels" representedClassName="Rocket.Levels" syncable="YES">
-        <attribute name="level1" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="level2" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="level3" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="level4" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="level5" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="level6" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="stageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Boolean" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Levels" positionX="-54" positionY="-9" width="128" height="135"/>
+        <element name="Levels" positionX="-54" positionY="-9" width="128" height="75"/>
     </elements>
 </model>
