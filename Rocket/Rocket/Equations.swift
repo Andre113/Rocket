@@ -16,7 +16,7 @@ class Equations: NSObject {
     }
     
     func randomNumberGenerator () ->Int {
-     
+        
         return Int(arc4random() % 100)
     }
     
@@ -52,28 +52,28 @@ class Equations: NSObject {
         
         if(auxArray.count >= 4) {
             answer = auxArray[0]
-//            b = auxArray[1]
+            //            b = auxArray[1]
             a = auxArray[2]
         }
         else if auxArray.count == 3 {
             answer = auxArray[0]
-//            b = auxArray[1]
+            //            b = auxArray[1]
             a = auxArray[2]
         }
         else if auxArray.count == 2 {
             answer = auxArray[0]
-//            b = auxArray[1]
+            //            b = auxArray[1]
             a = 1
         }
         
-//        answer = randomNumberGenerator()
+        //        answer = randomNumberGenerator()
         b = zeroToTwentyGenerator()
-//        a = zeroToTwentyGenerator()
+        //        a = zeroToTwentyGenerator()
         
         //fator de correção do a pra dar um inteiro
-//        while( (answer - b) % a != 0 ){
-//            a++
-//        }
+        //        while( (answer - b) % a != 0 ){
+        //            a++
+        //        }
         if a >= answer {
             while( (answer - b) % a != 0 ){
                 a--
@@ -215,7 +215,7 @@ class Equations: NSObject {
     }
     
     func allDividers() -> (arrayToCompare: [Int], newArray: [Int], newNumber: Int)  {
-       
+        
         
         var dividers = [Int]()
         while dividers.count < 4 {
@@ -226,7 +226,7 @@ class Equations: NSObject {
             }
             for index in 1 ... number {
                 if number % index == 0 {
-                dividers.append(index)
+                    dividers.append(index)
                 }
             }
         }
@@ -258,7 +258,7 @@ class Equations: NSObject {
     }
     
     func calculateTime(speed:Int, distance:Int) -> Int {
-            let time = distance / speed
+        let time = distance / speed
         return time
     }
     
@@ -269,23 +269,23 @@ class Equations: NSObject {
     
     //pragma metodos para 2.4. quando criar tal scene inserir lá!
     
-//    func randomizedProblem() {
-//        
-//        let choice = Int(arc4random() % 3)
-//        
-//        switch choice {
-//        case 0:
-//            timeProblem()
-//        case 1:
-//            timeProblem()
-//        case 2:
-//            timeProblem()
-//        default:
-//            println("Deu ruim!")
-//            
-//        }
-//    
-//    }
+    //    func randomizedProblem() {
+    //
+    //        let choice = Int(arc4random() % 3)
+    //
+    //        switch choice {
+    //        case 0:
+    //            timeProblem()
+    //        case 1:
+    //            timeProblem()
+    //        case 2:
+    //            timeProblem()
+    //        default:
+    //            println("Deu ruim!")
+    //
+    //        }
+    //
+    //    }
     
     func randomSpeed() ->Int {
         var speed =  Int(arc4random()%100) * 100
@@ -320,7 +320,7 @@ class Equations: NSObject {
         if speed == 0 || time == 0 {
             return  0
         }
-        
+            
         else {
             let accel:Int = speed / time
             return accel
@@ -402,5 +402,5 @@ class Equations: NSObject {
     
     
 }
-   
+
 

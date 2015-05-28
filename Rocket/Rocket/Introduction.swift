@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Andre Lucas Ota. All rights reserved.
 //
 import SpriteKit
+import CoreData
 
 class Introduction: SKScene{
     let startLabel = SKLabelNode(text: "INICIAR CONTAGEM REGRESSIVA")
@@ -16,6 +17,13 @@ class Introduction: SKScene{
     var up = true
     var timerScene: NSTimer?
     var timerAstronaut: NSTimer?
+    let managedObjectContext =
+    (UIApplication.sharedApplication().delegate
+        as! AppDelegate).managedObjectContext
+    
+    var dataManager = Manager.sharedInstance
+    var a = Equations.sharedInstance
+
     
     let redirect = Redirect.sharedInstance
     
@@ -25,8 +33,16 @@ class Introduction: SKScene{
         self.createGround()
         self.createChar()
         self.createRocket()
+    
+
         self.createStartLabel()
+//        dataManager.setLevelBool("level1", boolLevel: true)
+        dataManager.checkDataBase()
+
+       
+
     }
+    
     
     //    MARK: Create
     func createBG(){
@@ -34,6 +50,7 @@ class Introduction: SKScene{
         bg1.position = CGPointMake(frame.midX, frame.midY)
         bg1.zPosition = 0
         addChild(bg1)
+    
         
         bg2.position = CGPointMake(bg1.position.x  + bg1.size.width,  frame.midY)
         bg2.zPosition = 0
@@ -166,5 +183,54 @@ class Introduction: SKScene{
     //    MARK: Begin
     func goToSelectionGame(){
         redirect.stageSelection()
+    }
+    func saveData(){
+            let entityDescription =
+            NSEntityDescription.entityForName("Levels",
+                inManagedObjectContext: managedObjectContext!)
+            
+        let lvl = Levels(entity: entityDescription!,
+                insertIntoManagedObjectContext: managedObjectContext)
+            
+            lvl.level1 = false
+            
+            var error: NSError?
+            
+            managedObjectContext?.save(&error)
+            
+            if let err = error {
+//                status.text = err.localizedFailureReason
+            } else {
+             
+            }
+        
+
+    }
+    func retrievingData(){
+        let entityDescription =
+        NSEntityDescription.entityForName("Levels",
+            inManagedObjectContext: self.managedObjectContext!)
+        
+        let request = NSFetchRequest()
+        request.entity = entityDescription
+        
+        
+        var error: NSError?
+        
+        var objects = managedObjectContext?.executeFetchRequest(request,
+            error: &error)
+        
+        if let results = objects {
+            
+            if results.count > 0 {
+                let match = results[0] as! NSManagedObject
+                
+                var a: AnyObject? = match.valueForKey("level1")
+                println(111)
+
+                println(a)
+              
+            }
+        }
     }
 }
