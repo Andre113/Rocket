@@ -201,6 +201,8 @@ class Stage2: SKScene, TimerDelegate {
     
 //    MARK: Win or Lose
     func winAction(){
+        let manager = Manager.sharedInstance
+        manager.updateLevelStatus("stage2", newStatus: true)
         redirect.newStage(3)
     }
 

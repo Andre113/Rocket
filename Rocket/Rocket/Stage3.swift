@@ -395,6 +395,8 @@ class Stage3: SKScene, TimerDelegate{
     func winAction(){
         //Ação de ganhar
         println("win")
+        var manager = Manager.sharedInstance
+        manager.updateLevelStatus("stage3", newStatus: true)
         self.redirect.stageSelection()
     }
     

@@ -15,6 +15,7 @@ class StageSelection: SKScene {
     var title:SKLabelNode!
     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
     var redirect = Redirect.sharedInstance
+    var manager = Manager.sharedInstance
     
     
     override func  didMoveToView(view: SKView) {
@@ -39,9 +40,17 @@ class StageSelection: SKScene {
     }
     
     func createStages() {
-        for index in 0 ... 9 {
-            stageNodeArray.append(StageNode(texture: "planet", stageNumber: index+1))
-            
+        for index in 0 ... 8 {
+            var stageArray = manager.allLevelStatuses()
+            if stageArray[index] == true {
+                stageNodeArray.append(StageNode(texture: "fireBoost1", stageNumber: index+1))
+            }
+            else {
+                stageNodeArray.append(StageNode(texture: "planet", stageNumber: index+1))
+
+            }
+//            stageNodeArray.append(StageNode(texture: "planet", stageNumber: index+1))
+
         }
     }
     
