@@ -18,7 +18,7 @@ class Stage3: SKScene, TimerDelegate{
     var arrayChoices: [SKLabelNode] = []
     var arrayQuestions: [Question] = []
     var questionLabel: SKLabelNode = SKLabelNode()
-    let timer = Timer(time: 60)
+    var timer: Timer?
     var timerCloud: NSTimer?
     var timerRocket: NSTimer?
     var count = 0
@@ -31,7 +31,7 @@ class Stage3: SKScene, TimerDelegate{
         self.createQuestions()
         self.createQuestionLabel()
         self.createChoices()
-        self.createTimer()
+        self.createTimer(60)
         self.createPause()
         self.setChoicePosition()
         timerRocket = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
@@ -50,12 +50,16 @@ class Stage3: SKScene, TimerDelegate{
         addChild(pauseButton)
     }
     
-    func createTimer(){
-        timer.position = CGPointMake(frame.maxX - 100, frame.maxY-50)
-        timer.zPosition = 2
+    func createTimer(time: Int) {
+        self.timer = Timer(time: time)
+        timer!.fontColor = UIColor.whiteColor()
+        timer!.fontName = "Chalkduster"
+        timer!.fontSize = 30
+        timer!.position = CGPoint(x: self.frame.minX + 280, y: self.frame.minY + 17)
+        timer!.zPosition = 2
+        addChild(timer!)
         
-        timer.delegate = self
-        addChild(timer)
+        timer?.delegate = self
     }
     
     func createCloud(kind: Int, newX: CGFloat){
@@ -138,7 +142,7 @@ class Stage3: SKScene, TimerDelegate{
     
     func createNodes(){
         let bg = SKSpriteNode(imageNamed:"bgSky.png" )
-        bg.size = CGSize(width: self.frame.width, height:800)
+        bg.size = size
         bg.position = CGPointMake(self.size.width/2, self.size.height/2)
         bg.zPosition = 0
         addChild(bg)
@@ -375,7 +379,7 @@ class Stage3: SKScene, TimerDelegate{
         timerRocket = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
         timerCloud = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
         self.removeNodeWithName("PauseBox")
-        self.timer.resume()
+        self.timer!.resume()
     }
     
     func pauseAction(){
@@ -383,7 +387,7 @@ class Stage3: SKScene, TimerDelegate{
         timerCloud?.invalidate()
         let pauseNode = PauseNode(newX: self.frame.midX, newY: self.frame.midY)
         addChild(pauseNode)
-        self.timer.pause()
+        self.timer!.pause()
         self.scene?.paused = true
     }
     
@@ -395,7 +399,7 @@ class Stage3: SKScene, TimerDelegate{
     }
     
     func loseAction(){
-        self.timer.timer?.invalidate()
+        self.timer!.timer?.invalidate()
         let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
         
         let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
