@@ -64,7 +64,6 @@ class Manager:NSObject {
         
         let request = NSFetchRequest()
         request.entity = entityDescription
-        
         var error: NSError?
         
         var objects = managedObjectContext?.executeFetchRequest(request, error: &error)
@@ -91,6 +90,38 @@ class Manager:NSObject {
             }
         return false
         }
+    
+    func allLevelStatuses() ->[Bool] {
+        var statusLevelArray = [Bool]()
+        let entity = NSEntityDescription.entityForName("Levels", inManagedObjectContext: managedObjectContext!)
+        
+        let request = NSFetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "stageName", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        request.sortDescriptors = sortDescriptors
+        request.entity = entity
+        
+        var error: NSError?
+        
+        var objects = managedObjectContext?.executeFetchRequest(request, error: &error)
+        
+        if let results = objects {
+            for result in results {
+                var match = result as! NSManagedObject
+                statusLevelArray.append(match.valueForKey("status") as! Bool)
+                
+                var stage: String = match.valueForKey("stageName") as! String
+                var status : Bool = match.valueForKey("status") as! Bool
+                println("stage: \(stage) ")
+                println("status: \(status)")
+                //lembrar que está desordenado
+            
+            }
+            
+        }
+        println(statusLevelArray)
+        return statusLevelArray
+    }
 
     
 //    func setLevelBool(level:String, boolLevel:Bool){ //muda o valor de algum level para true ou false
@@ -140,12 +171,14 @@ class Manager:NSObject {
             else {
                 for result in results {
                     var match = result as! NSManagedObject
-                    
+                    println(match)
                     var stageName: AnyObject? = match.valueForKey("stageName")
                     var status: AnyObject? = match.valueForKey("status")
+                    println("\(stageName as! String)")
+                    println("\(status as! Bool)")
                     
                     if stage == stageName as! String {
-                        status = newStatus
+                        match.setValue(newStatus, forKey: "status")
                         managedObjectContext?.save(&error)
                     }
                     
@@ -167,7 +200,7 @@ class Manager:NSObject {
         if let results = objects {
             if results.count == 0 {
                 println("Cadastrando...")
-                for index in 0 ... 5 {
+                for index in 0 ... 8 {
                     let newLevel = Levels(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
                     newLevel.stageName = "stage\(index+1)"
                     newLevel.status = false

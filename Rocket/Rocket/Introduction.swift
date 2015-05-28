@@ -37,6 +37,7 @@ class Introduction: SKScene{
         self.createRocket()
         
         manager.dataBaseChecker()
+        manager.allLevelStatuses()
 
         self.createStartLabel()
 //        dataManager.setLevelBool("level1", boolLevel: true)

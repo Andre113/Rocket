@@ -317,6 +317,8 @@ class Stage1: SKScene, TimerDelegate {
 //    MARK: WIN or Lose
     func winAction(){
         self.timer.timer?.invalidate()
+        let manager = Manager.sharedInstance
+        manager.updateLevelStatus("stage1", newStatus: true)
         redirect.stageSelection()
     }
     
