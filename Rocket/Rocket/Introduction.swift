@@ -10,12 +10,12 @@ import CoreData
 
 class Introduction: SKScene{
     let startLabel = SKLabelNode(text: "INICIAR CONTAGEM REGRESSIVA")
-    let bg1 = SKSpriteNode(imageNamed: "bgStage3.jpg")
-    let bg2 = SKSpriteNode(imageNamed: "bgStage3.jpg")
+//    let bg1 = SKSpriteNode(imageNamed: "bgStage3.jpg")
+//    let bg2 = SKSpriteNode(imageNamed: "bgStage3.jpg")
     var cont = 1
     var char = SKSpriteNode(imageNamed: "astronaut1")
     var up = true
-    var timerScene: NSTimer?
+    var timerCloud: NSTimer?
     var timerAstronaut: NSTimer?
     let managedObjectContext =
     (UIApplication.sharedApplication().delegate
@@ -47,20 +47,21 @@ class Introduction: SKScene{
     //    MARK: Create
     func createBG(){
         //        -160
+        let bg1 = SKSpriteNode(imageNamed: "bgSky.png")
         bg1.position = CGPointMake(frame.midX, frame.midY)
         bg1.zPosition = 0
         addChild(bg1)
-    
-        
-        bg2.position = CGPointMake(bg1.position.x  + bg1.size.width,  frame.midY)
-        bg2.zPosition = 0
-        addChild(bg2)
+//    
+//        
+//        bg2.position = CGPointMake(bg1.position.x  + bg1.size.width,  frame.midY)
+//        bg2.zPosition = 0
+//        addChild(bg2)
         
         self.beginMove()
     }
     
     func beginMove(){
-        timerScene = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
+        timerCloud = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
         timerAstronaut = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("movingAstronaut"), userInfo: nil, repeats: true)
     }
     
@@ -68,7 +69,7 @@ class Introduction: SKScene{
         let title = SKSpriteNode(imageNamed: "")
         title.name = "title"
         title.position = CGPointMake(frame.midX, 600)
-        title.zPosition = 1
+        title.zPosition = 2
     }
     
     func createStartLabel(){
@@ -77,7 +78,7 @@ class Introduction: SKScene{
         startLabel.fontSize = 25
         startLabel.name = "start"
         startLabel.position = CGPointMake(frame.midX, 560)
-        startLabel.zPosition = 1
+        startLabel.zPosition = 2
         addChild(startLabel)
         
         self.updateStart()
@@ -109,6 +110,15 @@ class Introduction: SKScene{
         addChild(ground)
     }
     
+    func createCloud(kind: Int, newY: CGFloat){
+        let newCloud = SKSpriteNode(imageNamed: "nuvem\(kind).png")
+        newCloud.position = CGPointMake(self.frame.maxX, newY)
+        newCloud.zPosition = 1
+        addChild(newCloud)
+        
+        moveCloud(newCloud)
+    }
+    
 //    MARK: Update
     func updateStart(){
         let speed = 0.25
@@ -134,16 +144,20 @@ class Introduction: SKScene{
     }
     
     func movingScene(){
-        bg1.position.x = bg1.position.x - 1
-        bg2.position.x = bg2.position.x - 1
+        resetCloudTimer()
         
-        if(bg1.position.x < -175){
-            bg1.position = CGPointMake(bg2.position.x  + bg2.size.width,  frame.midY)
-        }
+        let kind = Int(arc4random_uniform(2))
+        let newY = random(min: self.frame.minY + 400, max: self.frame.maxY-120)
+        println("Move")
         
-        if(bg2.position.x < -175 ){
-            bg2.position = CGPointMake(bg1.position.x + bg1.size.width, frame.midX)
-        }
+        createCloud(kind, newY: newY)
+    }
+    
+    func moveCloud(cloud: SKSpriteNode){
+        let action1 = SKAction.moveByX(-frame.maxX, y: 0, duration: 9.0)
+        cloud.runAction(action1, completion:{
+            cloud.removeFromParent()
+        })
     }
     
     func movingAstronaut(){
@@ -170,7 +184,7 @@ class Introduction: SKScene{
         let location = touch.locationInNode(self)
         
         self.timerAstronaut?.invalidate()
-        self.timerScene?.invalidate()
+        self.timerCloud?.invalidate()
         self.goToSelectionGame()
         
 //        let clicked = nodeAtPoint(location)
@@ -180,7 +194,7 @@ class Introduction: SKScene{
 //        }
     }
     
-    //    MARK: Begin
+//    MARK: Begin
     func goToSelectionGame(){
         redirect.stageSelection()
     }
@@ -232,5 +246,20 @@ class Introduction: SKScene{
               
             }
         }
+    }
+    
+//    MARK: Other
+    func resetCloudTimer(){
+        timerCloud?.invalidate()
+        let cloudDelay = Double(random(min: 1.5, max: 5.5))
+        timerCloud = NSTimer.scheduledTimerWithTimeInterval(cloudDelay, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
+    }
+    
+    func random() -> CGFloat {
+        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+    }
+    
+    func random(#min: CGFloat, max: CGFloat) -> CGFloat {
+        return random() * (max - min) + min
     }
 }
