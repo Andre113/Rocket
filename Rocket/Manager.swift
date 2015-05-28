@@ -85,11 +85,13 @@ class Manager:NSObject {
                     }
                 }
             }
-            else {
+        }
+        else {
                 return false
             }
+        return false
         }
-    }
+
     
 //    func setLevelBool(level:String, boolLevel:Bool){ //muda o valor de algum level para true ou false
 //        
@@ -169,7 +171,9 @@ class Manager:NSObject {
                     let newLevel = Levels(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
                     newLevel.stageName = "stage\(index+1)"
                     newLevel.status = false
+                    println("stage \(index + 1) inserido!")
                 }
+                managedObjectContext?.save(&error)
             }
             else {
               println("Fases já carregadas!")

@@ -27,18 +27,20 @@ class Introduction: SKScene{
     
     let redirect = Redirect.sharedInstance
     
+    let manager = Manager.sharedInstance
+    
     override func didMoveToView(view: SKView) {
         self.createBG()
         self.createTitle()
         self.createGround()
         self.createChar()
         self.createRocket()
-    
+        
+        manager.dataBaseChecker()
 
         self.createStartLabel()
 //        dataManager.setLevelBool("level1", boolLevel: true)
-        dataManager.checkDataBase()
-
+//        dataManager.checkDataBase()
        
 
     }
@@ -198,28 +200,28 @@ class Introduction: SKScene{
     func goToSelectionGame(){
         redirect.stageSelection()
     }
-    func saveData(){
-            let entityDescription =
-            NSEntityDescription.entityForName("Levels",
-                inManagedObjectContext: managedObjectContext!)
-            
-        let lvl = Levels(entity: entityDescription!,
-                insertIntoManagedObjectContext: managedObjectContext)
-            
-            lvl.level1 = false
-            
-            var error: NSError?
-            
-            managedObjectContext?.save(&error)
-            
-            if let err = error {
-//                status.text = err.localizedFailureReason
-            } else {
-             
-            }
-        
-
-    }
+//    func saveData(){
+//            let entityDescription =
+//            NSEntityDescription.entityForName("Levels",
+//                inManagedObjectContext: managedObjectContext!)
+//            
+//        let lvl = Levels(entity: entityDescription!,
+//                insertIntoManagedObjectContext: managedObjectContext)
+//            
+//            lvl.level1 = false
+//            
+//            var error: NSError?
+//            
+//            managedObjectContext?.save(&error)
+//            
+//            if let err = error {
+////                status.text = err.localizedFailureReason
+//            } else {
+//             
+//            }
+//    
+//
+//    }
     func retrievingData(){
         let entityDescription =
         NSEntityDescription.entityForName("Levels",
