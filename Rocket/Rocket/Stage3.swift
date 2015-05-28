@@ -8,45 +8,60 @@
 
 import SpriteKit
 
-class Stage3: SKScene{
+class Stage3: SKScene, TimerDelegate{
     //    MARK: Variables
     let equations = Equations.sharedInstance
+    let redirect = Redirect.sharedInstance
     var rocket = SKSpriteNode(imageNamed: "rocketStage3")
     var arrayLifes: [Life] = []
     var fireBoost = SKSpriteNode(imageNamed:"fireBoost")
     var arrayChoices: [SKLabelNode] = []
     var arrayQuestions: [Question] = []
     var questionLabel: SKLabelNode = SKLabelNode()
-    var bgScene1 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
-    var bgScene2 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
-    var bgScene3 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
-    var redirect = Redirect.sharedInstance
-    
-    
+    let timer = Timer(time: 60)
+//    var bgScene2 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
+//    var bgScene3 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
+    var timerCloud: NSTimer?
     var count = 0
     var toggleFire = Bool()
     var getSkyDown = Int()
     
     override func didMoveToView(view: SKView) {
+        self.configureView()
         self.createLifes()
         self.createNodes()
         self.createQuestions()
         self.createQuestionLabel()
         self.createChoices()
+        self.createTimer()
         self.setChoicePosition()
         //        self.movingScene()
         NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
-        
-        NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(2.5, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
+    }
+    
+    //    MARK: Create
+    func configureView(){
         self.view!.userInteractionEnabled = true
         self.view!.multipleTouchEnabled = false
     }
     
-    //    MARK: Create
-    //    func configureView(){
+    func createTimer(){
+        timer.position = CGPointMake(frame.maxX - 100, frame.maxY-50)
+        timer.zPosition = 2
+        
+        timer.delegate = self
+        addChild(timer)
+    }
     
-    //
-    //    }
+    func createCloud(kind: Int, newX: CGFloat){
+        let newCloud = SKSpriteNode(imageNamed: "nuvem\(kind).png")
+        newCloud.position = CGPointMake(newX, frame.minY)
+        newCloud.zPosition = 1
+        addChild(newCloud)
+        
+        moveCloud(newCloud)
+    }
     
     // MARK: Change fireboost texture
     
@@ -63,47 +78,20 @@ class Stage3: SKScene{
     }
     
     func movingScene(){
+        let kind = Int(arc4random_uniform(2))
+        let newX = random(min: self.frame.minX + 120, max: self.frame.maxX - 120)
+        println("Move")
         
+        createCloud(kind, newX: newX)
         
-        bgScene2.position.y = bgScene2.position.y + 1
-        bgScene1.position.y =  bgScene1.position.y + 1
-        
-        
-        
-        
-        if(bgScene2.position.y  >= self.size.height + 430){
-            
-            if(rocket.position.y > 80){
-                
-                rocket.position.y = rocket.position.y  - 1
-                fireBoost.position.y  = fireBoost.position.y - 1
-                //println(rocket.position.y)
-                
-            }else{
-                
-                fireBoost.removeFromParent()
-                
-            }
-            
-            
-        }else{
-            bgScene3.position.y =  bgScene3.position.y + 1
-            
-        }
-        
-        //        if(bgScene1.position.y > 1200){
-        //
-        //            bgScene1.position = CGPointMake(self.size.width/2, self.size.height/2 - 700)
-        //
-        //        }
-        //
-        //        if(bgScene2.position.y > 1200){
-        //            bgScene2.position = CGPointMake(self.size.width/2, self.size.height/2 - 700)
-        //
-        //
-        //        }
-        
-        
+        resetCloudTimer()
+    }
+    
+    func moveCloud(cloud: SKSpriteNode){
+        let action1 = SKAction.moveToY(frame.maxY, duration: 3.3)
+        cloud.runAction(action1, completion:{
+            cloud.removeFromParent()
+        })
     }
     
     //Cria vidas
@@ -147,25 +135,27 @@ class Stage3: SKScene{
     //Cria nodes da scene
     
     func createNodes(){
-        bgScene1.size = CGSize(width: 580, height:800)
-        bgScene1.position = CGPointMake(self.size.width/2, self.size.height/2)
-        addChild(bgScene1)
+        let bg = SKSpriteNode(imageNamed:"bgSky.png" )
+        bg.size = CGSize(width: self.frame.width, height:800)
+        bg.position = CGPointMake(self.size.width/2, self.size.height/2)
+        bg.zPosition = 0
+        addChild(bg)
         
-        bgScene2.size = CGSize(width: 580, height:800)
-        bgScene2.position = CGPointMake(self.size.width / 2 , self.size.height/2 - 800)
-        addChild(bgScene2)
-        
-        bgScene3.size = CGSize(width: 580, height:800)
-        bgScene3.position = CGPointMake(self.size.width / 2 , self.size.height/2 - 1600)
-        var ground = SKSpriteNode(imageNamed: "ground4")
-        ground.position.y =  -320
-        
-        bgScene3.addChild(ground)
-        addChild(bgScene3)
+//        bgScene2.size = CGSize(width: 580, height:800)
+//        bgScene2.position = CGPointMake(self.size.width / 2 , self.size.height/2 - 800)
+//        addChild(bgScene2)
+//        
+//        bgScene3.size = CGSize(width: 580, height:800)
+//        bgScene3.position = CGPointMake(self.size.width / 2 , self.size.height/2 - 1600)
+//        var ground = SKSpriteNode(imageNamed: "ground4")
+//        ground.position.y =  -320
+//        
+//        bgScene3.addChild(ground)
+//        addChild(bgScene3)
         
         
         rocket.position = CGPoint(x: self.size.width / 2, y: self.size.height * 0.8)
-        rocket.zPosition = 1
+        rocket.zPosition = 2
         addChild(rocket)
         
         fireBoost.position = CGPoint(x: self.size.width / 2, y: self.size.height * 0.7050)
@@ -181,7 +171,8 @@ class Stage3: SKScene{
         questionLabel.fontName = "Chalkduster"
         questionLabel.fontSize = 50
         questionLabel.fontColor = UIColor.redColor()
-        questionLabel.position = CGPointMake(self.frame.midX, self.frame.midY + 100)
+        questionLabel.position = CGPointMake(self.frame.midX, self.frame.midY + 50)
+        questionLabel.zPosition = 2
         addChild(questionLabel)
     }
     
@@ -246,6 +237,7 @@ class Stage3: SKScene{
         newChoice.fontName = "Chalkduster"
         newChoice.fontColor = UIColor.blackColor()
         newChoice.fontSize = 40
+        newChoice.zPosition = 2
         return newChoice
     }
     
@@ -337,6 +329,20 @@ class Stage3: SKScene{
         }
     }
     
+    func resetCloudTimer(){
+        timerCloud?.invalidate()
+        let cloudDelay = Double(random(min: 0.5, max: 1.3))
+        timerCloud = NSTimer.scheduledTimerWithTimeInterval(cloudDelay, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
+    }
+    
+    func random() -> CGFloat {
+        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+    }
+    
+    func random(#min: CGFloat, max: CGFloat) -> CGFloat {
+        return random() * (max - min) + min
+    }
+    
     //metodo que remove o node
     func removeNodeWithName(name: String){
         self.childNodeWithName(name)?.removeFromParent()
@@ -350,11 +356,16 @@ class Stage3: SKScene{
     }
     
     func loseAction(){
+        self.timer.timer?.invalidate()
         let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
         
         let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
         let resetScene = Stage3(size: self.size)
         
         self.view?.presentScene(resetScene, transition: fadeOut)
+    }
+    
+    func timeEnd(timer: Timer) {
+        self.loseAction()
     }
 }

@@ -144,17 +144,17 @@ class Introduction: SKScene{
     }
     
     func movingScene(){
-        resetCloudTimer()
-        
         let kind = Int(arc4random_uniform(2))
         let newY = random(min: self.frame.minY + 400, max: self.frame.maxY-120)
         println("Move")
         
         createCloud(kind, newY: newY)
+        
+        resetCloudTimer()
     }
     
     func moveCloud(cloud: SKSpriteNode){
-        let action1 = SKAction.moveByX(-frame.maxX, y: 0, duration: 9.0)
+        let action1 = SKAction.moveToX(frame.minX, duration: 9.0)
         cloud.runAction(action1, completion:{
             cloud.removeFromParent()
         })
