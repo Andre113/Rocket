@@ -8,10 +8,11 @@
 
 import SpriteKit
 
-class Stage2: SKScene {
+class Stage2: SKScene, TimerDelegate {
 //    MARK: Variables
     let equations = Equations.sharedInstance
     let redirect = Redirect.sharedInstance
+    var timer: Timer?
     var arrayRoutes: [Route] = []
     var rightRoute = Route?()
     var equation = Equations.sharedInstance
@@ -22,6 +23,7 @@ class Stage2: SKScene {
         self.createPlanetName()
         self.createRoutes()
         self.setPositions()
+        self.createTimer(20)
 //        self.setLabels()
         self.createPause()
     }
@@ -35,14 +37,27 @@ class Stage2: SKScene {
     
     func createBG(bgName: String){
         let bgRoute = SKSpriteNode(imageNamed: bgName)
-        bgRoute.size = self.size
+        bgRoute.size = size
         bgRoute.position = CGPointMake(self.frame.midX, self.frame.midY)
         bgRoute.zPosition = 0
         addChild(bgRoute)
     }
     
+    func createTimer(time: Int) {
+        self.timer = Timer(time: time)
+        timer!.fontColor = UIColor.whiteColor()
+        timer!.fontName = "Chalkduster"
+        timer!.fontSize = 20
+        timer!.position = CGPoint(x: frame.minX + 400, y: self.frame.minY + 17)
+        timer!.zPosition = 2
+        addChild(timer!)
+        
+        timer?.delegate = self
+    }
+    
     func createPause(){
-        let pauseButton = PauseButton(newX: size.width * 0.3, newY: size.height * 0.035)
+        let pauseButton = PauseButton(newX: frame.width * 0.3, newY: frame.height * 0.035)
+        pauseButton.zPosition = 1
         addChild(pauseButton)
     }
     
@@ -55,7 +70,7 @@ class Stage2: SKScene {
             let newAnswer = newOption.answer
             let newRoute = Route(bgImage: "route\(index).png", deltaTime: newAnswer, deltaDistance: newDistance, deltaSpeed: newSpeed)
             newRoute.zPosition = 1
-            newRoute.name = "route\(index)"
+            newRoute.name = "route.\(index)"
             
             self.arrayRoutes.append(newRoute)
         }
@@ -135,6 +150,7 @@ class Stage2: SKScene {
         let clickName = clicked.name
         
         if(clickName != ""  && clickName != nil){
+            println(clickName)
             self.switchTouch(clicked)
         }
     }
@@ -142,12 +158,34 @@ class Stage2: SKScene {
 //    MARK: Switch Touch
     
     func switchTouch(clicked: SKNode){
-        if(clicked.name == "pause"){
-            //pause
+        let name = clicked.name?.componentsSeparatedByString(".")
+        let firstName = name!.first!
+        let secondName = name!.last!
+        
+        if(self.scene?.paused == false){
+            switch firstName{
+            case "pause":
+                pauseAction()
+                break
+            case "route":
+                self.view?.userInteractionEnabled = false
+                checkRight(clicked as! Route)
+                break
+            default:
+                break
+            }
         }
         else{
-            self.view?.userInteractionEnabled = false
-            self.checkRight(clicked as! Route)
+            switch firstName{
+            case "back":
+                redirect.stageSelection()
+                break
+            case "resume":
+                resumeAction()
+                break
+            default:
+                break
+            }
         }
     }
     
@@ -170,6 +208,10 @@ class Stage2: SKScene {
         redirect.newStage(2)
     }
     
+    func timeEnd(timer: Timer) {
+        self.loseAction()
+    }
+    
 //    MARK: Animation
     func animateRoute(routeToMove: Route){
         let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
@@ -183,4 +225,23 @@ class Stage2: SKScene {
             self.view?.userInteractionEnabled = true
         })
     }
+    
+    //    MARK: Other
+    func resumeAction(){
+        self.scene?.paused = false
+        self.removeNodeWithName("PauseBox")
+        self.timer!.resume()
+    }
+    
+    func pauseAction(){
+        let pauseNode = PauseNode(newX: self.frame.midX, newY: self.frame.midY)
+        addChild(pauseNode)
+        self.timer!.pause()
+        self.scene?.paused = true
+    }
+    
+    func removeNodeWithName(name: String){
+        self.childNodeWithName(name)?.removeFromParent()
+    }
+
 }

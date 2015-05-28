@@ -13,26 +13,25 @@ class Stage3: SKScene, TimerDelegate{
     let equations = Equations.sharedInstance
     let redirect = Redirect.sharedInstance
     var rocket = SKSpriteNode(imageNamed: "rocketStage3")
-    var arrayLifes: [Life] = []
+    var lifes = 2
     var fireBoost = SKSpriteNode(imageNamed:"fireBoost1")
     var arrayChoices: [SKLabelNode] = []
     var arrayQuestions: [Question] = []
     var questionLabel: SKLabelNode = SKLabelNode()
-    let timer = Timer(time: 60)
+    var timer: Timer?
     var timerCloud: NSTimer?
     var timerRocket: NSTimer?
     var count = 0
     var toggleFire = Bool()
-    var getSkyDown = Int()
     
     override func didMoveToView(view: SKView) {
         self.configureView()
-        self.createLifes()
+        self.createLifes(lifes)
         self.createNodes()
         self.createQuestions()
         self.createQuestionLabel()
         self.createChoices()
-        self.createTimer()
+        self.createTimer(60)
         self.createPause()
         self.setChoicePosition()
         timerRocket = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
@@ -51,12 +50,16 @@ class Stage3: SKScene, TimerDelegate{
         addChild(pauseButton)
     }
     
-    func createTimer(){
-        timer.position = CGPointMake(frame.maxX - 100, frame.maxY-50)
-        timer.zPosition = 2
+    func createTimer(time: Int) {
+        self.timer = Timer(time: time)
+        timer!.fontColor = UIColor.whiteColor()
+        timer!.fontName = "Chalkduster"
+        timer!.fontSize = 30
+        timer!.position = CGPoint(x: self.frame.minX + 280, y: self.frame.minY + 17)
+        timer!.zPosition = 2
+        addChild(timer!)
         
-        timer.delegate = self
-        addChild(timer)
+        timer?.delegate = self
     }
     
     func createCloud(kind: Int, newX: CGFloat){
@@ -99,14 +102,13 @@ class Stage3: SKScene, TimerDelegate{
     }
     
     //Cria vidas
-    func createLifes(){
+    func createLifes(qtd: Int){
         var incX: CGFloat = 0.85
         let newY = size.height * 0.05
         var newName = 0
-        for index in 0...2{
+        for index in 0...qtd{
             let newX = size.width * incX
             let life = Life(name: "life.\(newName)", newX: newX, newY: newY)
-            arrayLifes.append(life)
             incX += 0.03
             newName++
             
@@ -116,7 +118,7 @@ class Stage3: SKScene, TimerDelegate{
         }
     }
     
-    //    MARK: Create Questions
+//    MARK: Create Questions
     //Cria o array de objetos questões (equações)
     func createQuestions(){
         for index in 0...7{
@@ -140,7 +142,7 @@ class Stage3: SKScene, TimerDelegate{
     
     func createNodes(){
         let bg = SKSpriteNode(imageNamed:"bgSky.png" )
-        bg.size = CGSize(width: self.frame.width, height:800)
+        bg.size = size
         bg.position = CGPointMake(self.size.width/2, self.size.height/2)
         bg.zPosition = 0
         addChild(bg)
@@ -283,23 +285,31 @@ class Stage3: SKScene, TimerDelegate{
     func switchClick(clicked: SKNode){
         let name = clicked.name?.componentsSeparatedByString(".")
         let firstName = name!.first!
-        let secondName = name!.last!
         
-        switch firstName{
-        case "choice":
-            checkRight(secondName)
-            break
-        case "pause":
-            pauseAction()
-            break
-        case "resume":
-            resumeAction()
-            break
-        case "back":
-            redirect.stageSelection()
-            break
-        default:
-            break
+        if(self.scene?.paused == false){
+            switch firstName{
+            case "choice":
+                let secondName = name!.last!
+                checkRight(secondName)
+                break
+            case "pause":
+                pauseAction()
+                break
+            default:
+                break
+            }
+        }
+        else{
+            switch firstName{
+            case "resume":
+                resumeAction()
+                break
+            case "back":
+                redirect.stageSelection()
+                break
+            default:
+                break
+            }
         }
     }
     
@@ -320,10 +330,11 @@ class Stage3: SKScene, TimerDelegate{
             }
         }
         else{
-            self.removeNodeWithName(self.arrayLifes.last!.name!)
-            self.arrayLifes.removeLast()
-            println("quantidade de lifes: \(arrayLifes)")
-            if(self.arrayLifes.isEmpty){
+            self.removeNodeWithName("life.\(lifes)")
+            println("life.\(lifes)")
+            lifes--
+            
+            if(lifes == -1){
                 self.loseAction()
             }
             else{
@@ -368,7 +379,7 @@ class Stage3: SKScene, TimerDelegate{
         timerRocket = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
         timerCloud = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
         self.removeNodeWithName("PauseBox")
-        self.timer.resume()
+        self.timer!.resume()
     }
     
     func pauseAction(){
@@ -376,7 +387,7 @@ class Stage3: SKScene, TimerDelegate{
         timerCloud?.invalidate()
         let pauseNode = PauseNode(newX: self.frame.midX, newY: self.frame.midY)
         addChild(pauseNode)
-        self.timer.pause()
+        self.timer!.pause()
         self.scene?.paused = true
     }
     
@@ -388,7 +399,7 @@ class Stage3: SKScene, TimerDelegate{
     }
     
     func loseAction(){
-        self.timer.timer?.invalidate()
+        self.timer!.timer?.invalidate()
         let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
         
         let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)

@@ -12,13 +12,11 @@ import AVFoundation
 class Stage1: SKScene, TimerDelegate {
 //    MARK: Variables
     var audioPlayer = AVAudioPlayer()
-//    var arrayLifes:[Life] = []
     var key = 0
     var arrayNumbers: [Int] = []
     var arrayAnswers: [Int] = []
     var lifes = 3
-//    var timer:Timer?
-    let timer = Timer(time: 10)
+    var timer:Timer?
     
     let equations = Equations.sharedInstance
     let redirect = Redirect.sharedInstance
@@ -74,15 +72,15 @@ class Stage1: SKScene, TimerDelegate {
     }
     
     func createTimer(time: Int) {
-//        timer = Timer(time: time)
-        timer.fontColor = UIColor.whiteColor()
-        timer.fontName = "Chalkduster"
-        timer.fontSize = 20
-        timer.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        timer.zPosition = 2
-        addChild(timer)
+        self.timer = Timer(time: time)
+        timer!.fontColor = UIColor.whiteColor()
+        timer!.fontName = "Chalkduster"
+        timer!.fontSize = 20
+        timer!.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        timer!.zPosition = 2
+        addChild(timer!)
         
-        timer.delegate = self
+        timer?.delegate = self
     }
     
     func createTileLabels(){
@@ -305,7 +303,7 @@ class Stage1: SKScene, TimerDelegate {
         
         box.runAction(action5, completion:{
             if(self.lifes==0){
-                    self.timer.timer?.invalidate()
+                    self.timer?.timer?.invalidate()
                     self.loseAction()
                 }
             else{
@@ -324,7 +322,7 @@ class Stage1: SKScene, TimerDelegate {
     
     func loseAction(){
 //        removeLifes()
-        self.timer.timer?.invalidate()
+        self.timer?.timer?.invalidate()
         redirect.newStage(1)
     }
     
@@ -352,13 +350,13 @@ class Stage1: SKScene, TimerDelegate {
     func resumeAction(){
         self.scene?.paused = false
         self.removeNodeWithName("PauseBox")
-        self.timer.resume()
+        self.timer?.resume()
     }
     
     func pauseAction(){
         let pauseNode = PauseNode(newX: self.frame.midX, newY: self.frame.midY)
         addChild(pauseNode)
-        self.timer.pause()
+        self.timer?.pause()
         self.scene?.paused = true
     }
     
