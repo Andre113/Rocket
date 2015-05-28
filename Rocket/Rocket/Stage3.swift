@@ -14,14 +14,13 @@ class Stage3: SKScene, TimerDelegate{
     let redirect = Redirect.sharedInstance
     var rocket = SKSpriteNode(imageNamed: "rocketStage3")
     var arrayLifes: [Life] = []
-    var fireBoost = SKSpriteNode(imageNamed:"fireBoost")
+    var fireBoost = SKSpriteNode(imageNamed:"fireBoost1")
     var arrayChoices: [SKLabelNode] = []
     var arrayQuestions: [Question] = []
     var questionLabel: SKLabelNode = SKLabelNode()
     let timer = Timer(time: 60)
-//    var bgScene2 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
-//    var bgScene3 = SKSpriteNode(imageNamed:"bgStage3.jpg" )
     var timerCloud: NSTimer?
+    var timerRocket: NSTimer?
     var count = 0
     var toggleFire = Bool()
     var getSkyDown = Int()
@@ -34,16 +33,22 @@ class Stage3: SKScene, TimerDelegate{
         self.createQuestionLabel()
         self.createChoices()
         self.createTimer()
+        self.createPause()
         self.setChoicePosition()
-        //        self.movingScene()
-        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
+        timerRocket = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
         NSTimer.scheduledTimerWithTimeInterval(2.5, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
     }
     
-    //    MARK: Create
+//    MARK: Create
     func configureView(){
         self.view!.userInteractionEnabled = true
         self.view!.multipleTouchEnabled = false
+    }
+    
+    func createPause(){
+        let pauseButton = PauseButton(newX: size.width * 0.13, newY: size.height * 0.035)
+        pauseButton.zPosition = 2
+        addChild(pauseButton)
     }
     
     func createTimer(){
@@ -80,7 +85,6 @@ class Stage3: SKScene, TimerDelegate{
     func movingScene(){
         let kind = Int(arc4random_uniform(2))
         let newX = random(min: self.frame.minX + 120, max: self.frame.maxX - 120)
-        println("Move")
         
         createCloud(kind, newX: newX)
         
@@ -88,7 +92,7 @@ class Stage3: SKScene, TimerDelegate{
     }
     
     func moveCloud(cloud: SKSpriteNode){
-        let action1 = SKAction.moveToY(frame.maxY, duration: 3.3)
+        let action1 = SKAction.moveToY(frame.maxY+30, duration: 3.3)
         cloud.runAction(action1, completion:{
             cloud.removeFromParent()
         })
@@ -96,7 +100,7 @@ class Stage3: SKScene, TimerDelegate{
     
     //Cria vidas
     func createLifes(){
-        var incX: CGFloat = 0.68
+        var incX: CGFloat = 0.85
         let newY = size.height * 0.05
         var newName = 0
         for index in 0...2{
@@ -106,7 +110,7 @@ class Stage3: SKScene, TimerDelegate{
             incX += 0.03
             newName++
             
-            life.zPosition = 1
+            life.zPosition = 2
             
             addChild(life)
         }
@@ -140,20 +144,7 @@ class Stage3: SKScene, TimerDelegate{
         bg.position = CGPointMake(self.size.width/2, self.size.height/2)
         bg.zPosition = 0
         addChild(bg)
-        
-//        bgScene2.size = CGSize(width: 580, height:800)
-//        bgScene2.position = CGPointMake(self.size.width / 2 , self.size.height/2 - 800)
-//        addChild(bgScene2)
-//        
-//        bgScene3.size = CGSize(width: 580, height:800)
-//        bgScene3.position = CGPointMake(self.size.width / 2 , self.size.height/2 - 1600)
-//        var ground = SKSpriteNode(imageNamed: "ground4")
-//        ground.position.y =  -320
-//        
-//        bgScene3.addChild(ground)
-//        addChild(bgScene3)
-        
-        
+
         rocket.position = CGPoint(x: self.size.width / 2, y: self.size.height * 0.8)
         rocket.zPosition = 2
         addChild(rocket)
@@ -167,7 +158,7 @@ class Stage3: SKScene, TimerDelegate{
     //Cria label da questão
     func createQuestionLabel(){
         questionLabel = SKLabelNode(text: arrayQuestions[0].equation)
-        questionLabel.name = "Question"
+        questionLabel.name = "question"
         questionLabel.fontName = "Chalkduster"
         questionLabel.fontSize = 50
         questionLabel.fontColor = UIColor.redColor()
@@ -176,7 +167,7 @@ class Stage3: SKScene, TimerDelegate{
         addChild(questionLabel)
     }
     
-    //    MARK: Create Choices
+//    MARK: Create Choices
     //Cria alternativas
     func createChoices(){
         self.createRightChoice()
@@ -233,7 +224,7 @@ class Stage3: SKScene, TimerDelegate{
     //Cria label de alternativas
     func createChoice(newAnswer: Int) -> SKLabelNode{
         var newChoice = SKLabelNode(text: "\(newAnswer)")
-        newChoice.name = "\(newAnswer)"
+        newChoice.name = "choice.\(newAnswer)"
         newChoice.fontName = "Chalkduster"
         newChoice.fontColor = UIColor.blackColor()
         newChoice.fontSize = 40
@@ -283,9 +274,32 @@ class Stage3: SKScene, TimerDelegate{
         
         
         //Se clicar em uma alternativa
-        if (clickName != "" && clickName != nil && clickName != "Question"){
+        if (clickName != "" && clickName != nil){
             println(clickName)
-            self.checkRight(clickName!)
+            switchClick(clicked)
+        }
+    }
+    
+    func switchClick(clicked: SKNode){
+        let name = clicked.name?.componentsSeparatedByString(".")
+        let firstName = name!.first!
+        let secondName = name!.last!
+        
+        switch firstName{
+        case "choice":
+            checkRight(secondName)
+            break
+        case "pause":
+            pauseAction()
+            break
+        case "resume":
+            resumeAction()
+            break
+        case "back":
+            redirect.stageSelection()
+            break
+        default:
+            break
         }
     }
     
@@ -318,9 +332,9 @@ class Stage3: SKScene, TimerDelegate{
         }
     }
     
-    //    MARK: Other
+//    MARK: Other
     func removeQuestion(){
-        self.removeNodeWithName("Question")
+        self.removeNodeWithName("question")
     }
     
     func removeChoices(){
@@ -348,7 +362,25 @@ class Stage3: SKScene, TimerDelegate{
         self.childNodeWithName(name)?.removeFromParent()
     }
     
-    //    MARK: Win or Lose
+//    MARK: Pause Resume
+    func resumeAction(){
+        self.scene?.paused = false
+        timerRocket = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
+        timerCloud = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
+        self.removeNodeWithName("PauseBox")
+        self.timer.resume()
+    }
+    
+    func pauseAction(){
+        timerRocket?.invalidate()
+        timerCloud?.invalidate()
+        let pauseNode = PauseNode(newX: self.frame.midX, newY: self.frame.midY)
+        addChild(pauseNode)
+        self.timer.pause()
+        self.scene?.paused = true
+    }
+    
+//    MARK: Win or Lose
     func winAction(){
         //Ação de ganhar
         println("win")
