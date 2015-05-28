@@ -12,7 +12,6 @@ import AVFoundation
 class Stage1: SKScene, TimerDelegate {
 //    MARK: Variables
     var audioPlayer = AVAudioPlayer()
-//    var arrayLifes:[Life] = []
     var key = 0
     var arrayNumbers: [Int] = []
     var arrayAnswers: [Int] = []
