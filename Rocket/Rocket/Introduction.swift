@@ -10,8 +10,6 @@ import CoreData
 
 class Introduction: SKScene{
     let startLabel = SKLabelNode(text: "INICIAR CONTAGEM REGRESSIVA")
-//    let bg1 = SKSpriteNode(imageNamed: "bgStage3.jpg")
-//    let bg2 = SKSpriteNode(imageNamed: "bgStage3.jpg")
     var cont = 1
     var char = SKSpriteNode(imageNamed: "astronaut1")
     var up = true
@@ -42,24 +40,15 @@ class Introduction: SKScene{
         self.createStartLabel()
 //        dataManager.setLevelBool("level1", boolLevel: true)
 //        dataManager.checkDataBase()
-       
-
     }
     
     
     //    MARK: Create
     func createBG(){
-        //        -160
         let bg1 = SKSpriteNode(imageNamed: "bgSky.png")
         bg1.position = CGPointMake(frame.midX, frame.midY)
         bg1.zPosition = 0
         addChild(bg1)
-//    
-//        
-//        bg2.position = CGPointMake(bg1.position.x  + bg1.size.width,  frame.midY)
-//        bg2.zPosition = 0
-//        addChild(bg2)
-        
         self.beginMove()
     }
     

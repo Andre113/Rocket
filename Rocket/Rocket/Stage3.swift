@@ -21,7 +21,9 @@ class Stage3: SKScene, TimerDelegate{
     var timer: Timer?
     var timerCloud: NSTimer?
     var timerRocket: NSTimer?
+    var timerDistortion: NSTimer?
     var count = 0
+    var beginCrash = false
     var toggleFire = Bool()
     
     override func didMoveToView(view: SKView) {
@@ -34,7 +36,7 @@ class Stage3: SKScene, TimerDelegate{
         self.createTimer(60)
         self.createPause()
         self.setChoicePosition()
-        timerRocket = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
+        timerRocket = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: Selector("changeTexture"), userInfo: nil, repeats: true)
         NSTimer.scheduledTimerWithTimeInterval(2.5, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
     }
     
@@ -48,6 +50,17 @@ class Stage3: SKScene, TimerDelegate{
         let pauseButton = PauseButton(newX: size.width * 0.13, newY: size.height * 0.035)
         pauseButton.zPosition = 2
         addChild(pauseButton)
+    }
+    
+    func createGround(){
+        let ground = SKSpriteNode(imageNamed: "ground1.png")
+        ground.position = CGPointMake(frame.midX, frame.minY)
+        ground.size = CGSizeMake(frame.width, 300)
+        ground.zPosition = 1
+        
+        addChild(ground)
+        
+        moveGround(ground)
     }
     
     func createTimer(time: Int) {
@@ -69,36 +82,6 @@ class Stage3: SKScene, TimerDelegate{
         addChild(newCloud)
         
         moveCloud(newCloud)
-    }
-    
-    // MARK: Change fireboost texture
-    
-    //troca textura do fogo do foguete
-    func changeTexture(){
-        
-        if(toggleFire == true){
-            fireBoost.texture = SKTexture(imageNamed:"fireBoost1")
-            toggleFire = false
-        }else{
-            fireBoost.texture = SKTexture(imageNamed:"fireBoost2" )
-            toggleFire = true
-        }
-    }
-    
-    func movingScene(){
-        let kind = Int(arc4random_uniform(2))
-        let newX = random(min: self.frame.minX + 120, max: self.frame.maxX - 120)
-        
-        createCloud(kind, newX: newX)
-        
-        resetCloudTimer()
-    }
-    
-    func moveCloud(cloud: SKSpriteNode){
-        let action1 = SKAction.moveToY(frame.maxY+30, duration: 3.3)
-        cloud.runAction(action1, completion:{
-            cloud.removeFromParent()
-        })
     }
     
     //Cria vidas
@@ -137,7 +120,7 @@ class Stage3: SKScene, TimerDelegate{
     }
     
     
-    //  MARK: Create Nodes
+//  MARK: Create Nodes
     //Cria nodes da scene
     
     func createNodes(){
@@ -169,7 +152,7 @@ class Stage3: SKScene, TimerDelegate{
         addChild(questionLabel)
     }
     
-//    MARK: Create Choices
+//    MARK: Choices
     //Cria alternativas
     func createChoices(){
         self.createRightChoice()
@@ -255,7 +238,7 @@ class Stage3: SKScene, TimerDelegate{
     }
     
     
-    //    MARK: NextQuestion
+//    MARK: NextQuestion
     //Cria próxima questão e alternativas
     func nextQuestion(){
         self.createQuestionLabel()
@@ -330,6 +313,7 @@ class Stage3: SKScene, TimerDelegate{
             }
         }
         else{
+            self.rocketDistortion()
             self.removeNodeWithName("life.\(lifes)")
             println("life.\(lifes)")
             lifes--
@@ -343,34 +327,75 @@ class Stage3: SKScene, TimerDelegate{
         }
     }
     
-//    MARK: Other
-    func removeQuestion(){
-        self.removeNodeWithName("question")
-    }
+    // MARK: Animate
     
-    func removeChoices(){
-        for choice in arrayChoices{
-            self.removeNodeWithName(choice.name!)
+    //troca textura do fogo do foguete
+    func changeTexture(){
+        
+        if(toggleFire == true){
+            fireBoost.texture = SKTexture(imageNamed:"fireBoost1")
+            toggleFire = false
+        }else{
+            fireBoost.texture = SKTexture(imageNamed:"fireBoost2" )
+            toggleFire = true
         }
     }
     
-    func resetCloudTimer(){
-        timerCloud?.invalidate()
-        let cloudDelay = Double(random(min: 0.5, max: 1.3))
-        timerCloud = NSTimer.scheduledTimerWithTimeInterval(cloudDelay, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
+    func rocketDistortion(){
+        let action1 = SKAction.moveByX(8.0, y: 0.0, duration: 0.03)
+        let action2 = SKAction.moveByX(-16.0, y: 0.0, duration: 0.05)
+        let action3 = SKAction.moveByX(8.0, y: 0.0, duration: 0.03)
+        let action4 = SKAction.sequence([action1, action2, action3])
+        let action5 = SKAction.repeatAction(action4, count: 4)
+        
+        rocket.runAction(action5)
+        fireBoost.runAction(action5)
+        
+        if(beginCrash){
+            timerDistortion?.invalidate()
+            let rocketDelay = Double(random(min: 0.3, max: 0.7))
+            timerDistortion = NSTimer.scheduledTimerWithTimeInterval(rocketDelay, target: self, selector: Selector("rocketDistortion"), userInfo: nil, repeats: false)
+        }
     }
     
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+    func movingScene(){
+        let kind = Int(arc4random_uniform(2))
+        let newX = random(min: self.frame.minX + 120, max: self.frame.maxX - 120)
+        
+        createCloud(kind, newX: newX)
+        
+        resetCloudTimer()
     }
     
-    func random(#min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
+    func moveCloud(cloud: SKSpriteNode){
+        let action1 = SKAction.moveToY(frame.maxY+30, duration: 3.3)
+        cloud.runAction(action1, completion:{
+            cloud.removeFromParent()
+        })
     }
     
-    //metodo que remove o node
-    func removeNodeWithName(name: String){
-        self.childNodeWithName(name)?.removeFromParent()
+    func moveGround(ground: SKSpriteNode){
+        let action1 = SKAction.moveToY(100, duration: 1.0)
+        ground.runAction(action1, completion:{
+            self.moveRocket()
+        })
+    }
+    
+    func moveRocket(){
+        let action1 = SKAction.moveByX(0, y: -375, duration: 2.25)
+        let action2 = SKAction.moveByX(0, y: -125, duration: 0.75)
+        
+        fireBoost.runAction(action1, completion:{
+            self.fireBoost.runAction(action2, completion:{
+                self.fireBoost.removeFromParent()
+            })
+        })
+        rocket.runAction(action1, completion:{
+            self.timerDistortion?.invalidate()
+            self.rocket.runAction(action2, completion:{
+                self.timerRocket?.invalidate()
+            })
+        })
     }
     
 //    MARK: Pause Resume
@@ -401,7 +426,29 @@ class Stage3: SKScene, TimerDelegate{
     }
     
     func loseAction(){
+        self.userInteractionEnabled=false
+        
+        removeQuestion()
+        removeChoices()
+        
+        beginCrash = true
         self.timer!.timer?.invalidate()
+        self.timerCloud?.invalidate()
+        
+        timerDistortion = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("rocketDistortion"), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: Selector("createGround"), userInfo: nil, repeats: false)
+    }
+    
+    func hitGround(){
+        if(beginCrash){
+            NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("hitGround"), userInfo: nil, repeats: false)
+        }
+        else{
+            NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("transition"), userInfo: nil, repeats: false)
+        }
+    }
+    
+    func transition(){
         let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
         
         let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
@@ -412,5 +459,35 @@ class Stage3: SKScene, TimerDelegate{
     
     func timeEnd(timer: Timer) {
         self.loseAction()
+    }
+    
+    //    MARK: Other
+    func removeQuestion(){
+        self.removeNodeWithName("question")
+    }
+    
+    func removeChoices(){
+        for choice in arrayChoices{
+            self.removeNodeWithName(choice.name!)
+        }
+    }
+    
+    func resetCloudTimer(){
+        timerCloud?.invalidate()
+        let cloudDelay = Double(random(min: 0.5, max: 1.3))
+        timerCloud = NSTimer.scheduledTimerWithTimeInterval(cloudDelay, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
+    }
+    
+    func random() -> CGFloat {
+        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+    }
+    
+    func random(#min: CGFloat, max: CGFloat) -> CGFloat {
+        return random() * (max - min) + min
+    }
+    
+    //metodo que remove o node
+    func removeNodeWithName(name: String){
+        self.childNodeWithName(name)?.removeFromParent()
     }
 }
