@@ -43,7 +43,7 @@ class StageSelection: SKScene {
         for index in 0 ... 8 {
             var stageArray = manager.allLevelStatuses()
             if stageArray[index] == true {
-                stageNodeArray.append(StageNode(texture: "fireBoost1", stageNumber: index+1))
+                stageNodeArray.append(StageNode(texture: "planet4", stageNumber: index+1))
             }
             else {
                 stageNodeArray.append(StageNode(texture: "planet", stageNumber: index+1))
