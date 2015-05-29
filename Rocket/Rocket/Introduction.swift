@@ -58,10 +58,15 @@ class Introduction: SKScene{
     }
     
     func createTitle(){
-        let title = SKSpriteNode(imageNamed: "")
+        let title = SKSpriteNode(imageNamed: "RocketTitle")
         title.name = "title"
         title.position = CGPointMake(frame.midX, 600)
         title.zPosition = 2
+        title.size = CGSize(width: 600, height:300)
+        
+        addChild(title)
+        
+    
     }
     
     func createStartLabel(){
@@ -69,7 +74,7 @@ class Introduction: SKScene{
         startLabel.fontName = "Chalkduster"
         startLabel.fontSize = 25
         startLabel.name = "start"
-        startLabel.position = CGPointMake(frame.midX, 560)
+        startLabel.position = CGPointMake(frame.midX, -200)
         startLabel.zPosition = 2
         addChild(startLabel)
         
