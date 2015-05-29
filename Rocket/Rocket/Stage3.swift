@@ -152,6 +152,22 @@ class Stage3: SKScene, TimerDelegate{
         addChild(questionLabel)
     }
     
+    func createFireParticle(){
+        let particlePath = NSBundle.mainBundle().pathForResource("Fire", ofType: "sks")
+        let fireNode = NSKeyedUnarchiver.unarchiveObjectWithFile(particlePath!) as! SKEmitterNode
+        fireNode.position = CGPointMake(0, -20)
+        fireNode.zPosition = 3
+        rocket.addChild(fireNode)
+    }
+    
+    func createSmokeParticle(){
+        let particlePath = NSBundle.mainBundle().pathForResource("Smoke", ofType: "sks")
+        let smokeNode = NSKeyedUnarchiver.unarchiveObjectWithFile(particlePath!) as! SKEmitterNode
+        smokeNode.position = CGPointMake(0, 0)
+        smokeNode.zPosition = 1
+        rocket.addChild(smokeNode)
+    }
+    
 //    MARK: Choices
     //Cria alternativas
     func createChoices(){
@@ -353,6 +369,10 @@ class Stage3: SKScene, TimerDelegate{
         
         if(beginCrash){
             timerDistortion?.invalidate()
+            
+            self.createSmokeParticle()
+            self.createFireParticle()
+            
             let rocketDelay = Double(random(min: 0.3, max: 0.7))
             timerDistortion = NSTimer.scheduledTimerWithTimeInterval(rocketDelay, target: self, selector: Selector("rocketDistortion"), userInfo: nil, repeats: false)
         }
@@ -394,6 +414,7 @@ class Stage3: SKScene, TimerDelegate{
             self.timerDistortion?.invalidate()
             self.rocket.runAction(action2, completion:{
                 self.timerRocket?.invalidate()
+                self.hitGround()
             })
         })
     }
@@ -441,7 +462,9 @@ class Stage3: SKScene, TimerDelegate{
     
     func hitGround(){
         if(beginCrash){
-            NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("hitGround"), userInfo: nil, repeats: false)
+//            self.createFireParticle()
+            
+            NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("transition"), userInfo: nil, repeats: false)
         }
         else{
             NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("transition"), userInfo: nil, repeats: false)
