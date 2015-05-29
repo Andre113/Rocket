@@ -134,6 +134,7 @@ class Stage3: SKScene, TimerDelegate{
         rocket.zPosition = 2
         addChild(rocket)
         
+        fireBoost.name = "fireBoost"
         fireBoost.position = CGPoint(x: self.size.width / 2, y: self.size.height * 0.7050)
         fireBoost.zPosition = 4
         fireBoost.size = CGSize(width: 50, height: 50)
@@ -155,7 +156,7 @@ class Stage3: SKScene, TimerDelegate{
     func createFireParticle(){
         let particlePath = NSBundle.mainBundle().pathForResource("Fire", ofType: "sks")
         let fireNode = NSKeyedUnarchiver.unarchiveObjectWithFile(particlePath!) as! SKEmitterNode
-        fireNode.position = CGPointMake(0, -20)
+        fireNode.position = CGPointMake(0, -60)
         fireNode.zPosition = 3
         rocket.addChild(fireNode)
     }
@@ -370,6 +371,7 @@ class Stage3: SKScene, TimerDelegate{
         if(beginCrash){
             timerDistortion?.invalidate()
             
+            removeNodeWithName("fireBoost")
             self.createSmokeParticle()
             self.createFireParticle()
             
