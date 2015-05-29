@@ -37,8 +37,6 @@
 		52475F661B0FB2F400AD0D1E /* fireBoost1.png in Resources */ = {isa = PBXBuildFile; fileRef = 52475F651B0FB2F400AD0D1E /* fireBoost1.png */; };
 		52475F681B0FB5C900AD0D1E /* fireBoost2.png in Resources */ = {isa = PBXBuildFile; fileRef = 52475F671B0FB5C900AD0D1E /* fireBoost2.png */; };
 		5262B51F1B0D0A1C002BB667 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5262B51E1B0D0A1C002BB667 /* Timer.swift */; };
-		52E491B81B18F2F3004AD7B8 /* bgIntro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52E491B71B18F2F3004AD7B8 /* bgIntro.jpg */; };
-		52E491BA1B18F409004AD7B8 /* RocketTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E491B91B18F409004AD7B8 /* RocketTitle.png */; };
 		52E63AD91B16A6B000C4DADD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52E63AD81B16A6B000C4DADD /* CoreData.framework */; };
 		52E63ADC1B16A6D500C4DADD /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52E63ADA1B16A6D500C4DADD /* Model.xcdatamodeld */; };
 		52E63AE61B16B86500C4DADD /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E63AE51B16B86500C4DADD /* Manager.swift */; };
@@ -94,8 +92,6 @@
 		52475F651B0FB2F400AD0D1E /* fireBoost1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fireBoost1.png; sourceTree = "<group>"; };
 		52475F671B0FB5C900AD0D1E /* fireBoost2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fireBoost2.png; sourceTree = "<group>"; };
 		5262B51E1B0D0A1C002BB667 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
-		52E491B71B18F2F3004AD7B8 /* bgIntro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bgIntro.jpg; path = ../../../../Desktop/imgs/bgIntro.jpg; sourceTree = "<group>"; };
-		52E491B91B18F409004AD7B8 /* RocketTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketTitle.png; path = ../../../../Desktop/imgs/RocketTitle.png; sourceTree = "<group>"; };
 		52E63AD81B16A6B000C4DADD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		52E63ADB1B16A6D500C4DADD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		52E63AE51B16B86500C4DADD /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
@@ -169,8 +165,6 @@
 		24D7F5151B051844000240B5 = {
 			isa = PBXGroup;
 			children = (
-				52E491B91B18F409004AD7B8 /* RocketTitle.png */,
-				52E491B71B18F2F3004AD7B8 /* bgIntro.jpg */,
 				E3FCFA581B1787130028FE32 /* Levels.swift */,
 				52E63AE51B16B86500C4DADD /* Manager.swift */,
 				52E63ADA1B16A6D500C4DADD /* Model.xcdatamodeld */,
@@ -376,7 +370,6 @@
 				521770551B0AC13300D8A7B5 /* rightBox.mp3 in Resources */,
 				52475F601B0FAA4D00AD0D1E /* rocketStage3.png in Resources */,
 				52475F621B0FB0B300AD0D1E /* fireDown.png in Resources */,
-				52E491BA1B18F409004AD7B8 /* RocketTitle.png in Resources */,
 				242DD05F1B18E73D00FC376C /* Fire.sks in Resources */,
 				242DD0621B18EB9E00FC376C /* Smoke.sks in Resources */,
 				52475F5A1B0FA1C900AD0D1E /* bgStage3.jpg in Resources */,
@@ -385,7 +378,6 @@
 				E31E54FF1B13A1690087776C /* testebg12.jpg in Resources */,
 				24D7F52F1B051844000240B5 /* Images.xcassets in Resources */,
 				24D7F52D1B051844000240B5 /* Main.storyboard in Resources */,
-				52E491B81B18F2F3004AD7B8 /* bgIntro.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

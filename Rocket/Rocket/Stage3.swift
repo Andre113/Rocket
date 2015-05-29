@@ -164,7 +164,7 @@ class Stage3: SKScene, TimerDelegate{
     func createSmokeParticle(){
         let particlePath = NSBundle.mainBundle().pathForResource("Smoke", ofType: "sks")
         let smokeNode = NSKeyedUnarchiver.unarchiveObjectWithFile(particlePath!) as! SKEmitterNode
-        smokeNode.position = CGPointMake(0, 0)
+        smokeNode.position = CGPointMake(0, -50)
         smokeNode.zPosition = 1
         rocket.addChild(smokeNode)
     }

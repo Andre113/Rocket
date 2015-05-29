@@ -54,7 +54,7 @@ class Introduction: SKScene{
     
     func beginMove(){
         timerCloud = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("movingScene"), userInfo: nil, repeats: false)
-        timerAstronaut = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("movingAstronaut"), userInfo: nil, repeats: true)
+        timerAstronaut = NSTimer.scheduledTimerWithTimeInterval(0.07, target: self, selector: Selector("movingAstronaut"), userInfo: nil, repeats: true)
     }
     
     func createTitle(){
@@ -65,8 +65,6 @@ class Introduction: SKScene{
         title.size = CGSize(width: 600, height:300)
         
         addChild(title)
-        
-    
     }
     
     func createStartLabel(){
@@ -74,7 +72,7 @@ class Introduction: SKScene{
         startLabel.fontName = "Chalkduster"
         startLabel.fontSize = 25
         startLabel.name = "start"
-        startLabel.position = CGPointMake(frame.midX, -200)
+        startLabel.position = CGPointMake(frame.midX, 500)
         startLabel.zPosition = 2
         addChild(startLabel)
         
