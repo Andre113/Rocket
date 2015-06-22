@@ -9,30 +9,63 @@
 import SpriteKit
 
 class Stage2: SKScene, TimerDelegate {
-//    MARK: Variables
+    //    MARK: Variables
     let equations = Equations.sharedInstance
     let redirect = Redirect.sharedInstance
     var timer: Timer?
     var arrayRoutes: [Route] = []
     var rightRoute = Route?()
     var equation = Equations.sharedInstance
+    var countArrows = 0
     
     override func didMoveToView(view: SKView) {
         self.configureView()
-        self.createBG("testebg2.jpg")
+        self.createBG("test99.jpg")
         self.createPlanetName()
         self.createRoutes()
         self.setPositions()
-        self.createTimer(20)
-//        self.setLabels()
+        self.createTimer(25)
+        //        self.setLabels()
         self.createPause()
+        self.setTimer()
+        
     }
     
-//    MARK: Create
+    
+    //    MARK: Create
     func configureView(){
         self.scaleMode = .AspectFill
         self.view?.userInteractionEnabled = true
         self.view?.multipleTouchEnabled = false
+    }
+    
+    func setTimer(){
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "moveArrow", userInfo: nil, repeats: true)
+        
+    }
+    
+    func moveArrow(){
+       
+        if(countArrows == 9 ){
+            
+            for index1 in 0...2{
+                var txt = SKTexture(imageNamed: "arrow.png")
+                for index2 in 0...8{
+                    arrayRoutes[index1].arrowsPath[index2].texture = txt
+                }
+            }
+            countArrows = 0
+        }else{
+            var texture = SKTexture(imageNamed: "arrow_bright")
+            arrayRoutes[0].arrowsPath[countArrows].texture = texture
+            arrayRoutes[1].arrowsPath[countArrows].texture = texture
+            arrayRoutes[2].arrowsPath[countArrows].texture = texture
+            countArrows++
+        }
+        
+        
+        
     }
     
     func createBG(bgName: String){
@@ -61,17 +94,17 @@ class Stage2: SKScene, TimerDelegate {
         addChild(pauseButton)
     }
     
-//    MARK: Create Routes
+    //    MARK: Create Routes
     func createRoutes(){
-        for index in 1...3{
+        for index in 0...2{
             let newOption = timeProblem()
             let newSpeed = newOption.speed
             let newDistance = newOption.distance
             let newAnswer = newOption.answer
-            let newRoute = Route(bgImage: "route\(index).png", deltaTime: newAnswer, deltaDistance: newDistance, deltaSpeed: newSpeed)
+            let newRoute = Route(bgImage: "bgTeste.png", deltaTime: newAnswer, deltaDistance: newDistance, deltaSpeed: newSpeed)
+            newRoute.setInfoLabels()
             newRoute.zPosition = 1
             newRoute.name = "route.\(index)"
-            
             self.arrayRoutes.append(newRoute)
         }
         
@@ -106,12 +139,12 @@ class Stage2: SKScene, TimerDelegate {
             speedY += 0
             distanceY += 0
             
-//           addChild(newSpeed)
-//           addChild(newDistance)
+            //           addChild(newSpeed)
+            //           addChild(newDistance)
         }
     }
     
-//    MARK: Create Question
+    //    MARK: Create Question
     func timeProblem() -> (speed: Int, distance: Int, answer: Int) {
         var speed = equations.randomSpeed()
         var distance = equations.randomDistance()
@@ -126,23 +159,55 @@ class Stage2: SKScene, TimerDelegate {
         let questionLabel1 = Title(text: "Rocket precisa escolher uma rota para", pos: CGPointMake(500, 730), fntSize: 20)
         let questionLabel2 = Title(text:  "levar as encomendas para o planeta \(novoNome).", pos: CGPointMake(500, 700), fntSize: 20)
         let questionLabel3 = Title(text: "Qual delas possui o menor tempo de viagem?", pos: CGPointMake(500, 670), fntSize: 20)
-
+        
+        
+        var hintLabel = SKLabelNode(text: "ΔT = ΔS/ΔV")
+        hintLabel.fontSize = 28
+        hintLabel.position = CGPointMake(700, 618)
+//        let hintLabel = Title(text: "ΔT = ΔS/ΔV", pos: CGPointMake(500, 690), fntSize: 20)
+        
+        hintLabel.zPosition = 9001
         addChild(questionLabel1)
         addChild(questionLabel2)
         addChild(questionLabel3)
+        addChild(hintLabel)
+        
+
+//        
+        let speed = 0.75
+        let fadeIn = SKAction.fadeInWithDuration(speed)
+        let fadeOut = SKAction.fadeOutWithDuration(speed)
+        
+        let change2White = SKAction.runBlock{
+            hintLabel.fontColor = UIColor.whiteColor()        }
+        
+        let change2Yellow = SKAction.runBlock{
+            hintLabel.fontColor = UIColor.yellowColor()
+        }
+        
+      
+        
+        let runSequence = SKAction.sequence([fadeOut, change2White, fadeIn, fadeOut, change2Yellow, fadeIn])
+        
+        let actionToRun = SKAction.repeatActionForever(runSequence)
+        hintLabel.runAction(actionToRun)
+        
+        
     }
     
     func selectRightQuestion(){
         var select = arrayRoutes[0]
         for route in arrayRoutes{
-            if(route.deltaTime < select.deltaTime){
+            if(route.deltaTime <= select.deltaTime){
                 select = route
             }
         }
         self.rightRoute = select
     }
     
-//    MARK: Touches
+    
+    
+    //    MARK: Touches
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         let touch = touches.first as! UITouch
         let location = touch.locationInNode(self)
@@ -155,7 +220,7 @@ class Stage2: SKScene, TimerDelegate {
         }
     }
     
-//    MARK: Switch Touch
+    //    MARK: Switch Touch
     
     func switchTouch(clicked: SKNode){
         let name = clicked.name?.componentsSeparatedByString(".")
@@ -168,6 +233,7 @@ class Stage2: SKScene, TimerDelegate {
                 pauseAction()
                 break
             case "route":
+                self.timer!.timer?.invalidate()
                 self.view?.userInteractionEnabled = false
                 checkRight(clicked as! Route)
                 break
@@ -199,14 +265,15 @@ class Stage2: SKScene, TimerDelegate {
         }
     }
     
-//    MARK: Win or Lose
+    //    MARK: Win or Lose
     func winAction(){
         let manager = Manager.sharedInstance
         manager.updateLevelStatus("stage2", newStatus: true)
         redirect.newStage(3)
     }
-
+    
     func loseAction(){
+        self.view?.userInteractionEnabled = false
         redirect.newStage(2)
     }
     
@@ -214,7 +281,7 @@ class Stage2: SKScene, TimerDelegate {
         self.loseAction()
     }
     
-//    MARK: Animation
+    //    MARK: Animation
     func animateRoute(routeToMove: Route){
         let action1 = SKAction.moveByX(4.0, y: 0.0, duration: 0.025)
         let action2 = SKAction.moveByX(-8.0, y: 0.0, duration: 0.04)
@@ -245,5 +312,9 @@ class Stage2: SKScene, TimerDelegate {
     func removeNodeWithName(name: String){
         self.childNodeWithName(name)?.removeFromParent()
     }
-
+    
+    
+    
+    
+    
 }
