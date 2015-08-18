@@ -29,7 +29,7 @@ class Stage1: SKScene, TimerDelegate {
         self.viewConfig()
         self.createRule()
         self.createTileLabels()
-        self.createTimer(10)
+        self.createTimer(20)
         self.createBG("woodwall.jpg")
         self.createLifes(lifes-1)
         self.createBoxes()
