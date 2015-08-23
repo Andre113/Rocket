@@ -51,6 +51,7 @@ class Route: SKSpriteNode{
         var count = 0
 
         
+        
         for index in 0...8{
            var arrow = SKSpriteNode(imageNamed: "arrow.png")
             arrow.size = CGSize(width: 25, height:25 )
@@ -62,7 +63,7 @@ class Route: SKSpriteNode{
 
             }
             arrow_x = arrow_x + 30
-    
+            arrow.zPosition = 90
             arrowsPath.append(arrow)
             self.addChild(arrow)
 //            println(self.frame.midY)

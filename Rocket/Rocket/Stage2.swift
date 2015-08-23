@@ -19,6 +19,7 @@ class Stage2: SKScene, TimerDelegate {
     var countArrows = 0
     
     override func didMoveToView(view: SKView) {
+        self.setTimer()
         self.configureView()
         self.createBG("test99.jpg")
         self.createPlanetName()
@@ -27,7 +28,8 @@ class Stage2: SKScene, TimerDelegate {
         self.createTimer(25)
         //        self.setLabels()
         self.createPause()
-        self.setTimer()
+        self.moveArrow()
+
         
     }
     
@@ -53,6 +55,7 @@ class Stage2: SKScene, TimerDelegate {
                 var txt = SKTexture(imageNamed: "arrow.png")
                 for index2 in 0...8{
                     arrayRoutes[index1].arrowsPath[index2].texture = txt
+                     arrayRoutes[index1].arrowsPath[index2].zPosition = 90
                 }
             }
             countArrows = 0
@@ -61,6 +64,9 @@ class Stage2: SKScene, TimerDelegate {
             arrayRoutes[0].arrowsPath[countArrows].texture = texture
             arrayRoutes[1].arrowsPath[countArrows].texture = texture
             arrayRoutes[2].arrowsPath[countArrows].texture = texture
+            arrayRoutes[0].arrowsPath[countArrows].zPosition = 90
+            arrayRoutes[1].arrowsPath[countArrows].zPosition = 90
+            arrayRoutes[2].arrowsPath[countArrows].zPosition = 90
             countArrows++
         }
         

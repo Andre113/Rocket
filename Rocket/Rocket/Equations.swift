@@ -288,18 +288,18 @@ class Equations: NSObject {
     //    }
     
     func randomSpeed() ->Int {
-        var speed =  Int(arc4random()%100) * 100
+        var speed =  Int(arc4random()%10) * 10
         while(speed == 0) {
-            speed = Int(arc4random() % 100) * 100
+            speed = Int(arc4random() % 10) * 10
         }
         return speed
     }
     
     func randomDistance() -> Int {
         
-        var distance =  Int(arc4random()%501) * 10000
+        var distance =  Int(arc4random()%100) * 10
         while(distance == 0) {
-            distance = Int(arc4random() % 501) * 10000
+            distance = Int(arc4random() % 100) * 10
         }
         return distance
     }
