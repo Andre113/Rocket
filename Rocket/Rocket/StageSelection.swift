@@ -130,6 +130,8 @@ class StageSelection: SKScene {
         println(clicked.name)
         if clicked.name == "backButton" {
             //back
+            redirect.newStage(0)
+    
         }
         else{
             let fullName = clicked.name?.componentsSeparatedByString(".")

@@ -11,7 +11,7 @@ import SpriteKit
 class Redirect: NSObject{
     static let sharedInstance = Redirect()
     var skView = SKView()
-    
+    var contSize = CGSize()
     override init(){
         super.init()
     }
@@ -20,7 +20,7 @@ class Redirect: NSObject{
     func stageSelection(){
         skView.userInteractionEnabled = false
         
-        let newScene = StageSelection(size: skView.scene!.size)
+        let newScene = StageSelection(size:   CGSizeMake(900, 715))
         
         showScene(newScene)
     }
@@ -34,16 +34,23 @@ class Redirect: NSObject{
         switch number{
             
         case 0:
-            resetScene = Introduction(size: skView.scene!.size)
+            skView.userInteractionEnabled = true
+
+            resetScene = Introduction(size:  CGSizeMake(710, 715))
+            contSize = skView.scene!.size
             break
         case 1:
-            resetScene = Stage1(size: skView.scene!.size)
+            resetScene = Stage1(size: CGSizeMake(799, 715))
             break
         case 2:
-            resetScene = Stage2(size: skView.scene!.size)
+            resetScene = Stage2(size: CGSizeMake(1000
+                , 770
+                )
+)
             break
         case 3:
-            resetScene = Stage3(size: skView.scene!.size)
+            resetScene = Stage3(size: CGSizeMake(799, 715)
+)
             break
         default:
             self.skView.userInteractionEnabled = true

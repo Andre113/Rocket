@@ -26,6 +26,8 @@ class Introduction: SKScene{
     let redirect = Redirect.sharedInstance
     
     let manager = Manager.sharedInstance
+  
+    
     
     override func didMoveToView(view: SKView) {
         self.createBG()
@@ -41,7 +43,6 @@ class Introduction: SKScene{
 //        dataManager.setLevelBool("level1", boolLevel: true)
 //        dataManager.checkDataBase()
     }
-    
     
     //    MARK: Create
     func createBG(){
