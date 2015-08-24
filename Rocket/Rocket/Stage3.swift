@@ -25,6 +25,8 @@ class Stage3: SKScene, TimerDelegate{
     var count = 0
     var beginCrash = false
     var toggleFire = Bool()
+    var bg = SKSpriteNode()
+    var ground = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
         self.configureView()
@@ -53,7 +55,7 @@ class Stage3: SKScene, TimerDelegate{
     }
     
     func createGround(){
-        let ground = SKSpriteNode(imageNamed: "ground1.png")
+        ground = SKSpriteNode(imageNamed: "ground1.png")
         ground.position = CGPointMake(frame.midX, frame.minY)
         ground.size = CGSizeMake(frame.width, 300)
         ground.zPosition = 1
@@ -124,7 +126,7 @@ class Stage3: SKScene, TimerDelegate{
     //Cria nodes da scene
     
     func createNodes(){
-        let bg = SKSpriteNode(imageNamed:"bgSky.png" )
+        bg = SKSpriteNode(imageNamed:"bgSky.png" )
         bg.size = size
         bg.position = CGPointMake(self.size.width/2, self.size.height/2)
         bg.zPosition = 0
@@ -229,7 +231,7 @@ class Stage3: SKScene, TimerDelegate{
         newChoice.name = "choice.\(newAnswer)"
         newChoice.fontName = "Chalkduster"
         newChoice.fontColor = UIColor.blackColor()
-        newChoice.fontSize = 40
+        newChoice.fontSize = 70
         newChoice.zPosition = 2
         return newChoice
     }
@@ -443,9 +445,19 @@ class Stage3: SKScene, TimerDelegate{
     func winAction(){
         //Ação de ganhar
         println("win")
-        var manager = Manager.sharedInstance
-        manager.updateLevelStatus("stage3", newStatus: true)
-        self.redirect.stageSelection()
+        
+        self.userInteractionEnabled = false
+        removeQuestion()
+        removeChoices()
+        
+        self.timer!.timer?.invalidate()
+        self.timerCloud?.invalidate()
+        
+        NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: Selector("createGround"), userInfo: nil, repeats: false)
+        
+//        var manager = Manager.sharedInstance
+//        manager.updateLevelStatus("stage3", newStatus: true)
+//        self.redirect.stageSelection()
     }
     
     func loseAction(){
@@ -465,21 +477,39 @@ class Stage3: SKScene, TimerDelegate{
     func hitGround(){
         if(beginCrash){
 //            self.createFireParticle()
+            self.explode()
             
-            NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("transition"), userInfo: nil, repeats: false)
+//            NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("transition"), userInfo: nil, repeats: false)
         }
         else{
             NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("transition"), userInfo: nil, repeats: false)
         }
     }
     
+    func explode(){
+        let action1 = SKAction.moveByX(45, y: 0.0, duration: 0.03)
+        let action2 = SKAction.moveByX(-90.0, y: 0.0, duration: 0.05)
+        let action3 = SKAction.moveByX(45, y: 0.0, duration: 0.03)
+        let action4 = SKAction.sequence([action1, action2, action3])
+        let action5 = SKAction.repeatAction(action4, count: 9)
+        
+        self.bg.runAction(action5)
+        self.ground.runAction(action5)
+        
+        NSTimer.scheduledTimerWithTimeInterval(1.05, target: self, selector: Selector("transition"), userInfo: nil, repeats: false)
+    }
+    
     func transition(){
+        var resetScene = SKScene()
         let fadeOut = SKTransition.fadeWithColor(UIColor.blackColor(), duration: 3.0)
-        
         let reveal = SKTransition.doorsCloseHorizontalWithDuration(1.5)
-        let resetScene = Stage3(size: self.size)
         
-        self.view?.presentScene(resetScene, transition: fadeOut)
+        if(beginCrash){
+            resetScene = Stage3(size: self.size)
+            self.view?.presentScene(resetScene, transition: fadeOut)
+        }else{
+            self.redirect.stageSelection()
+        }
     }
     
     func timeEnd(timer: Timer) {
