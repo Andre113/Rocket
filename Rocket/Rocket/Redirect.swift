@@ -49,7 +49,7 @@ class Redirect: NSObject{
 )
             break
         case 3:
-            resetScene = Stage3(size: CGSizeMake(799, 715)
+            resetScene = Stage3(size: CGSizeMake(1024, 768)
 )
             break
         default:

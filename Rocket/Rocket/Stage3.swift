@@ -29,6 +29,8 @@ class Stage3: SKScene, TimerDelegate{
     var ground = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
+        self.scaleMode = .AspectFill
+        
         self.configureView()
         self.createLifes(lifes)
         self.createNodes()
@@ -49,7 +51,7 @@ class Stage3: SKScene, TimerDelegate{
     }
     
     func createPause(){
-        let pauseButton = PauseButton(newX: size.width * 0.13, newY: size.height * 0.035)
+        let pauseButton = PauseButton(newX: size.width * 0.3, newY: size.height * 0.035)
         pauseButton.zPosition = 2
         addChild(pauseButton)
     }
@@ -69,8 +71,8 @@ class Stage3: SKScene, TimerDelegate{
         self.timer = Timer(time: time)
         timer!.fontColor = UIColor.whiteColor()
         timer!.fontName = "Chalkduster"
-        timer!.fontSize = 30
-        timer!.position = CGPoint(x: self.frame.minX + 280, y: self.frame.minY + 17)
+        timer!.fontSize = 25
+        timer!.position = CGPoint(x: self.frame.minX + 380, y: self.frame.minY + 17)
         timer!.zPosition = 2
         addChild(timer!)
         
@@ -88,7 +90,7 @@ class Stage3: SKScene, TimerDelegate{
     
     //Cria vidas
     func createLifes(qtd: Int){
-        var incX: CGFloat = 0.85
+        var incX: CGFloat = 0.68
         let newY = size.height * 0.05
         var newName = 0
         for index in 0...qtd{
@@ -148,7 +150,7 @@ class Stage3: SKScene, TimerDelegate{
         questionLabel = SKLabelNode(text: arrayQuestions[0].equation)
         questionLabel.name = "question"
         questionLabel.fontName = "Chalkduster"
-        questionLabel.fontSize = 50
+        questionLabel.fontSize = 35
         questionLabel.fontColor = UIColor.redColor()
         questionLabel.position = CGPointMake(self.frame.midX, self.frame.midY + 50)
         questionLabel.zPosition = 2
@@ -231,7 +233,7 @@ class Stage3: SKScene, TimerDelegate{
         newChoice.name = "choice.\(newAnswer)"
         newChoice.fontName = "Chalkduster"
         newChoice.fontColor = UIColor.blackColor()
-        newChoice.fontSize = 70
+        newChoice.fontSize = 45
         newChoice.zPosition = 2
         return newChoice
     }
