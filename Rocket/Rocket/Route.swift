@@ -63,7 +63,7 @@ class Route: SKSpriteNode{
 
             }
             arrow_x = arrow_x + 30
-            arrow.zPosition = 90
+            arrow.zPosition = 1
             arrowsPath.append(arrow)
             self.addChild(arrow)
 //            println(self.frame.midY)

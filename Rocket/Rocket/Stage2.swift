@@ -55,7 +55,7 @@ class Stage2: SKScene, TimerDelegate {
                 var txt = SKTexture(imageNamed: "arrow.png")
                 for index2 in 0...8{
                     arrayRoutes[index1].arrowsPath[index2].texture = txt
-                     arrayRoutes[index1].arrowsPath[index2].zPosition = 90
+                     arrayRoutes[index1].arrowsPath[index2].zPosition = 2
                 }
             }
             countArrows = 0
@@ -64,9 +64,9 @@ class Stage2: SKScene, TimerDelegate {
             arrayRoutes[0].arrowsPath[countArrows].texture = texture
             arrayRoutes[1].arrowsPath[countArrows].texture = texture
             arrayRoutes[2].arrowsPath[countArrows].texture = texture
-            arrayRoutes[0].arrowsPath[countArrows].zPosition = 90
-            arrayRoutes[1].arrowsPath[countArrows].zPosition = 90
-            arrayRoutes[2].arrowsPath[countArrows].zPosition = 90
+            arrayRoutes[0].arrowsPath[countArrows].zPosition = 2
+            arrayRoutes[1].arrowsPath[countArrows].zPosition = 2
+            arrayRoutes[2].arrowsPath[countArrows].zPosition = 2
             countArrows++
         }
         
@@ -172,7 +172,7 @@ class Stage2: SKScene, TimerDelegate {
         hintLabel.position = CGPointMake(700, 618)
 //        let hintLabel = Title(text: "ΔT = ΔS/ΔV", pos: CGPointMake(500, 690), fntSize: 20)
         
-        hintLabel.zPosition = 9001
+        hintLabel.zPosition = 3
         addChild(questionLabel1)
         addChild(questionLabel2)
         addChild(questionLabel3)
@@ -310,6 +310,7 @@ class Stage2: SKScene, TimerDelegate {
     
     func pauseAction(){
         let pauseNode = PauseNode(newX: self.frame.midX, newY: self.frame.midY)
+        pauseNode.zPosition = 5
         addChild(pauseNode)
         self.timer!.pause()
         self.scene?.paused = true
