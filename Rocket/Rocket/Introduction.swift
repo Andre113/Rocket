@@ -35,11 +35,18 @@ class Introduction: SKScene{
         self.createGround()
         self.createChar()
         self.createRocket()
+        self.scaleMode = .AspectFill
+
         
         manager.dataBaseChecker()
         manager.allLevelStatuses()
 
         self.createStartLabel()
+        
+        println(self.view?.scene?.size)
+        
+        
+        
 //        dataManager.setLevelBool("level1", boolLevel: true)
 //        dataManager.checkDataBase()
     }

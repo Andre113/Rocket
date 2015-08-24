@@ -20,7 +20,7 @@ class Redirect: NSObject{
     func stageSelection(){
         skView.userInteractionEnabled = false
         
-        let newScene = StageSelection(size:   CGSizeMake(900, 715))
+        let newScene = StageSelection(size:   CGSizeMake(1024, 768))
         
         showScene(newScene)
     }
@@ -36,11 +36,11 @@ class Redirect: NSObject{
         case 0:
             skView.userInteractionEnabled = true
 
-            resetScene = Introduction(size:  CGSizeMake(710, 715))
+            resetScene = Introduction(size:  CGSizeMake(1024, 768))
             contSize = skView.scene!.size
             break
         case 1:
-            resetScene = Stage1(size: CGSizeMake(799, 715))
+            resetScene = Stage1(size:CGSizeMake(1024, 768))
             break
         case 2:
             resetScene = Stage2(size: CGSizeMake(1000

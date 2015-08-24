@@ -30,6 +30,9 @@ class StageSelection: SKScene {
         //        })
         
         //rodando síncrono!
+        
+        self.scaleMode = .AspectFill
+
         self.setBackground()
         self.setTitle()
         self.createStages()
@@ -74,7 +77,7 @@ class StageSelection: SKScene {
     func setTitle() {
         title = SKLabelNode(text: "Selecione a fase desejada!")
         title.fontName = "Chalkduster"
-        title.fontSize = 50
+        title.fontSize = 34
         title.position = CGPointMake(self.frame.midX, self.frame.maxY * 0.85)
         title.color = UIColor.whiteColor()
         title.zPosition = 1

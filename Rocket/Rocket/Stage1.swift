@@ -31,14 +31,17 @@ class Stage1: SKScene, TimerDelegate {
         self.createTileLabels()
         self.createTimer(50)
         self.createBG("woodwall.jpg")
-        self.createLifes(lifes-1)
+        self.createLifes(lifes - 1)
         self.createBoxes()
+    
         self.createPause()
+        
+    
         
         //bloco assincrono para carregar paralelamente os conteúdos da view e outro para criar as box, labels e as posições
        
 //        dispatch_async(dispatch_get_global_queue(priority, 0), {
-//            ()-> () in
+//            ()-> () i
 //            self.createRule()
 //            self.createTileLabels()
 //            self.createBox()
@@ -53,7 +56,9 @@ class Stage1: SKScene, TimerDelegate {
 //                self.createPause()
 //            })
 //        })
+    
     }
+    
     
 //    MARK:  Create
     func viewConfig(){
