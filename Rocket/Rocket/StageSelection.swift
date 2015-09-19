@@ -32,7 +32,7 @@ class StageSelection: SKScene {
         //rodando síncrono!
         
         self.scaleMode = .AspectFill
-
+        
         self.setBackground()
         self.setTitle()
         self.createStages()
@@ -43,35 +43,49 @@ class StageSelection: SKScene {
     }
     
     func createStages() {
-        for index in 0 ... 8 {
+        for index in 0 ... 2 {
             var stageArray = manager.allLevelStatuses()
             if stageArray[index] == true {
                 stageNodeArray.append(StageNode(texture: "planet4", stageNumber: index+1))
             }
             else {
                 stageNodeArray.append(StageNode(texture: "planet", stageNumber: index+1))
-
+                
             }
-//            stageNodeArray.append(StageNode(texture: "planet", stageNumber: index+1))
-
+            //            stageNodeArray.append(StageNode(texture: "planet", stageNumber: index+1))
+            
         }
     }
+    
+    
+    
+    
     
     func stageSetPosition() {
         var ammountX: CGFloat = 0.1
         var ammountY: CGFloat = 0.7
+        var yDesc: CGFloat = 540
         var index = 0
-        for column in 0 ... 2 {
-            for line in 0 ... 2 {
-                ammountX += 0.20
-                let newX = (size.width ) * ammountX
-                let newY = size.height * ammountY
-                stageNodeArray[index].setPosition(newX, y: newY)
-                stageNodeArray[index].zPosition = 90
-                
-                addChild(stageNodeArray[index])
-                index++
-            }
+        
+        
+        for line in 1 ... 3 {
+            
+            ammountX += 0.20
+            
+            let desc1 = SKSpriteNode(imageNamed: "descRocket\(line)")
+            desc1.position = CGPoint(x: (size.width) * (ammountX + 0.27), y: yDesc)
+            desc1.size = CGSize(width: 420, height: 100)
+            
+            let newX = (size.width ) * ammountX
+            let newY = size.height * ammountY
+            stageNodeArray[index].setPosition(newX, y: newY)
+            stageNodeArray[index].zPosition = 90
+            desc1.zPosition = 10
+            addChild(desc1)
+            addChild(stageNodeArray[index])
+            index++
+            
+            yDesc -= 190
             ammountX = 0.1
             ammountY -= 0.25
         }
@@ -142,7 +156,7 @@ class StageSelection: SKScene {
         if clicked.name == "backButton" {
             //back
             redirect.newStage(0)
-    
+            
         }
         else{
             let fullName = clicked.name?.componentsSeparatedByString(".")
@@ -157,4 +171,4 @@ class StageSelection: SKScene {
     }
 }
 
-    
+
