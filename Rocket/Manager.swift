@@ -228,7 +228,7 @@ class Manager:NSObject {
         if let results = objects {
             if results.count == 0 {
                 print("Cadastrando...")
-                for index in 0 ... 8 {
+                for index in 0 ... 2 {
                     let newLevel = Levels(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
                     newLevel.stageName = "stage\(index+1)"
                     newLevel.status = false
