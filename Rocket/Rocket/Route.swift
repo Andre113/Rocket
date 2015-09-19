@@ -29,9 +29,9 @@ class Route: SKSpriteNode{
         self.deltaDistance = deltaDistance
         self.deltaSpeed = deltaSpeed
         
-        println("time: \(self.deltaTime)")
-        println("distance: \(self.deltaDistance)")
-        println("speed: \(self.deltaSpeed)")
+        print("time: \(self.deltaTime)")
+        print("distance: \(self.deltaDistance)")
+        print("speed: \(self.deltaSpeed)")
         self.name = "Route"
         self.printMe()
 
@@ -104,11 +104,14 @@ class Route: SKSpriteNode{
         var deltaDistanceLabel = SKLabelNode(text: "∆S: \(deltaDistance) m")
         //        deltaDistanceLabel.position = CGPointMake(self.frame.midX * 1.2, self.frame.maxY * 0.7)
         deltaDistanceLabel.position = CGPointMake(self.frame.minX * 0.4, self.frame.maxY * 0.69)
+        deltaDistanceLabel.zPosition = 90
+        
 
         
         var deltaSpeedLabel = SKLabelNode(text: "∆V: \(deltaSpeed) m/s")
 //        deltaSpeedLabel.position = CGPointMake(self.frame.midX * 1.2, self.frame.minY * 0.9)
                 deltaSpeedLabel.position = CGPointMake(self.frame.maxX * 0.5, self.frame.minY * 0.85)
+                deltaSpeedLabel.zPosition = 90
 
         self.addChild(deltaDistanceLabel)
         self.addChild(deltaSpeedLabel)

@@ -20,8 +20,8 @@ class Stage1: SKScene, TimerDelegate {
     
     let equations = Equations.sharedInstance
     let redirect = Redirect.sharedInstance
-    let rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)!
-    let wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)!
+    let rightBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("rightBox", ofType: "mp3")!)
+    let wrongBoxSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("wrongBox", ofType: "mp3")!)
     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 
 //    MARK: DidMoveToView
@@ -114,7 +114,7 @@ class Stage1: SKScene, TimerDelegate {
 //            arrayLifes.append(life)
             incX += 0.03
             
-            println(life.zPosition)
+            print(life.zPosition)
             
             addChild(life)
         }
@@ -188,7 +188,7 @@ class Stage1: SKScene, TimerDelegate {
         
         for index in 0...7{
             var numberToInsert: Int
-            do{
+            repeat{
                 isValid = true
                 numberToInsert = self.equations.randomNumberGenerator()
                 
@@ -213,14 +213,14 @@ class Stage1: SKScene, TimerDelegate {
     }
     
 //    MARK: Touches
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as! UITouch
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first as UITouch!
         let location = touch.locationInNode(self)
-        println(location)
+        print(location)
         let clicked = self.nodeAtPoint(location)
         
         if(clicked.name != "" && clicked.name != nil){
-            println(clicked.name)
+            print(clicked.name)
             self.getClicked(clicked)
         }
     }
@@ -337,15 +337,29 @@ class Stage1: SKScene, TimerDelegate {
     
 //    MARK: Music
     func makeSoundAnswer(boxChosenBool:Bool){
-        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
-        AVAudioSession.sharedInstance().setActive(true, error: nil)
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        } catch _ {
+        }
+        do {
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch _ {
+        }
         
         var error:NSError?
         
         if(boxChosenBool){
-            audioPlayer = AVAudioPlayer(contentsOfURL: rightBoxSound, error: &error)
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOfURL: rightBoxSound)
+            } catch var error1 as NSError {
+                error = error1
+            }
         }else{
-            audioPlayer = AVAudioPlayer(contentsOfURL: wrongBoxSound, error: &error)
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOfURL: wrongBoxSound)
+            } catch var error1 as NSError {
+                error = error1
+            }
         }
         audioPlayer.prepareToPlay()
         audioPlayer.play()
@@ -366,7 +380,7 @@ class Stage1: SKScene, TimerDelegate {
     }
     
     func randomArray(){
-        var auxArray = NSMutableArray(array: arrayNumbers)
+        let auxArray = NSMutableArray(array: arrayNumbers)
         var randomizedArray = [Int]()
         var randomIndex:Int
         while auxArray.count > 0 {
@@ -376,7 +390,7 @@ class Stage1: SKScene, TimerDelegate {
         }
         
         arrayNumbers = randomizedArray as [Int]
-        println(arrayNumbers)
+        print(arrayNumbers)
     }
     
 //    func removeLifes(){

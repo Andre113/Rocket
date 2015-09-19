@@ -110,8 +110,8 @@ class Stage3: SKScene, TimerDelegate{
     func createQuestions(){
         for index in 0...7{
             //            Sortear entre equation 1 e 2
-            var newData = equations.equationTypeOne()
-            var newQuestion = Question(equation: newData.equation, answer: newData.answer)
+            let newData = equations.equationTypeOne()
+            let newQuestion = Question(equation: newData.equation, answer: newData.answer)
             
             for question in arrayQuestions{
                 while (newQuestion.equation == question.equation){
@@ -215,7 +215,7 @@ class Stage3: SKScene, TimerDelegate{
     
     //Randomiza as alternativas
     func randomChoices(){
-        var auxArray = NSMutableArray(array: arrayChoices)
+        let auxArray = NSMutableArray(array: arrayChoices)
         var randomizedArray = [SKLabelNode]()
         var randomIndex:Int
         while auxArray.count > 0 {
@@ -229,7 +229,7 @@ class Stage3: SKScene, TimerDelegate{
     
     //Cria label de alternativas
     func createChoice(newAnswer: Int) -> SKLabelNode{
-        var newChoice = SKLabelNode(text: "\(newAnswer)")
+        let newChoice = SKLabelNode(text: "\(newAnswer)")
         newChoice.name = "choice.\(newAnswer)"
         newChoice.fontName = "Chalkduster"
         newChoice.fontColor = UIColor.blackColor()
@@ -269,10 +269,10 @@ class Stage3: SKScene, TimerDelegate{
     }
     
     //    MARK: Touches
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         /* Called when a touch begins */
         
-        let touch = touches.first as! UITouch
+        let touch = touches.first as UITouch!
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
         let clickName = clicked.name
@@ -281,7 +281,7 @@ class Stage3: SKScene, TimerDelegate{
         
         //Se clicar em uma alternativa
         if (clickName != "" && clickName != nil){
-            println(clickName)
+            print(clickName)
             switchClick(clicked)
         }
     }
@@ -336,7 +336,7 @@ class Stage3: SKScene, TimerDelegate{
         else{
             self.rocketDistortion()
             self.removeNodeWithName("life.\(lifes)")
-            println("life.\(lifes)")
+            print("life.\(lifes)")
             lifes--
             
             if(lifes == -1){
@@ -446,7 +446,7 @@ class Stage3: SKScene, TimerDelegate{
 //    MARK: Win or Lose
     func winAction(){
         //Ação de ganhar
-        println("win")
+        print("win")
         
         self.userInteractionEnabled = false
         removeQuestion()
@@ -455,10 +455,11 @@ class Stage3: SKScene, TimerDelegate{
         self.timer!.timer?.invalidate()
         self.timerCloud?.invalidate()
         
+        
         NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: Selector("createGround"), userInfo: nil, repeats: false)
         
-//        var manager = Manager.sharedInstance
-//        manager.updateLevelStatus("stage3", newStatus: true)
+        let manager = Manager.sharedInstance
+        manager.updateLevelStatus("stage3", newStatus: true)
 //        self.redirect.stageSelection()
     }
     
@@ -539,7 +540,7 @@ class Stage3: SKScene, TimerDelegate{
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
     }
     
-    func random(#min: CGFloat, max: CGFloat) -> CGFloat {
+    func random(min min: CGFloat, max: CGFloat) -> CGFloat {
         return random() * (max - min) + min
     }
     

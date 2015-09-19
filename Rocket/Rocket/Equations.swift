@@ -28,7 +28,7 @@ class Equations: NSObject {
     func randomMultiples() -> [Int] {
         
         var multiplesArray:[Int] = [Int]()
-        var aux = randomNumberGenerator()
+        let aux = randomNumberGenerator()
         for index in 1 ... 10 {
             if aux % index == 0 {
                 multiplesArray.append((aux / index))
@@ -202,16 +202,16 @@ class Equations: NSObject {
             }
             
             if prime == false {
-                println("\(n) is not a prime number.")
+                print("\(n) is not a prime number.")
                 
             }  else {
                 
-                println("\(n) is a prime number.")
+                print("\(n) is a prime number.")
                 primeNumbersArray.append(n)
                 
             }
         }
-        println(primeNumbersArray)
+        print(primeNumbersArray)
     }
     
     func allDividers() -> (arrayToCompare: [Int], newArray: [Int], newNumber: Int)  {
@@ -239,7 +239,7 @@ class Equations: NSObject {
     }
     
     func randomAllIndex(arrayEntry: [Int]) -> [Int]{
-        var arrayToRandom = NSMutableArray(array: arrayEntry)
+        let arrayToRandom = NSMutableArray(array: arrayEntry)
         var auxArray:[Int] = []
         
         for index in 0...3{
@@ -309,7 +309,7 @@ class Equations: NSObject {
         while(time == 0) {
             time = Int(arc4random() % 501)
         }
-        println(time)
+        print(time)
         return time
     }
     
@@ -349,26 +349,26 @@ class Equations: NSObject {
         //lembrar considerar a gravidade está errada por acaso estou calculando km/h e usando m/sˆ2
         //velocidade do foguete mais rápido = 11000 km/h
         
-        var mass = 100 //kg
-        var weight = calcWeight(10, mass: mass) //Newton
-        var speed = calculateSpeed(500000, time: 20) //m/s
-        var accel = calcAccel(speed, time: 20) //m/sˆ2
-        var impulse = calcImpulse(mass, accel: accel) // Newton
-        var resultant = resultantForce(impulse, weight: weight) // Newton
-        println("mass: \(mass)")
-        println("weight: \(weight)")
-        println("speed: \(speed)")
-        println("acceleration: \(accel)")
-        println("applied force or impulse: \(impulse)")
-        println("resultant: \(resultant)")
+        let mass = 100 //kg
+        let weight = calcWeight(10, mass: mass) //Newton
+        let speed = calculateSpeed(500000, time: 20) //m/s
+        let accel = calcAccel(speed, time: 20) //m/sˆ2
+        let impulse = calcImpulse(mass, accel: accel) // Newton
+        let resultant = resultantForce(impulse, weight: weight) // Newton
+        print("mass: \(mass)")
+        print("weight: \(weight)")
+        print("speed: \(speed)")
+        print("acceleration: \(accel)")
+        print("applied force or impulse: \(impulse)")
+        print("resultant: \(resultant)")
         
     }
     
     func takeOff(accel: Int, gravity:Int, mass:Int, speed: Int, answer:Int) -> Bool {
         let weight = calcWeight(gravity, mass: mass)
         let launchSpeed = speed
-        var impulse = calcImpulse(mass, accel: self.calcAccel(speed, time: self.randomTime()))
-        var resultant = resultantForce(impulse, weight: weight)
+        let impulse = calcImpulse(mass, accel: self.calcAccel(speed, time: self.randomTime()))
+        let resultant = resultantForce(impulse, weight: weight)
         
         if resultant >= answer && resultant < answer * 1000 {
             return true

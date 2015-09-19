@@ -43,7 +43,7 @@ class Introduction: SKScene{
 
         self.createStartLabel()
         
-        println(self.view?.scene?.size)
+        print(self.view?.scene?.size)
         
         
         
@@ -149,7 +149,7 @@ class Introduction: SKScene{
     func movingScene(){
         let kind = Int(arc4random_uniform(2))
         let newY = random(min: self.frame.minY + 400, max: self.frame.maxY-120)
-        println("Move")
+        print("Move")
         
         createCloud(kind, newY: newY)
         
@@ -165,14 +165,14 @@ class Introduction: SKScene{
     
     func movingAstronaut(){
         if(up == true){
-            var texture  = SKTexture(imageNamed: "astronaut\(cont)")
+            let texture  = SKTexture(imageNamed: "astronaut\(cont)")
             cont++
             char.texture = texture
             if(cont == 5){
                 up = false
             }
         }else{
-            var texture  = SKTexture(imageNamed: "astronaut\(cont)")
+            let texture  = SKTexture(imageNamed: "astronaut\(cont)")
             cont--
             char.texture = texture
             if(cont == 1){
@@ -182,8 +182,8 @@ class Introduction: SKScene{
     }
     
     //    MARK: Touch
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as! UITouch
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first as UITouch!
         let location = touch.locationInNode(self)
         
         self.timerAstronaut?.invalidate()
@@ -234,18 +234,23 @@ class Introduction: SKScene{
         
         var error: NSError?
         
-        var objects = managedObjectContext?.executeFetchRequest(request,
-            error: &error)
+        var objects: [AnyObject]?
+        do {
+            objects = try managedObjectContext?.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            objects = nil
+        }
         
         if let results = objects {
             
             if results.count > 0 {
                 let match = results[0] as! NSManagedObject
                 
-                var a: AnyObject? = match.valueForKey("level1")
-                println(111)
+                let a: AnyObject? = match.valueForKey("level1")
+                print(111)
 
-                println(a)
+                print(a)
               
             }
         }
@@ -262,7 +267,7 @@ class Introduction: SKScene{
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
     }
     
-    func random(#min: CGFloat, max: CGFloat) -> CGFloat {
+    func random(min min: CGFloat, max: CGFloat) -> CGFloat {
         return random() * (max - min) + min
     }
 }

@@ -66,15 +66,21 @@ class Manager:NSObject {
         request.entity = entityDescription
         var error: NSError?
         
-        var objects = managedObjectContext?.executeFetchRequest(request, error: &error)
+        var objects: [AnyObject]?
+        do {
+            objects = try managedObjectContext?.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            objects = nil
+        }
         
         if let results = objects {
             if results.count > 0 {
                 for result in results {
                     let match = result as! NSManagedObject
                     
-                    var stageName: AnyObject = match.valueForKey("stageName")!
-                    var levelStatus: AnyObject = match.valueForKey("status")!
+                    let stageName: AnyObject = match.valueForKey("stageName")!
+                    let levelStatus: AnyObject = match.valueForKey("status")!
                     
                     if stageName as! String == stage && levelStatus as! NSObject == 1 {
                         return true
@@ -103,23 +109,29 @@ class Manager:NSObject {
         
         var error: NSError?
         
-        var objects = managedObjectContext?.executeFetchRequest(request, error: &error)
+        var objects: [AnyObject]?
+        do {
+            objects = try managedObjectContext?.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            objects = nil
+        }
         
         if let results = objects {
             for result in results {
-                var match = result as! NSManagedObject
+                let match = result as! NSManagedObject
                 statusLevelArray.append(match.valueForKey("status") as! Bool)
                 
-                var stage: String = match.valueForKey("stageName") as! String
-                var status : Bool = match.valueForKey("status") as! Bool
-                println("stage: \(stage) ")
-                println("status: \(status)")
+                let stage: String = match.valueForKey("stageName") as! String
+                let status : Bool = match.valueForKey("status") as! Bool
+                print("stage: \(stage) ")
+                print("status: \(status)")
                 //lembrar que está desordenado
             
             }
             
         }
-        println(statusLevelArray)
+        print(statusLevelArray)
         return statusLevelArray
     }
 
@@ -162,24 +174,34 @@ class Manager:NSObject {
         
         var error: NSError?
         
-        var objects = managedObjectContext?.executeFetchRequest(request, error: &error)
+        var objects: [AnyObject]?
+        do {
+            objects = try managedObjectContext?.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            objects = nil
+        }
         
         if let results = objects {
             if results.count <= 0 {
-                println("Não há dados a serem atualizados!")
+                print("Não há dados a serem atualizados!")
             }
             else {
                 for result in results {
-                    var match = result as! NSManagedObject
-                    println(match)
-                    var stageName: AnyObject? = match.valueForKey("stageName")
-                    var status: AnyObject? = match.valueForKey("status")
-                    println("\(stageName as! String)")
-                    println("\(status as! Bool)")
+                    let match = result as! NSManagedObject
+                    print(match)
+                    let stageName: AnyObject? = match.valueForKey("stageName")
+                    let status: AnyObject? = match.valueForKey("status")
+                    print("\(stageName as! String)")
+                    print("\(status as! Bool)")
                     
                     if stage == stageName as! String {
                         match.setValue(newStatus, forKey: "status")
-                        managedObjectContext?.save(&error)
+                        do {
+                            try managedObjectContext?.save()
+                        } catch let error1 as NSError {
+                            error = error1
+                        }
                     }
                     
                 }
@@ -195,21 +217,31 @@ class Manager:NSObject {
         
         var error: NSError?
         
-        var objects = managedObjectContext?.executeFetchRequest(request, error: &error)
+        var objects: [AnyObject]?
+        do {
+            objects = try managedObjectContext?.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            objects = nil
+        }
         
         if let results = objects {
             if results.count == 0 {
-                println("Cadastrando...")
+                print("Cadastrando...")
                 for index in 0 ... 8 {
                     let newLevel = Levels(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
                     newLevel.stageName = "stage\(index+1)"
                     newLevel.status = false
-                    println("stage \(index + 1) inserido!")
+                    print("stage \(index + 1) inserido!")
                 }
-                managedObjectContext?.save(&error)
+                do {
+                    try managedObjectContext?.save()
+                } catch let error1 as NSError {
+                    error = error1
+                }
             }
             else {
-              println("Fases já carregadas!")
+              print("Fases já carregadas!")
             }
         }
     }

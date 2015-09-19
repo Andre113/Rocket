@@ -52,7 +52,7 @@ class Timer: SKLabelNode {
     
     func pause(){
         timer?.invalidate()
-        self.startTime = self.text.toInt()!
+        self.startTime = Int(self.text!)!
     }
     
     func resume(){

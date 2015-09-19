@@ -52,7 +52,7 @@ class Stage2: SKScene, TimerDelegate {
         if(countArrows == 9 ){
             
             for index1 in 0...2{
-                var txt = SKTexture(imageNamed: "arrow.png")
+                let txt = SKTexture(imageNamed: "arrow.png")
                 for index2 in 0...8{
                     arrayRoutes[index1].arrowsPath[index2].texture = txt
                      arrayRoutes[index1].arrowsPath[index2].zPosition = 2
@@ -60,7 +60,7 @@ class Stage2: SKScene, TimerDelegate {
             }
             countArrows = 0
         }else{
-            var texture = SKTexture(imageNamed: "arrow_bright")
+            let texture = SKTexture(imageNamed: "arrow_bright")
             arrayRoutes[0].arrowsPath[countArrows].texture = texture
             arrayRoutes[1].arrowsPath[countArrows].texture = texture
             arrayRoutes[2].arrowsPath[countArrows].texture = texture
@@ -141,6 +141,8 @@ class Stage2: SKScene, TimerDelegate {
             
             newSpeed.position = CGPointMake(speedX, speedY)
             newDistance.position = CGPointMake(distanceX, distanceY)
+            newDistance.zPosition = 15
+            newSpeed.zPosition = 15
             
             speedY += 0
             distanceY += 0
@@ -214,14 +216,13 @@ class Stage2: SKScene, TimerDelegate {
     
     
     //    MARK: Touches
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as! UITouch
-        let location = touch.locationInNode(self)
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first as UITouch?
+        let location = touch!.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
         let clickName = clicked.name
         
         if(clickName != ""  && clickName != nil){
-            println(clickName)
             self.switchTouch(clicked)
         }
     }

@@ -67,6 +67,8 @@ class StageSelection: SKScene {
                 let newX = (size.width ) * ammountX
                 let newY = size.height * ammountY
                 stageNodeArray[index].setPosition(newX, y: newY)
+                stageNodeArray[index].zPosition = 90
+                
                 addChild(stageNodeArray[index])
                 index++
             }
@@ -91,11 +93,17 @@ class StageSelection: SKScene {
     }
     
     func musicThemeSetup(audioFile:String, type:String) ->AVAudioPlayer {
-        var path = NSBundle.mainBundle().pathForResource(audioFile, ofType:type)
-        var url = NSURL.fileURLWithPath(path!)
+        let path = NSBundle.mainBundle().pathForResource(audioFile, ofType:type)
+        let url = NSURL.fileURLWithPath(path!)
         var error:NSError?
         var backgroundMusic = AVAudioPlayer()
-        var audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
+        var audioPlayer: AVAudioPlayer!
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOfURL: url)
+        } catch let error1 as NSError {
+            error = error1
+            audioPlayer = nil
+        }
         
         return audioPlayer
     }
@@ -118,8 +126,8 @@ class StageSelection: SKScene {
     }
     
     //    MARK: Touches
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as! UITouch
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first as UITouch!
         let location = touch.locationInNode(self)
         let clicked = self.nodeAtPoint(location)
         
@@ -130,7 +138,7 @@ class StageSelection: SKScene {
     
     //    MARK: Switch Touch
     func switchAction(clicked: SKNode){
-        println(clicked.name)
+        print(clicked.name)
         if clicked.name == "backButton" {
             //back
             redirect.newStage(0)
@@ -138,7 +146,7 @@ class StageSelection: SKScene {
         }
         else{
             let fullName = clicked.name?.componentsSeparatedByString(".")
-            let number = fullName?.last?.toInt()
+            let number = Int((fullName?.last)!)
             
             redirect.newStage(number!)
         }
